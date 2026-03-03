@@ -13,13 +13,18 @@ export function StartNode({ data, selected }) {
         width: 50,
         height: 50,
         borderRadius: "50%",
-        display: "flex",
+        boxShadow: selected ? "0 0 0 15px #22c55e40" : "none",
+        display: "block",
         alignItems: "center",
         justifyContent: "center",
         boxSizing: "border-box",
       }}
     >
-      <FaPlay style={{ color: "#22c55e", fontSize: 20 }} />
+      <FaPlay style={{ color: "#22c55e", fontSize: 20 }} className="ml-3.5 mt-3" />
+      {selected && (
+        <p className="font-sans font-bold text-green-800 text-[12px] w-30 mt-4">{data?.parametros?.variable || data?.label}</p>
+
+      )}
 
       {/* Solo salida, porque el inicio no recibe conexiones */}
       <Handle
@@ -33,7 +38,7 @@ export function StartNode({ data, selected }) {
 
 const handleStyle = {
   background: "#22c55e",
-  border: "1px solid #22c55e", // verde más oscuro
+  border: "1px solid #22c55e",
   width: 8,
   height: 8,
 };

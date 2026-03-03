@@ -14,7 +14,7 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
     if (!idNodo) return;
 
     try {
-      const savedDataVarStr = localStorage.getItem("Proceso_"+idNodo || selectedNode);
+      const savedDataVarStr = localStorage.getItem("Proceso_" + idNodo || selectedNode);
       if (!savedDataVarStr) return;
 
       const savedDataVar = JSON.parse(savedDataVarStr);
@@ -23,17 +23,18 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
       console.error("Error al recuperar o parsear datos de localStorage:", error);
     }
   }, [idNodo]);
-//
+  //
   console.log("selectedNode en baseModal:" + idNodo);
   console.log("ProyectVar", projectVar);
   console.log("ProyectVar edges", projectVar.edges);
 
-  
-    /*
-    if (!projectVar) {
-      alert("error"+idNodo);
-    }    
+  /*
+  if (!projectVar) {
+    alert("error"+idNodo);
+  }    
 */
+
+//diaby, Nkunku, Nkietah, pepe sarr, ismahila sarr, okafor, onana, jay jay okocha, mihamed salah,  
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[999]">
@@ -48,33 +49,32 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
         >
           <div className="flex items-center">
             <p
-                          className="ml-2 mr-3 -mt-1.5 text-gray-500 hover:text-gray-800 cursor-pointer border-r-1 border-gray-300 py-2.5 pr-3"
-                          onClick={() => setOpenBaseModal(false)}
-                          
-                        >
-                          <FaArrowLeft />
-                        </p>
+              className="ml-2 mr-3 -mt-1.5 text-gray-500 hover:text-gray-800 cursor-pointer border-r-1 border-gray-300 py-2.5 pr-3"
+              onClick={() => setOpenBaseModal(false)}
+
+            >
+              <FaArrowLeft />
+            </p>
             {/* Breadcrumbs de ejemplo */}
-          <nav className="flex z-[9999]">
-            <span className="cursor-pointer text-[17px] text-gray-600 hover:text-blue-600" onClick={() => setOpenBaseModal(false)}>{arbol}</span>
-            <span className="mx-2 text-[24px] text-gray-400 -mt-1.5">/</span>
-            <span className="text-[18px] text-blue-900 font-bold">{labelNode}</span>
-          </nav>
-            
+            <nav className="flex z-[9999]">
+              <span className="cursor-pointer text-[17px] text-gray-600 hover:text-blue-600" onClick={() => setOpenBaseModal(false)}>{arbol}</span>
+              <span className="mx-2 text-[24px] text-gray-400 -mt-1.5">/</span>
+              <span className="text-[18px] text-blue-900 font-bold">{labelNode}</span>
+            </nav>
+
           </div>
-          
+
         </div>
 
-        
         <div className="mt-13">
-          
+
 
           {/* Aquí irá tu contenido en el futuro|  */}
-          
-            <FlowWrapperVar
-          selectedNode={idNodo}
-          savedEdgesVar={projectVar.edges}
-          savedNodesVar={projectVar.nodes}
+
+          <FlowWrapperVar
+            selectedNode={idNodo}
+            savedEdgesVar={projectVar.edges}
+            savedNodesVar={projectVar.nodes}
           />
 
         </div>

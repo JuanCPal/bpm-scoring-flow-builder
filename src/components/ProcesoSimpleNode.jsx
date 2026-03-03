@@ -7,38 +7,46 @@ export function ProcesoSimpleNode({ data, selected }) {
     <div
       style={{
         width: data?.width ?? 100,
-        height: data?.height ?? 100,
+        height: data?.height ?? 80,
         background: "rgba(37, 99, 235, 0.2)", // Azul con transparencia (muy suave)
-        border: `2px solid ${selected ? "#2563EB" : "#CBD5E1"}`,
-        borderRadius: 8,
-        boxShadow: selected ? "0 0 0 2px #2563EB33" : "none",
+        border: `2px solid ${selected ? "#024be8" : "#CBD5E1"}`,
+        borderRadius: 15,
+        boxShadow: selected ? "0 0 0 15px #024be840" : "none",
         display: "flex",
         flexDirection: "column",
+        transition: "all 0.2s ease",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
         boxSizing: "border-box",
         textAlign: "center",
-        padding: 8,
+        padding: 0,
       }}
+      title={data?.parametros?.variable || data?.label}
+          
     >
       {/* Ícono central */}
-      <FaCog size={28} color="#1e3a8a" />
+      <FaCog size={28} color="#1e3a8a" className="mt-2" />
+
+      <p className="font-sans font-bold text-blue-800 text-[14px] mt-1">{data?.parametros?.variable || data?.label}</p>
 
       {/* Texto debajo del ícono */}
-      <div
-        style={{
-          fontSize: 13,
-          marginTop: 6,
-          color: "#1e293b", // Slate-800
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          maxWidth: "90%",
-        }}
-      >
-        {data?.parametros?.variable || data?.label}
-      </div>
+      {selected && (
+  <div
+    style={{
+      position: "absolute",
+      bottom: 10,
+      left: "50%",
+      top: 45,
+      transform: "translateX(-50%)",
+      whiteSpace: "nowrap",
+      pointerEvents: "none",
+    }}
+  > </div>
+    )}
+ 
+
+      
 
       {/* Handlers en los 4 lados */}
       <Handle id="ct1" type="target" position={Position.Top} style={handleStyle}/>
@@ -58,5 +66,5 @@ const handleStyle = {
   border: "1px solid #1e3a8a",
   width: 8,
   height: 8,
-  borderRadius: "50%",
+  borderRadius: "70%",
 };

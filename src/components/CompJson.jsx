@@ -23,16 +23,16 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       <div className="flex absolute top-13 right-1 z-[9999]">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="px-2 rounded-r-sm py-0.5 mt-1 mr-2 h-7 border-none border-blue-900 bg-gray-100 text-blue-900"
+          className="px-2 rounded-r-sm py-0.5 mt-1 mr-2 h-7 border-none border-blue-900 bg-blue-200 text-blue-900"
         >
           {isOpen ? <FaArrowRight /> : <FaArrowLeft />}
         </button>
       </div>
 
       <div
-        className={`bg-blue-50/50 backdrop-blur-lg pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-12 right-0 ease-in-out
+        className={`bg-gray-200/50 border-gray-400 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-12 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
-        w-[350px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 rounded-l-[20px] overflow-hidden`}
+        w-[350px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >
 
         <button

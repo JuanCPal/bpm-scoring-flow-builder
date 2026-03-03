@@ -21,8 +21,8 @@ export function ProcessNode({ data, selected }) {
     >
       <div className="bg-[#F8FAFC]/10 backdrop-blur-md gap-2 items-center">
       <div className="flex">
-        <FaCog className="mr-2" />
-        <strong>{data?.parametros?.proceso || data?.label}</strong>
+        <FaCog className="mr-10" />
+        <strong >{data?.parametros?.proceso || data?.label}</strong>
       </div>
         
         <span style={{ marginLeft: 8, color: "#475569", fontSize: 12 }}>

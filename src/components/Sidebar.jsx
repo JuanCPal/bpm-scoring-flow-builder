@@ -26,7 +26,7 @@ export default function SidebarNodeMenu({
 
             {/* Sidebar */}
             {sidebarOpen && (
-                <div className="absolute left-3 top-[89px] z-50 w-[260px] max-h-[70%] bg-white py-1 px-2 border border-gray-100 rounded-md overflow-y-auto">
+                <div className="absolute left-3 top-[89px] z-50 w-[260px] max-h-[70%] bg-gray-100 py-1 px-2 border border-gray-100 rounded-md font-sans overflow-y-auto">
                     {/*desde aqui el grupo actividades */}
                     {/* Opción: Proceso */}
                     <h3 className="flex py-1 pl-1 -ml-2 -mr-2 mb-2 text-[17px] font-bold  cursor-pointer hover:bg-gray-50 text-gray-500" onClick={() => {setMostrarActividades(!mostrarActividades)}}>Actividades {mostrarActividades ? <FaChevronUp className="absolute right-4 text-[15px]" /> : <FaChevronDown className="absolute right-4 text-[15px]"/>}</h3>

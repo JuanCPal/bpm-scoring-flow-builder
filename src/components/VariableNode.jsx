@@ -18,7 +18,7 @@ export function VariableNode({ data, selected }) {
       {/* Nombre de la variable */}
       <div className="text-[13px] text-blue-900 mt-0.5 truncate max-w-[90%] flex items-center">
         <FaPuzzlePiece size={22} className="text-blue-700 mr-1 -mt-0.5" />
-        {data?.parametros?.variable || data?.label}
+        <h1>{data?.parametros?.variable || data?.label}</h1>
       </div>
 
       {/* Handles (4 targets + 4 sources) */}

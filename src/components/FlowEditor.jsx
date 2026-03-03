@@ -295,7 +295,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addStart = useCallback(() => {
         const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Start ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Inicio ${id}` } }]);
     }, [genId, setNodes]);
 
     const addFin = useCallback(() => {
@@ -396,8 +396,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             const edgeOptions = {
                 type: "smoothstep",
-                style: { stroke: "#8a8a8a", strokeWidth: 2 },
-                markerEnd: { type: MarkerType.ArrowClosed, color: "#8a8a8a" },
+                animated: true,
+                style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5"},
+                markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
             };
 
             const sourceHandle = connection.sourceHandle;
@@ -560,7 +561,7 @@ const deleteNode = useCallback((nodeId) => {
        ---------------------------- */
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
