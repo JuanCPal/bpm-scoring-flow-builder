@@ -131,9 +131,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         descripcion: ''
     })
 
-    useEffect(() =>{
+    useEffect(() => {
         if (savedId) setChangeEdit(savedId)
-    },[savedId, setChangeEdit])
+    }, [savedId, setChangeEdit])
 
     //mostrar details
     // clic en un nodo
@@ -397,7 +397,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             const edgeOptions = {
                 type: "smoothstep",
                 animated: true,
-                style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5"},
+                style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
                 markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
             };
 
@@ -549,12 +549,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         reader.readAsText(file);
     }
 
-const deleteNode = useCallback((nodeId) => {
-  setNodes((nds) => nds.filter((n) => n.id !== nodeId));
-  setEdges((eds) =>
-    eds.filter((e) => e.source !== nodeId && e.target !== nodeId)
-  );
-}, [setNodes, setEdges]);
+    const deleteNode = useCallback((nodeId) => {
+        setNodes((nds) => nds.filter((n) => n.id !== nodeId));
+        setEdges((eds) =>
+            eds.filter((e) => e.source !== nodeId && e.target !== nodeId)
+        );
+    }, [setNodes, setEdges]);
 
     /* ----------------------------
        Render
@@ -572,8 +572,8 @@ const deleteNode = useCallback((nodeId) => {
                 addFin={addFin}
                 addXor={addXor}
                 addOr={addOr}
-                addAnd={addAnd} 
-                />
+                addAnd={addAnd}
+            />
 
             <ReactFlow
                 nodes={nodes}
@@ -589,12 +589,14 @@ const deleteNode = useCallback((nodeId) => {
                 onPaneClick={onPaneClick}
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
+                snapToGrid={true}      // Activa snap a grid
+                snapGrid={[5, 5]}
                 minZoom={0.01}
                 deleteKeyCode={null}
                 fitView>
-                
+
                 <MiniMap />
-                <Controls className="top-[75%]"/>
+                <Controls className="top-[75%]" />
                 <Background gap={50} variant="cross" color="#dee3fc" size={8} />
 
                 {/* Panel JSON con Details*/}
@@ -664,9 +666,9 @@ const deleteNode = useCallback((nodeId) => {
             {/* MODAL basico ↓ */}
             {openBaseModal && (
                 <BaseModal
-                selectedNode={selectedNode}
-                setOpenBaseModal={setOpenBaseModal}
-                arbol={arbol}
+                    selectedNode={selectedNode}
+                    setOpenBaseModal={setOpenBaseModal}
+                    arbol={arbol}
                 />
             )}
             {/* FIN MODAL basio ↑ */}
@@ -693,8 +695,8 @@ const deleteNode = useCallback((nodeId) => {
             />
 
             <StatusBar
-            selectedNode={selectedNode}
-            nodes={nodes}
+                selectedNode={selectedNode}
+                nodes={nodes}
             />
 
         </div>
