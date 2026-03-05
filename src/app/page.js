@@ -4,10 +4,12 @@ import Link from 'next/link';
 import ProjectCard from '@/components/ProjectCard';
 import { FaSearch, FaFilter, FaRegClock } from "react-icons/fa";
 import { useEffect, useState } from 'react';
+import { Particles } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 function getSavedTrees() {
   return Object.keys(localStorage)
-    .filter((k) => k.startsWith("Linea_")) // solo claves que comienzan en 
+    .filter((k) => k.startsWith("Linea_"))
     .map((k) => JSON.parse(localStorage.getItem(k)));
 }
 
@@ -21,7 +23,6 @@ export default function DashboardPage() {
 
   const manejarCambio = (e) => setBusqueda(e.target.value);
 
-  // Filtro aplicado
   const proyectosFiltrados = projects
     .filter((project) => {
       const texto = busqueda.toLowerCase();
@@ -32,31 +33,50 @@ export default function DashboardPage() {
     })
     .sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
 
-
-
   return (
-    <div className="min-h-screen bg-white overflow-y-hidden">
-      {/* NAVBAR */}
-      <nav className="fixed top-0 w-full  bg-white px-6 py-1 flex items-center justify-between">
-        <ul className="flex items-center space-x-6">
-          <li className="text-gray-400 font-extralight tracking-[3px] hover:text-blue-600 cursor-pointer text-[14px]">SISTEMAS GYG</li>
-        </ul>
+    <div className="relative min-h-screen bg-white overflow-y-hidden">
+      {/* Fondo con partículas */}
+      <Particles
+        className="absolute inset-0 -z-10"
+        init={loadSlim}
+        options={{
+          particles: {
+            number: { value: 50 },
+            size: { value: 5 },
+            opacity: { value: 0.15 },
+            move: { speed: 0.3 },
+            color: { value: ["#1e3a8a", "#64748b"] },
+          },
+        }}
+      />
 
-        <button className="flex items-center px-4 py-0.5 ml-[920px] text-sm font-extralight text-gray-700 rounded-md cursor-pointer hover:text-blue-700 transition-all">
-           Documentación
-        </button>
-        <Link href="/canvas">
-          <button className="flex items-center gap-2 px-4 py-0.5 my-2 text-sm font-semibold text-blue-100 bg-gray-700 rounded-md hover:bg-blue-800 hover:text-blue-50 transition-all shadow-sm">
-            <span className="text-lg">+</span> Nuevo
+      {/* NAVBAR */}
+      <nav className="fixed top-0 w-full bg-white px-8 py-1 flex items-center justify-between">
+        <ul className="flex items-center space-x-6">
+          <li className="text-gray-400 font-extralight tracking-[3px] hover:text-blue-600 cursor-pointer text-[14px]">
+            SISTEMAS GYG
+          </li>
+        </ul>
+        <div className='flex'>
+          <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 rounded-md cursor-pointer hover:text-blue-700 transition-all">
+            Documentación
           </button>
-        </Link>
+          <Link href="/canvas">
+            <button className="flex items-center gap-2 px-4 py-0.5 my-2 text-sm font-semibold text-blue-100 bg-gray-700 rounded-md hover:bg-blue-800 hover:text-blue-50 transition-all shadow-sm cursor-pointer">
+              <span className="text-lg">+</span> Nuevo
+            </button>
+          </Link>
+        </div>
       </nav>
 
       {/* HERO */}
-      <header className="mt-14 mx-5 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-200 to-white text-center">
-
-        <h1 className="text-[80px] font-bold text-blue-950 tracking-tight leading-15 mt-4">Constructor <span className='text-blue-800'>visual</span> de flujos de procesos</h1>
-        <p className="text-lg md:text-xl text-gray-700 mt-2">Módulo de iniciación de clientes</p>
+      <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-200 to-white text-center">
+        <h1 className="text-[125px] font-bold text-blue-950 tracking-tight leading-24 mt-4 font-sans">
+          Constructor <span className='text-blue-800 font-serif text-[115px] italic'>visual</span> <br /> de flujos de procesos
+        </h1>
+        <p className="text-[24px] text-gray-700 mt-8 font-sans">
+          Módulo de <span className='text-blue-800 italic font-serif font-bold'>iniciación</span> de clientes
+        </p>
 
         {/* Buscador */}
         <div className="relative max-w-md mx-auto mt-8">
@@ -92,17 +112,14 @@ export default function DashboardPage() {
 
         {/* Cards */}
         <div className="grid grid-cols-1 gap-3">
-          {proyectosFiltrados
-            .slice()
-            .sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt))
-            .map(project => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                project={project}
-                title={project.name || project.id}
-              />
-            ))}
+          {proyectosFiltrados.map(project => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              project={project}
+              title={project.name || project.id}
+            />
+          ))}
         </div>
       </main>
     </div>
