@@ -395,7 +395,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             };
 
             const edgeOptions = {
-                type: "smoothstep",
+                type: "bezier",
                 animated: true,
                 style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
                 markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
@@ -589,7 +589,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 onPaneClick={onPaneClick}
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
-                snapToGrid={true}      // Activa snap a grid
+                snapToGrid={true}
                 snapGrid={[5, 5]}
                 minZoom={0.01}
                 deleteKeyCode={null}
@@ -597,7 +597,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
                 <MiniMap />
                 <Controls className="top-[75%]" />
-                <Background gap={50} variant="cross" color="#dee3fc" size={8} />
+                <Background gap={35} variant="grid" color="#b8cef2" size={7} />
 
                 {/* Panel JSON con Details*/}
                 <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNode} />

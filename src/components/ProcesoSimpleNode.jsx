@@ -6,13 +6,13 @@ export function ProcesoSimpleNode({ data, selected }) {
   return (
     <div
       style={{
-        width: data?.width ?? 100,
+        width: data?.width ?? 90,
         height: data?.height ?? 80,
         background: "rgba(37, 99, 235, 0.2)", // Azul con transparencia (muy suave)
         border: `2px solid ${selected ? "#2563EB" : "#CBD5E1"}`,
         borderRadius: 15,
         transition: "all 0.4s ease",
-        boxShadow: selected ? "0 0 0 15px #2563EB33" : "none",
+        boxShadow: selected ? "0 0 0 10px #2563EB33" : "none",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

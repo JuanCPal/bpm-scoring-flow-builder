@@ -24,12 +24,12 @@ export function ModalProceso({
       >
         {/* Header */}
         <div
-          className={`fixed border-b-1 -ml-6 bg-blue-50/50 backdrop-blur-lg pt-3 rounded-t-lg border-gray-300 pb-1 px-3 ${
+          className={`fixed border-b-1 -ml-6 bg-white pt-3 rounded-t-lg border-gray-300 pb-1 px-3 ${
             selectedNode.type === "Variable" ? "w-[1100px]" : "w-[600px]"
           }`}
         >
           <div className="flex items-center">
-            <h2 className="text-[18px] text-blue-900 font-bold">
+            <h2 className="text-[16px] text-blue-900 font-bold">
               {selectedNode.data?.proceso || selectedNode.data?.label}
             </h2>
             <button

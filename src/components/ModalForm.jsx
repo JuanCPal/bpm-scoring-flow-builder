@@ -41,7 +41,7 @@ export default function ModalForm({
   if (!isOpenEdit || !selectedNode) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[99999]">
+    <div className="fixed font-sans inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[99999]">
       <div
         className={`bg-white pb-5 rounded-lg shadow-2xl px-6 relative max-h-[98%] overflow-y-auto ${selectedNode.type === "Variable" ? "w-[1100px] " : "w-[1100px]"} max-w-full`}
         onClick={(e) => e.stopPropagation()}
@@ -72,7 +72,8 @@ export default function ModalForm({
                     name="orden"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.orden}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    placeholder="Orden del proceso en el flujo"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
                 <label className="block">
@@ -82,7 +83,8 @@ export default function ModalForm({
                     name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.nombre}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    placeholder="Nombre del proceso"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
 
@@ -93,7 +95,8 @@ export default function ModalForm({
                     name="descripcion"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.descripcion}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-800 focus:ring-0"
+                    placeholder="Añadir descripción"
+                    className="mt-1 block w-full rounded-md border font-extralight bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-800 focus:ring-0"
                   />
                 </label>
 
@@ -104,7 +107,7 @@ export default function ModalForm({
                     /*name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
                 <label className="block">
@@ -114,7 +117,7 @@ export default function ModalForm({
                     /*name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
                 <label className="block">

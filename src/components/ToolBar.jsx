@@ -27,7 +27,8 @@ import {
   MdEdit,
   MdFolder,
   MdFolderOpen,
-  MdFolderShared
+  MdFolderShared,
+  MdCircle
 } from "react-icons/md";
 import { AiFillHome } from 'react-icons/ai';
 import { useState } from "react";
@@ -48,10 +49,12 @@ export default function ToolBar({
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-12 bg-gray-200/50 border-gray-400 border-b-1 flex items-center justify-between px-4 z-[99]">
+      <div className="absolute top-0 left-0 right-0 h-12 bg-white border-gray-400 border-b-1 flex items-center justify-between px-4 z-[99]">
         {/* Título */}
-        <div className="flex items-center gap-2">
-          <MdEdit className="text-gray-500" />
+        <div className="flex items-center gap-2 cursor-text" title="Haz click para editar el titulo del flujo">
+          <MdCircle
+          onClick={() => setEditar(true)} 
+          className="text-gray-900" />
           {editar ? (
             <input
               autoFocus
@@ -92,8 +95,8 @@ export default function ToolBar({
 
           {/* Acciones fuertes */}
           <div className="flex items-center gap-3 text-[14px] mr-7">
-            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-900 hover:bg-blue-800 text-white rounded-full transition-all">Guardar</button>
-            <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[28px] cursor-pointer bg-white hover:bg-blue-50 text-gray-500 border-1 border-gray-500 hover:text-blue-800 hover:border-blue-800 rounded-full transition-all">Mas opciones ▼</button>
+            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-900 hover:bg-blue-800 text-white rounded-md transition-all">Guardar</button>
+            <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[28px] cursor-pointer bg-transparent hover:bg-blue-200 text-blue-800 border-1 border-blue-800 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
             {OpenMasOpciones && (
               <div className="block bg-white w-[130px] border-1 border-gray-400 text-gray-500 rounded-b-md absolute  top-10 right-11 pt-1">
                 <div className="pl-9 py-1 w-full hover:bg-gray-100 hover:text-blue-800 cursor-pointer border-b-1 border-gray-200">
