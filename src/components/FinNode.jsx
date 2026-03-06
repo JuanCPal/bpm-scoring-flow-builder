@@ -12,14 +12,20 @@ export function FinNode({ data, selected }) {
         width: 50,
         height: 50,
         borderRadius: "50%",
-        
-        display: "flex",
+        transition: "all 0.4s ease",
+        boxShadow: selected ? "0 0 0 15px #ef444440" : "none",
+        display: "block",
         alignItems: "center",
         justifyContent: "center",
         boxSizing: "border-box",
       }}
     >
-      <FaStop style={{ color: "#ef4444", fontSize: 20 }} />
+      <FaStop style={{ color: "#ef4444", fontSize: 20 }} className="ml-3.5 mt-3" />
+      {selected && (
+        <>
+        <p className="font-sans font-bold text-red-800 text-[12px] w-30 mt-4 ml-1.5">{data?.parametros?.variable || data?.label}</p>
+        </>
+      )}
 
       {/* Solo salida, porque el inicio no recibe conexiones */}
       <Handle
@@ -34,6 +40,6 @@ export function FinNode({ data, selected }) {
 const handleStyle = {
   background: "#ef4444",
   border: "1px solid #c40808", // rojo más oscuro
-  width: 7,
-  height: 7,
+  width: 8,
+  height: 8,
 };

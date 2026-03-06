@@ -48,7 +48,7 @@ export default function ToolBar({
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-12 bg-blue-50/50 backdrop-blur-md border-b border-gray-300 flex items-center justify-between px-4 z-[99]">
+      <div className="absolute top-0 left-0 right-0 h-12 bg-gray-200/50 border-gray-400 border-b-1 flex items-center justify-between px-4 z-[99]">
         {/* Título */}
         <div className="flex items-center gap-2">
           <MdEdit className="text-gray-500" />

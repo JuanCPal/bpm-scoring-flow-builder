@@ -131,9 +131,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         descripcion: ''
     })
 
-    useEffect(() =>{
+    useEffect(() => {
         if (savedId) setChangeEdit(savedId)
-    },[savedId, setChangeEdit])
+    }, [savedId, setChangeEdit])
 
     //mostrar details
     // clic en un nodo
@@ -295,7 +295,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addStart = useCallback(() => {
         const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Start ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Inicio ${id}` } }]);
     }, [genId, setNodes]);
 
     const addFin = useCallback(() => {
@@ -396,8 +396,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             const edgeOptions = {
                 type: "smoothstep",
-                style: { stroke: "#8a8a8a", strokeWidth: 2 },
-                markerEnd: { type: MarkerType.ArrowClosed, color: "#8a8a8a" },
+                animated: true,
+                style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
+                markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
             };
 
             const sourceHandle = connection.sourceHandle;
@@ -548,19 +549,19 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         reader.readAsText(file);
     }
 
-const deleteNode = useCallback((nodeId) => {
-  setNodes((nds) => nds.filter((n) => n.id !== nodeId));
-  setEdges((eds) =>
-    eds.filter((e) => e.source !== nodeId && e.target !== nodeId)
-  );
-}, [setNodes, setEdges]);
+    const deleteNode = useCallback((nodeId) => {
+        setNodes((nds) => nds.filter((n) => n.id !== nodeId));
+        setEdges((eds) =>
+            eds.filter((e) => e.source !== nodeId && e.target !== nodeId)
+        );
+    }, [setNodes, setEdges]);
 
     /* ----------------------------
        Render
        ---------------------------- */
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
@@ -571,8 +572,8 @@ const deleteNode = useCallback((nodeId) => {
                 addFin={addFin}
                 addXor={addXor}
                 addOr={addOr}
-                addAnd={addAnd} 
-                />
+                addAnd={addAnd}
+            />
 
             <ReactFlow
                 nodes={nodes}
@@ -588,12 +589,14 @@ const deleteNode = useCallback((nodeId) => {
                 onPaneClick={onPaneClick}
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
+                snapToGrid={true}      // Activa snap a grid
+                snapGrid={[5, 5]}
                 minZoom={0.01}
                 deleteKeyCode={null}
                 fitView>
-                
+
                 <MiniMap />
-                <Controls className="top-[75%]"/>
+                <Controls className="top-[75%]" />
                 <Background gap={50} variant="cross" color="#dee3fc" size={8} />
 
                 {/* Panel JSON con Details*/}
@@ -663,9 +666,9 @@ const deleteNode = useCallback((nodeId) => {
             {/* MODAL basico ↓ */}
             {openBaseModal && (
                 <BaseModal
-                selectedNode={selectedNode}
-                setOpenBaseModal={setOpenBaseModal}
-                arbol={arbol}
+                    selectedNode={selectedNode}
+                    setOpenBaseModal={setOpenBaseModal}
+                    arbol={arbol}
                 />
             )}
             {/* FIN MODAL basio ↑ */}
@@ -692,8 +695,8 @@ const deleteNode = useCallback((nodeId) => {
             />
 
             <StatusBar
-            selectedNode={selectedNode}
-            nodes={nodes}
+                selectedNode={selectedNode}
+                nodes={nodes}
             />
 
         </div>
