@@ -6,6 +6,13 @@
   --foreground: #171717;
 }
 
+:root {
+  --grid-color: #b8cef2; 
+}
+.dark {
+  --grid-color: #00172e; 
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
