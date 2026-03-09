@@ -33,7 +33,6 @@ import { BaseModal } from "./BaseModal";
 import { title } from "process";
 import { ProcesoSimpleNode } from "./ProcesoSimpleNode";
 import StatusBar from "./StatusBar";
-import { useTheme } from "next-themes";
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -557,19 +556,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         );
     }, [setNodes, setEdges]);
 
-    /* dark mode */
-
-    const { theme } = useTheme();
-
-    // color dinámico según el tema
-    const gridColor = theme === "dark" ? "#b8cef2" : "#00172e";
-
     /* ----------------------------
        Render
        ---------------------------- */
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans">
+        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[#f0f5fc]">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
@@ -605,7 +597,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
                 <MiniMap />
                 <Controls className="top-[75%]" />
-                <Background gap={35} variant="grid" color={gridColor} key={theme} size={7} />
+                <Background gap={35} variant="grid" color="#d7e5fc"  size={7} />
 
                 {/* Panel JSON con Details*/}
                 <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNode} />

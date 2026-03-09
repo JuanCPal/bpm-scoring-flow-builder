@@ -53,6 +53,7 @@ export function orNode({ data, selected }) {
           boxShadow: selected ? "0 0 0 15px #ca8a0450" : "none",
           display: "block",
         }}
+        
       />
 
       {/* Icono centrado */}
@@ -61,6 +62,10 @@ export function orNode({ data, selected }) {
           className={`text-[35px] transition-colors
             ${selected ? "text-[#b17d0e]" : "text-[#ce7b06]"}`}
         />
+        {selected && (
+        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-28">{data?.parametros?.variable || data?.label}</p>
+
+      )}
       </div>
 
       {/* Handles */}
@@ -104,11 +109,16 @@ export function xorNode({ data, selected }) {
       />
 
       {/* Icono centrado */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 block items-center justify-center">
         <FaTimesCircle
           className="text-[35px] transition-colors"
           style={{ color: selected ? COLORS.iconSelected : COLORS.icon }}
         />
+              {selected && (
+        <>
+        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-28 ml-1.5">{data?.parametros?.variable || data?.label}</p>
+        </>
+      )}
       </div>
 
       {/* Handles */}
@@ -151,7 +161,7 @@ export function andNode({ data, selected }) {
       />
 
       {/* Icono centrado */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 block items-center justify-center">
         <FaPlusCircle
           className="text-[35px] transition-colors"
           style={{ color: selected ? COLORS.iconSelected : COLORS.icon }}

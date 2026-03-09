@@ -25,7 +25,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
     content={isOpen ? "Ocultar panel" : "Mostrar detalles"}
     placement={isOpen ? "bottom" : "left"}
     >
-      <div className="flex absolute top-13 right-1 z-[9999]">
+      <div className="flex absolute top-15 right-1 z-[9999]">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={`px-2 rounded-md py-[7px] mt-1 cursor-pointer mr-2 ${isOpen ? "bg-transparent text-black text-[20px]" : "bg-gray-800 text-blue-200" }`}
@@ -36,7 +36,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       </Tippy>
 
       <div
-        className={`bg-white border-gray-400 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-12 right-0 ease-in-out
+        className={`bg-white border-gray-400 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
         w-[350px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >
