@@ -34,6 +34,7 @@ import { title } from "process";
 import { ProcesoSimpleNode } from "./ProcesoSimpleNode";
 import StatusBar from "./StatusBar";
 
+
 /* ----------------------------
    Helpers robustos (evitan crash)
    ---------------------------- */
@@ -130,6 +131,18 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         nombre: '',
         descripcion: ''
     })
+    const [isDark, setIsDark] = useState(false);
+    useEffect(() => {
+    // Detecta el modo dark del sistema
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setIsDark(mediaQuery.matches);
+
+    // Escucha cambios en tiempo real
+    const handler = (e) => setIsDark(e.matches);
+    mediaQuery.addEventListener("change", handler);
+
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
 
     useEffect(() => {
         if (savedId) setChangeEdit(savedId)
@@ -560,8 +573,16 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
        Render
        ---------------------------- */
 
+    //DARK MODE
+
+    //const { resolvedTheme } = useTheme();
+    //const [mounted, setMounted] = useState(false);
+
+
+    //#d7e5fc -lines
+    //#020f24 -bg
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[#f0f5fc]">
+        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[#f0f5fc] dark:bg-slate-900">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
@@ -575,7 +596,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 addAnd={addAnd}
             />
 
-            <ReactFlow
+            <ReactFlow 
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
@@ -595,9 +616,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 deleteKeyCode={null}
                 fitView>
 
-                <MiniMap />
-                <Controls className="top-[75%]" />
-                <Background gap={35} variant="grid" color="#d7e5fc"  size={7} />
+                <MiniMap className="dark:hidden" />
+                <Controls className="dark:hidden" color="#162456"  />
+                <Background gap={35} variant="grid" color={isDark ? "#374151" : "#d7e5fc"} size={7} />
 
                 {/* Panel JSON con Details*/}
                 <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNode} />

@@ -36,9 +36,9 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       </Tippy>
 
       <div
-        className={`bg-white border-gray-400 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
+        className={`bg-white dark:bg-zinc-800 border-zinc-500 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
-        w-[350px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
+        w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >
 
         <button
@@ -77,7 +77,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 
         {activeTab === "details" && (
           <>
-            <h2 className="text-xl font-semibold underline text-gray-800 pb-2 ml-4">
+            <h2 className="text-xl font-mono font-semibold dark:text-zinc-400 text-gray-800 pb-2 ml-4">
               {selectedNode?.data?.nombre || selectedNode?.data?.label}
             </h2>
             <NodeDetails node={selectedNode} />
@@ -89,39 +89,60 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 }
 
 function NodeDetails({ node }) {
-  if (!node) return <p className="italic text-gray-600 mx-6">Selecciona un nodo para ver detalles.</p>;
+  if (!node)
+    return (
+      <p className="font-mono text-gray-500 mx-6 mt-4">
+        Selecciona un nodo para ver detalles.
+      </p>
+    );
 
   const data = node.data ?? {};
   const excludedKeys = ["label", "nombre", "width", "height", "children", "isDroppable"];
   const entries = Object.entries(data).filter(([key]) => !excludedKeys.includes(key));
 
   return (
-    <div className="max-h-[60vh] overflow-auto space-y-4">
+    <div className="max-h-[60vh] overflow-auto space-y-6">
       {entries.length ? (
         entries.map(([key, value]) => (
-          <div key={key} className="bg-blue-50 p-3 rounded-md">
-            <p className="text-gray-600 text-[15px] mb-1">
-              <b>Resumen: </b>:
-            </p>
+          <div key={key} className="bg-white dark:bg-zinc-800 shadow-sm rounded-md p-4">
+            {/* Título de sección */}
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+              {key.replace(/_/g, " ")}
+            </h3>
+
+            {/* Contenido */}
             {typeof value === "object" && value !== null ? (
               key === "parametros" ? (
-                <div className=" ml-2 text-gray-600 text-[14px] mb-2">
+                <div className="grid grid-cols-[120px_1fr] gap-x-4 gap-y-2">
                   {Object.entries(value).map(([paramKey, paramValue]) => (
-                    <p key={paramKey}> 
-                      <span className="font-[600] text-gray-800">{paramKey}: </span> {String(paramValue)}
-                    </p>
+                    <>
+                      <div
+                        key={paramKey + "-label"}
+                        className="text-xs text-gray-500 text-left font-medium"
+                      >
+                        {paramKey}:
+                      </div>
+                      <div
+                        key={paramKey + "-value"}
+                        className="text-sm text-gray-900 dark:text-gray-100 truncate"
+                      >
+                        {String(paramValue)}
+                      </div>
+                    </>
                   ))}
                 </div>
               ) : (
-                <pre className="text-xs bg-gray-100 p-2 rounded">{JSON.stringify(value, null, 2)}</pre>
+                <pre className="text-xs bg-gray-100 dark:bg-zinc-700 p-2 rounded break-words">
+                  {JSON.stringify(value, null, 2)}
+                </pre>
               )
             ) : (
-              <p className="text-gray-800">{String(value)}</p>
+              <p className="text-sm text-gray-900 dark:text-gray-100 truncate">{String(value)}</p>
             )}
           </div>
         ))
       ) : (
-        <p className="text-gray-500 ml-4">No hay información relevante en este nodo.</p>
+        <p className="text-gray-500 font-mono ml-4">No hay información en este nodo.</p>
       )}
     </div>
   );
