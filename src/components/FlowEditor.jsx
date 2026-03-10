@@ -408,7 +408,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             };
 
             const edgeOptions = {
-                type: "bezier",
+                type: "default",
                 animated: true,
                 style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
                 markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },

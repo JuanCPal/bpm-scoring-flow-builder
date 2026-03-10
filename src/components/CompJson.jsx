@@ -28,7 +28,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       <div className="flex absolute top-15 right-1 z-[9999]">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`px-2 rounded-md py-[7px] mt-1 cursor-pointer mr-2 ${isOpen ? "bg-transparent text-black text-[20px]" : "bg-gray-800 text-blue-200" }`}
+          className={`px-2 rounded-md py-[7px] mt-1 cursor-pointer mr-2 ${isOpen ? "bg-transparent text-black dark:text-slate-300 text-[20px]" : "bg-gray-800 dark:bg-slate-500 text-blue-200 dark:text-zinc-800" }`}
         >
           {isOpen ? <FaArrowRight className="-mr-1.5 -mt-0.5"  /> : <FaArrowLeft />}
         </button>
@@ -41,7 +41,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
         w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >
 
-        <button
+       <button
           onClick={() => {
             setActiveTab("info");
             setIsOpen(true);
@@ -61,6 +61,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
         >
           Details
         </button>
+       
 
         {activeTab === "info" && (
           <>

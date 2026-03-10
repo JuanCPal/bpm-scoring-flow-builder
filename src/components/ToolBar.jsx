@@ -32,6 +32,7 @@ import {
 } from "react-icons/md";
 import { AiFillHome } from 'react-icons/ai';
 import { useState } from "react";
+import ThemeToggle from "./theme-toggle";
 
 export default function ToolBar({
   saveToLocalStorage,
@@ -76,6 +77,7 @@ export default function ToolBar({
 
         {/* Acciones */}
         <div className="flex items-center gap-6">
+          {/* <ThemeToggle/> */}
 
           {/* Controles "ligeros" */}
           <div className="flex relative items-center gap-1 text-sm text-gray-600 dark:text-zinc-300 left-0">
@@ -83,11 +85,11 @@ export default function ToolBar({
               <AiFillHome size={16} className=""  />
               Inicio
             </button>
-            <button onClick={() => console.log('Undo')} className="hover:text-blue-800 transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200">
+            <button onClick={() => console.log('Undo')} className="hover:text-blue-800 dark:hover:bg-slate-600 transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200 dark:hover:text-slate-100">
               <MdUndo size={16} />
 
             </button>
-            <button onClick={() => console.log('Redo')} className="hover:text-blue-800 transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200">
+            <button onClick={() => console.log('Redo')} className="hover:text-blue-800 dark:hover:text-slate-100  transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-slate-600">
               <MdRedo size={16} />
 
             </button>
@@ -95,9 +97,9 @@ export default function ToolBar({
 
           {/* Acciones fuertes */}
           <div className="flex items-center gap-3 text-[14px] mr-7">
-            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-900 hover:bg-blue-800 text-white rounded-md transition-all">Guardar</button>
+            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-900 dark:bg-blue-400 hover:bg-blue-800 dark:hover:bg-slate-400 text-white dark:text-slate-800 rounded-md transition-all">Guardar</button>
 
-            <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[28px] cursor-pointer bg-transparent hover:bg-blue-200 text-blue-800 dark:text-blue-200 border-1 border-blue-800 dark:border-blue-200 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
+            <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[28px] cursor-pointer bg-transparent hover:bg-blue-200 dark:hover:bg-slate-300 text-blue-800 dark:text-blue-200 border-1 border-blue-800 dark:border-blue-200 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
 
             {OpenMasOpciones && (
               <div className="block bg-white dark:bg-blue-950 w-[130px] border-1 border-gray-400 text-gray-500 rounded-b-md absolute  top-10 right-11 pt-1">

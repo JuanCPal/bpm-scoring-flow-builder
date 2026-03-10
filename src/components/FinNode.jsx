@@ -7,7 +7,7 @@ export function FinNode({ data, selected }) {
     <div
       className={` bg-[#ef444420]
         border-2 
-        ${selected ? "border-red-600 shadow-[0_0_0_2px_rgba(37,99,235,0.2)]" : "border-slate-400"}`}
+        ${selected ? "border-red-600 dark:border-red-400 shadow-[0_0_0_2px_rgba(37,99,235,0.2)]" : "border-slate-400"}`}
       style={{
         width: 50,
         height: 50,
@@ -23,7 +23,7 @@ export function FinNode({ data, selected }) {
       <FaStop style={{ color: "#ef4444", fontSize: 20 }} className="ml-3.5 mt-3" />
       {selected && (
         <>
-        <p className="font-sans font-bold text-red-800 text-[12px] w-30 mt-4 ml-1.5">{data?.parametros?.variable || data?.label}</p>
+        <p className="font-sans font-bold text-red-800 dark:text-red-400  text-[12px] w-30 mt-4 ml-1.5">{data?.parametros?.variable || data?.label}</p>
         </>
       )}
 

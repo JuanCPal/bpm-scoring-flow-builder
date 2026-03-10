@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaArrowRight, FaEdit, FaEye, FaInbox, FaOpencart, FaOpenid, FaPen, FaReact, FaRegEdit, FaRegFrownOpen, FaTrash, FaUserEdit } from "react-icons/fa";
 
 export function ContextMenu({
   contextMenu,
@@ -25,12 +25,12 @@ export function ContextMenu({
 
   return (
     <div
-      className="absolute bg-white shadow-background border border-gray-300 rounded-md z-50"
+      className="absolute bg-white dark:bg-slate-600 shadow-background border border-gray-300 dark:border-zinc-500 rounded-md z-50"
       style={{ top: contextMenu.y, left: contextMenu.x }}
     >
       {/* Cambiar nombre */}
       <div
-        className="px-4 py-2 flex gap-2 text-sm hover:bg-gray-200 text-blue-900 cursor-pointer"
+        className="px-4 py-2 flex gap-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-blue-900 dark:text-sky-200 cursor-pointer"
         title="Editar nombre del nodo"
         onClick={handleGroupRename}
       >
@@ -39,7 +39,7 @@ export function ContextMenu({
 
       {/* Editar parámetros */}
       <div
-        className="px-4 py-2 text-sm hover:bg-gray-200 text-gray-900 cursor-pointer mb-1 border-b-gray-800"
+        className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-slate-200 cursor-pointer mb-1 border-b-gray-800 dark:border-b-zinc-200 flex gap-2"
         onMouseDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -67,7 +67,7 @@ export function ContextMenu({
           setContextMenu(null);
         }}
       >
-        Editar parámetros
+        <FaPen/> Editar parámetros
       </div>
 
       {/* Opciones específicas si es un Proceso */}
@@ -75,7 +75,7 @@ export function ContextMenu({
   <>
     {/* Ver detalles */}
     <div
-      className="px-4 py-2 text-sm hover:bg-gray-200 text-gray-900 cursor-pointer mb-1 border-b-gray-800"
+      className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-gray-200 cursor-pointer mb-1 border-b-gray-800 flex gap-2"
       onMouseDown={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -105,7 +105,7 @@ export function ContextMenu({
         setContextMenu(null);
       }}
     >
-      Ver detalles
+     <FaEye /> Ver detalles
     </div>
 
     {/* Agregar variable dentro */}
@@ -113,7 +113,7 @@ export function ContextMenu({
       className="px-4 py-2 text-sm hover:bg-gray-200 text-gray-900 cursor-pointer mb-1 border-b-gray-800"
       onClick={() => addVariableInside(contextMenu.nodeId)}
     >
-      Agregar variable dentro
+     <FaInbox /> Agregar variable dentro
     </div>
 
   </>
@@ -123,7 +123,7 @@ export function ContextMenu({
 {contextMenu.nodeType === "Proceson" && (
     
 <div
-  className="px-4 py-2 text-sm hover:bg-gray-200 text-gray-900 cursor-pointer mb-1 border-b-gray-800"
+  className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-slate-200 cursor-pointer mb-1 border-b-gray-800 flex gap-2"
   onMouseDown={(e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -138,14 +138,14 @@ export function ContextMenu({
     setContextMenu(null);
   }}
 >
-  Abrir flujo de variables
+  <FaArrowRight /> Abrir flujo de variables
 </div>
 )}
 
 
       {/* Eliminar */}
 <div
-  className="px-4 py-2 text-sm hover:bg-red-50 text-red-900 cursor-pointer mb-1 border-b-gray-800"
+  className="px-4 py-2 text-sm hover:bg-red-50 dark:hover:bg-red-950/25 text-red-900 dark:text-red-200 cursor-pointer mb-1 border-b-gray-800 flex gap-2"
   onMouseDown={(e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -155,7 +155,7 @@ export function ContextMenu({
     setContextMenu(null);
   }}
 >
-  Eliminar
+  <FaTrash />Eliminar
 </div>
     </div>
   );

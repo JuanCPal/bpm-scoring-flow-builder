@@ -8,7 +8,7 @@ export function ProcesoSimpleNode({ data, selected }) {
       style={{
         width: data?.width ?? 90,
         height: data?.height ?? 80,
-        background: "rgba(37, 99, 235, 0.2)", // Azul con transparencia (muy suave)
+        background: "rgba(37, 99, 235, 0.2)", // azul suave light
         border: `2px solid ${selected ? "#2563EB" : "#5d6875"}`,
         borderRadius: 15,
         transition: "all 0.4s ease",
@@ -22,10 +22,15 @@ export function ProcesoSimpleNode({ data, selected }) {
         textAlign: "center",
         padding: 8,
       }}
-      className="font-sans font-bold text-blue-800 dark:text-blue-400 border-zinc-500"
+      className="font-sans font-bold text-blue-800 dark:text-blue-200 border-zinc-500 dark:border-blue-400"
     >
       {/* Ícono central */}
-      <FaCog size={28} color="#1e3a8a"/>
+      <FaCog
+        size={28}
+        color={selected ? "#2563EB" : "#1e3a8a"} // azul light
+        className="dark:text-blue-300"
+        style={{ color: selected ? undefined : undefined }} // fallback a light
+      />
 
       {/* Texto debajo del ícono */}
       <div
@@ -41,21 +46,21 @@ export function ProcesoSimpleNode({ data, selected }) {
         {data?.parametros?.variable || data?.label}
       </div>
 
-      {/* Handlers en los 4 lados */}
+      {/* Handlers */}
       <Handle id="ct1" type="target" position={Position.Top} style={handleStyle}/>
-                <Handle id="ct2" type="target" position={Position.Left} style={handleStyle}  />
-                <Handle id="ct3" type="target" position={Position.Right} style={handleStyle} />
-                <Handle id="ct4" type="target" position={Position.Bottom} style={handleStyle}  />
-                <Handle id="cs1" type="source" position={Position.Right} style={handleStyle} />
-                <Handle id="cs2" type="source" position={Position.Bottom}  style={handleStyle} />
-                <Handle id="cs3" type="source" position={Position.Top} style={handleStyle} />
-                <Handle id="cs4" type="source" position={Position.Left} style={handleStyle} />
+      <Handle id="ct2" type="target" position={Position.Left} style={handleStyle}/>
+      <Handle id="ct3" type="target" position={Position.Right} style={handleStyle}/>
+      <Handle id="ct4" type="target" position={Position.Bottom} style={handleStyle}/>
+      <Handle id="cs1" type="source" position={Position.Right} style={handleStyle}/>
+      <Handle id="cs2" type="source" position={Position.Bottom} style={handleStyle}/>
+      <Handle id="cs3" type="source" position={Position.Top} style={handleStyle}/>
+      <Handle id="cs4" type="source" position={Position.Left} style={handleStyle}/>
     </div>
   );
 }
 
 const handleStyle = {
-  background: "#1e3a8a",
+  background: "#1e3a8a", // azul light
   border: "1px solid #1e3a8a",
   width: 8,
   height: 8,

@@ -43,21 +43,21 @@ export default function ModalForm({
   return (
     <div className="fixed font-sans inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[99999]">
       <div
-        className={`bg-white pb-5 rounded-lg shadow-2xl px-6 relative max-h-[98%] overflow-y-auto ${selectedNode.type === "Variable" ? "w-[1100px] " : "w-[1100px]"} max-w-full`}
+        className={`bg-white dark:bg-slate-700 pb-5 rounded-lg shadow-2xl px-6 relative max-h-[98%] overflow-y-auto ${selectedNode.type === "Variable" ? "w-[1100px] " : "w-[1100px]"} max-w-full`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={`fixed border-b-1 -ml-6 bg-blue-50/50 backdrop-blur-lg pt-3 rounded-t-lg border-gray-300 pb-1 px-3 ${selectedNode.type === "Variable" ? "w-[1100px]" : "w-[1100px]"}`}>
+        <div className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-800/50 backdrop-blur-lg pt-3 rounded-t-lg border-gray-300 dark:border-zinc-500 pb-1 px-3 ${selectedNode.type === "Variable" ? "w-[1100px]" : "w-[1100px]"}`}>
           <div className="flex">
-            <h2 className="text-[18px] text-blue-900">
+            <h2 className="text-[18px] text-blue-900 dark:text-slate-200">
               <span>{selectedNode.data?.proceso || selectedNode.data?.variable || selectedNode.data?.label}</span>
             </h2>
             <button
               onClick={selectedNode?.type === "Variable" ? handleEditVariable : handleEditProceso}
-              className="absolute right-15 -mt-1.5 px-3 py-1 text-[14px] bg-blue-900 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+              className="absolute right-15 -mt-1.5 px-3 py-1 text-[14px] bg-blue-900 dark:bg-blue-400 text-white dark:text-slate-950 rounded-lg hover:bg-slate-600 transition cursor-pointer"
             >
               Guardar
             </button>
-            <p className="absolute right-6 text-gray-500 hover:text-gray-800 cursor-pointer" onClick={() => setIsOpenEdit(false)}> <FaTimes /> </p>
+            <p className="absolute right-6 text-gray-500 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-100 cursor-pointer" onClick={() => setIsOpenEdit(false)}> <FaTimes /> </p>
           </div>
         </div>
 
@@ -66,16 +66,17 @@ export default function ModalForm({
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Orden: </span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Orden: </span>
                   <input
                     type="number"
                     name="orden"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.orden}
                     placeholder="Orden del proceso en el flujo"
-                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
+
                 <label className="block">
                   <span className="text-sm flex text-gray-700">Proceso: </span>
                   <input

@@ -1,22 +1,40 @@
-"use client";
+"use client"; // necesario si estás en Next.js 13+ con app directory
 
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
-  useEffect(() => setMounted(true), []); // espera a que el componente se monte
+  // Restaurar la preferencia guardada al montar el componente
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      setIsDark(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      setIsDark(false);
+    }
+  }, []);
 
-  if (!mounted) return null; // evita render prematuro
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      setIsDark(true);
+    }
+  };
 
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700 transition-colors duration-300 ease-in-out"
+      onClick={toggleTheme}
+      className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-black dark:text-white"
     >
-      {theme === "dark" ? "🌞 Claro" : "🌙 Oscuro"}
+      {isDark ? "Modo Claro" : "Modo Oscuro"}
     </button>
   );
 }

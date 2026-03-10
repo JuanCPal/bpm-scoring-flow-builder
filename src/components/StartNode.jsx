@@ -23,7 +23,7 @@ export function StartNode({ data, selected }) {
     >
       <FaPlay style={{ color: "#22c55e", fontSize: 20 }} className="ml-3.5 mt-3" />
       {selected && (
-        <p className="font-sans font-bold text-green-800 text-[12px] w-30 mt-4">{data?.parametros?.variable || data?.label}</p>
+        <p className="font-sans font-bold text-green-800 dark:text-green-400 text-[12px] w-30 mt-4">{data?.parametros?.variable || data?.label}</p>
 
       )}
 

@@ -34,38 +34,49 @@ const handlePositionsAnd = [
 
 export function orNode({ data, selected }) {
   return (
-    <div
-      className={`relative w-15 h-15`}
-      title="OR"
-    >
-      {/* Rombus rotado */}
+    <div className="relative w-15 h-15" title="OR">
+      
+      {/* Rombo */}
       <div
-        className={`absolute inset-0 backdrop-blur-md border-2 rounded-md transition-all
-        ${selected
-            ? "border-[#ca8a04] shadow-[0_0_0_2px_rgba(202,138,4,0.25)]"
-            : "border-[#eab308]"}
+        className={`
+          absolute inset-0 border-2 rounded-md backdrop-blur-md transition-all duration-500
+          
+          bg-yellow-400/25 border-yellow-500
+          dark:bg-amber-400/20 dark:border-amber-400
+          
+          ${
+            selected
+              ? "border-amber-700 dark:border-amber-500 shadow-[0_0_0_10px_rgba(202,138,4,0.25)] dark:shadow-[0_0_0_10px_rgba(251,191,36,0.25)]"
+              : ""
+          }
         `}
-        
         style={{
-          transform: "rotate(45deg)",
-          backgroundColor: "rgba(250, 204, 21, 0.25)", // amarillo suave
-          transition: "all 0.6s ease",
-          boxShadow: selected ? "0 0 0 15px #ca8a0450" : "none",
-          display: "block",
+          transform: "rotate(45deg)"
         }}
-        
       />
 
-      {/* Icono centrado */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <FaCircle
-          className={`text-[35px] transition-colors
-            ${selected ? "text-[#b17d0e]" : "text-[#ce7b06]"}`}
-        />
-        {selected && (
-        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-28">{data?.parametros?.variable || data?.label}</p>
+      {/* Icono */}
+      <div className="absolute inset-[12px]">
 
-      )}
+        <FaCircle
+          className={`
+            text-[35px] transition-colors
+            text-amber-600
+            dark:text-amber-200
+            ${selected ? "text-amber-700 dark:text-amber-100" : ""}
+          `}
+        />
+        
+        {selected && (
+          <p className="
+            font-sans font-bold text-[12px] w-30 mt-8 -ml-10 text-center
+            text-yellow-700
+            dark:text-yellow-200
+          ">
+            {data?.parametros?.variable || data?.label}
+          </p>
+        )}
+
       </div>
 
       {/* Handles */}
@@ -79,46 +90,56 @@ export function orNode({ data, selected }) {
           style={{ ...COMMON_STYLE, ...style }}
         />
       ))}
+
     </div>
   );
 }
 
-
 export function xorNode({ data, selected }) {
-  const COLORS = {
-    bg: "rgba(250,204,21,0.25)",       // amarillo suave
-    border: "#eab308",                  // borde normal
-    borderSelected: "#ca8a04",          // borde seleccionado
-    icon: "#b45309",                     // icono normal
-    iconSelected: "#92400e",            // icono seleccionado
-  };
-
   return (
     <div className="relative w-15 h-15">
-      {/* Rombus rotado */}
+      
+      {/* Rombo */}
       <div
-        className={`absolute inset-0 backdrop-blur-md border-2 rounded-md transition-all`}
+        className={`
+          absolute inset-0 border-2 rounded-md backdrop-blur-md transition-all duration-500
+          
+          bg-yellow-400/25 border-yellow-500
+          dark:bg-amber-400/20 dark:border-amber-400
+          
+          ${
+            selected
+              ? "border-amber-700 dark:border-amber-500 shadow-[0_0_0_15px_rgba(202,138,4,0.25)] dark:shadow-[0_0_0_15px_rgba(251,191,36,0.25)]"
+              : ""
+          }
+        `}
         style={{
-          transform: "rotate(45deg)",
-          backgroundColor: COLORS.bg,
-          borderColor: selected ? COLORS.borderSelected : COLORS.border,
-          boxShadow: selected ? "0 0 0 15px rgba(202,138,4,0.25)" : "none",
-          transition: "all 0.6s ease",
-          display: "block",
+          transform: "rotate(45deg)"
         }}
       />
 
-      {/* Icono centrado */}
-      <div className="absolute inset-0 block ml-[12px] mt-[11px]">
+      {/* Icono */}
+      <div className="absolute inset-[12px]">
+
         <FaTimesCircle
-          className="text-[35px] transition-colors"
-          style={{ color: selected ? COLORS.iconSelected : COLORS.icon }}
+          className={`
+            text-[35px] transition-colors
+            text-amber-700
+            dark:text-amber-200
+            ${selected ? "text-amber-900 dark:text-amber-100" : ""}
+          `}
         />
-              {selected && (
-        <>
-        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-8 -ml-1.5">{data?.parametros?.variable || data?.label}</p>
-        </>
-      )}
+
+        {selected && (
+          <p className="
+            font-sans font-bold text-[12px] w-30 mt-8 -ml-10 text-center
+            text-yellow-700
+            dark:text-yellow-200
+          ">
+            {data?.parametros?.variable || data?.label}
+          </p>
+        )}
+
       </div>
 
       {/* Handles */}
@@ -132,40 +153,55 @@ export function xorNode({ data, selected }) {
           style={{ ...COMMON_STYLE, ...style }}
         />
       ))}
+
     </div>
   );
 }
 
 export function andNode({ data, selected }) {
-  const COLORS = {
-    bg: "rgba(250,204,21,0.35)",       // amarillo un poco más oscuro que XOR
-    border: "#ca8a04",
-    borderSelected: "#b45309",
-    icon: "#92400e",
-    iconSelected: "#78350f",
-  };
-
   return (
     <div className="relative w-15 h-15">
-      {/* Rombus rotado */}
+      
+      {/* Rombo */}
       <div
-        className={`absolute inset-0 backdrop-blur-md border-2 rounded-md transition-all`}
+        className={`
+          absolute inset-0 border-2 rounded-md backdrop-blur-md transition-all duration-500
+          
+          bg-yellow-400/35 border-yellow-700
+          dark:bg-amber-400/20 dark:border-amber-400
+          
+          ${selected 
+            ? "border-amber-700 dark:border-amber-500 shadow-[0_0_0_15px_rgba(180,83,9,0.25)] dark:shadow-[0_0_0_15px_rgba(251,191,36,0.25)]"
+            : ""
+          }
+        `}
         style={{
-          transform: "rotate(45deg)",
-          backgroundColor: COLORS.bg,
-          borderColor: selected ? COLORS.borderSelected : COLORS.border,
-          boxShadow: selected ? "0 0 0 15px rgba(180,83,9,0.25)" : "none",
-          transition: "all 0.6s ease",
-          display: "block",
+          transform: "rotate(45deg)"
         }}
       />
 
-      {/* Icono centrado */}
-      <div className="absolute inset-0 block items-center justify-center">
+      {/* Icono */}
+      <div className="absolute inset-[12px]">
+
         <FaPlusCircle
-          className="text-[35px] transition-colors"
-          style={{ color: selected ? COLORS.iconSelected : COLORS.icon }}
+          className={`
+            text-[35px] transition-colors
+            text-amber-800
+            dark:text-amber-200
+            ${selected ? "text-amber-900 dark:text-amber-100" : ""}
+          `}
         />
+
+        {selected && (
+          <p className="
+            font-sans font-bold text-[12px] w-30 mt-7 -ml-10 text-center
+            text-yellow-700
+            dark:text-yellow-200
+          ">
+            {data?.parametros?.variable || data?.label}
+          </p>
+        )}
+
       </div>
 
       {/* Handles */}
@@ -179,6 +215,7 @@ export function andNode({ data, selected }) {
           style={{ ...COMMON_STYLE, ...style }}
         />
       ))}
+
     </div>
   );
 }

@@ -39,17 +39,17 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[999]">
       <div
-        className={`bg-white pb-5 shadow-2xl px-6 relative 
+        className={`bg-white dark:bg-slate-900 pb-5 shadow-2xl px-6 relative 
           w-[100%] h-[100%] max-h-[100vh] max-w-full`}
       >
         {/* Header */}
         <div
-          className={`fixed border-b-1 -ml-6 bg-blue-50/50 backdrop-blur-lg 
-            pt-3 rounded-t-lg border-gray-300 pb-1 px-3 w-[100%]`}
+          className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-700 backdrop-blur-lg 
+             rounded-t-lg border-gray-300 dark:border-zinc-500 pt-4 pb-2 px-3 w-[100%]`}
         >
           <div className="flex items-center">
             <p
-              className="ml-2 mr-3 -mt-1.5 text-gray-500 hover:text-gray-800 cursor-pointer border-r-1 border-gray-300 py-2.5 pr-3"
+              className="ml-2 mr-3 -mt-1.5 text-gray-500 dark:text-slate-300 hover:text-gray-800 dark:hover:text-slate-200 cursor-pointer border-r-1 border-gray-300 dark:border-zinc-400 py-2.5 pr-3"
               onClick={() => setOpenBaseModal(false)}
 
             >
@@ -57,9 +57,9 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
             </p>
             {/* Breadcrumbs de ejemplo */}
             <nav className="flex z-[9999]">
-              <span className="cursor-pointer text-[17px] text-gray-600 hover:text-blue-600" onClick={() => setOpenBaseModal(false)}>{arbol}</span>
-              <span className="mx-2 text-[24px] text-gray-400 -mt-1.5">/</span>
-              <span className="text-[18px] text-blue-900 font-bold">{labelNode}</span>
+              <span className="cursor-pointer text-[17px] text-gray-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-slate-200" onClick={() => setOpenBaseModal(false)}>{arbol}</span>
+              <span className="mx-2 text-[24px] text-gray-400 dark:textslate-500 -mt-1.5">/</span>
+              <span className="text-[18px] text-blue-900 dark:text-slate-200 font-bold">{labelNode}</span>
             </nav>
 
           </div>
