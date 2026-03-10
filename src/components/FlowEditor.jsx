@@ -618,7 +618,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
                 <MiniMap className="dark:hidden" />
                 <Controls className="dark:hidden" color="#162456"  />
-                <Background gap={35} variant="grid" color={isDark ? "#374151" : "#d7e5fc"} size={7} />
+                <Background gap={35} variant="grid" color={isDark ? "#182130" : "#d7e5fc"} size={7} />
 
                 {/* Panel JSON con Details*/}
                 <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNode} />

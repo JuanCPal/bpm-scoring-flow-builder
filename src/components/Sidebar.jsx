@@ -38,7 +38,7 @@ export default function SidebarNodeMenu({
 
       {/* Sidebar */}
       {sidebarOpen && (
-        <div className="absolute left-3 top-[94px] z-50 w-[260px] max-h-[70%] bg-gray-100 py-2 px-2 border border-gray-100 rounded-md font-sans overflow-y-auto">
+        <div className="absolute left-3 top-[94px] z-50 w-[260px] max-h-[70%] bg-gray-100 dark:bg-slate-800 py-2 px-2 border-1 border-zinc-300 rounded-md font-sans overflow-y-auto">
 
           {/* Buscador sutil */}
           <input
@@ -61,7 +61,7 @@ export default function SidebarNodeMenu({
               {["Proceso"].filter(item => item.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
                 <div
                   key={item}
-                  className="p-3 rounded-lg cursor-pointer bg-white border border-gray-200/90 mb-3 hover:bg-gray-100"
+                  className="p-3 rounded-lg cursor-pointer bg-white dark:bg-slate-600 border border-gray-200/90 mb-3 hover:bg-gray-100"
                   onClick={addProceson}
                 >
                   <div className="flex items-center gap-2">

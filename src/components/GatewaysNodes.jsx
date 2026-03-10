@@ -109,14 +109,14 @@ export function xorNode({ data, selected }) {
       />
 
       {/* Icono centrado */}
-      <div className="absolute inset-0 block items-center justify-center">
+      <div className="absolute inset-0 block ml-[12px] mt-[11px]">
         <FaTimesCircle
           className="text-[35px] transition-colors"
           style={{ color: selected ? COLORS.iconSelected : COLORS.icon }}
         />
               {selected && (
         <>
-        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-28 ml-1.5">{data?.parametros?.variable || data?.label}</p>
+        <p className="font-sans font-bold text-yellow-700 text-[12px] w-30 mt-8 -ml-1.5">{data?.parametros?.variable || data?.label}</p>
         </>
       )}
       </div>

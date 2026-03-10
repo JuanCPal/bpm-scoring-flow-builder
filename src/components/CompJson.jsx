@@ -36,7 +36,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       </Tippy>
 
       <div
-        className={`bg-white dark:bg-zinc-800 border-zinc-500 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
+        className={`bg-white dark:bg-slate-800 border-zinc-500 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
         w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >
@@ -91,7 +91,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 function NodeDetails({ node }) {
   if (!node)
     return (
-      <p className="font-mono text-gray-500 mx-6 mt-4">
+      <p className=" text-gray-500 mx-6 mt-4">
         Selecciona un nodo para ver detalles.
       </p>
     );
@@ -104,7 +104,7 @@ function NodeDetails({ node }) {
     <div className="max-h-[60vh] overflow-auto space-y-6">
       {entries.length ? (
         entries.map(([key, value]) => (
-          <div key={key} className="bg-white dark:bg-zinc-800 shadow-sm rounded-md p-4">
+          <div key={key} className="bg-white dark:bg-slate-800 shadow-sm rounded-md p-4">
             {/* Título de sección */}
             <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
               {key.replace(/_/g, " ")}
