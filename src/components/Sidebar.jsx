@@ -38,7 +38,7 @@ export default function SidebarNodeMenu({
 
       {/* Sidebar */}
       {sidebarOpen && (
-        <div className="absolute left-3 top-[94px] z-50 w-[260px] max-h-[70%] bg-gray-100 dark:bg-slate-800 py-2 px-2 border-1 border-zinc-300 dark:border-zinc-600 rounded-md font-sans overflow-y-auto">
+        <div className="absolute select-none left-3 top-[94px] z-50 w-[260px] max-h-[70%] bg-gray-100 dark:bg-slate-800 py-2 px-2 border-1 border-zinc-300 dark:border-zinc-600 rounded-md font-sans overflow-y-auto">
 
           {/* Buscador sutil */}
           <input

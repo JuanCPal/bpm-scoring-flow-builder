@@ -313,12 +313,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addFin = useCallback(() => {
         const id = genId("F");
-        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 200, y: 350 }, data: { label: `Fin ${id}` } }]);
     }, [genId, setNodes]);
 
     const addOr = useCallback(() => {
         const id = genId("O");
-        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 340, y: 260 }, data: { label: `OR ${id}` } }]);
     }, [genId, setNodes]);
 
     const addXor = useCallback(() => {
@@ -387,21 +387,21 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             //Reglas de los source
             const xorLabels = {
-                "s-t": "Si",
+                "s-t": "67",
                 "s-r": "Si",
                 "s-b": "No",
                 "s-l": "No",
             };
 
             const orLabels = {
-                "s-t": "Opción 1",
+                "s-t": "opcion 1",
                 "s-r": "Opción 2",
                 "s-b": "Opción 3",
                 "s-l": "Opción 4",
             };
 
             const andLabels = {
-                "s-t": "Si",
+                "s-t": {formVar},
                 "s-r": "Si",
                 "s-b": "No",
                 "s-l": "No",
@@ -437,6 +437,10 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [nodes]
     );
 
+    /* ----------------------
+        Guardar flujo
+    -----------------------------*/
+
     const getName = () => (nameCounter.current++).toString();
 
     const saveToLocalStorage = () => {
@@ -466,7 +470,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         alert(`El flujo del ${data.id} ha sido guardado correctamente`);
     };
 
-
+//Cargar flujo
 
     const loadNodeFlow = (nodeId) => {
         const saved = JSON.parse(localStorage.getItem(`Proceso_${arbol}`));
@@ -477,6 +481,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         saveNodeFlowToLocalStorage(currentNodeId, internalNodes, internalEdges);
         setOpenVariables(false);
     };
+
+//Descargar flujo
 
     const DownloadFile = () => {
         const data = {
@@ -500,6 +506,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         console.log("descargado")
 
     }
+
+/* llenar nodos con info del formulario */
 
     const handleEditProceso = () => {
         setNodes((prev) =>

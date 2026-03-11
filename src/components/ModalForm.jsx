@@ -78,56 +78,57 @@ export default function ModalForm({
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Proceso: </span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Proceso: </span>
                   <input
                     type="text"
                     name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.nombre}
-                    placeholder="Nombre del proceso"
-                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    placeholder= "Nombre del proceso"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300  dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Descripcion</span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Descripcion</span>
                   <textarea
                     type="text"
                     name="descripcion"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.descripcion}
                     placeholder="Añadir descripción"
-                    className="mt-1 block w-full rounded-md border font-extralight bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-800 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border font-extralight bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-800 focus:ring-0"
                   />
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Siguente paso: ☺</span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Siguente paso: ☺</span>
                   <input
                     type="text"
-                    /*name="nombre"
+                    name="SiguientePaso"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    value={formPro.SiguientePaso}
+                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Proceso negado: </span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Proceso negado: </span>
                   <input
                     type="text"
-                    /*name="nombre"
+                    name="ProcesoNegado"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border bg-gray-100 border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    value={formPro.ProcesoNegado}
+                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
+
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Control de tiempos ☺</span>
+                  <span className="text-sm flex text-gray-700">CTL tiempos</span>
                   <input
                     type="text"
-                    /*name="nombre"
+                    name="CTLTiempos"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
+                    value={formPro.CTLTiempos}
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
