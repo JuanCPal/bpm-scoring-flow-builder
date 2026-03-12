@@ -1,5 +1,6 @@
+import Tippy from "@tippyjs/react";
 import { useEffect, useState } from "react";
-import { FaTimes, FaTools } from "react-icons/fa";
+import { FaHireAHelper, FaQuestionCircle, FaTimes, FaTools } from "react-icons/fa";
 
 export default function ModalForm({
   selectedNode,
@@ -84,7 +85,7 @@ export default function ModalForm({
                     name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.nombre}
-                    placeholder= "Nombre del proceso"
+                    placeholder="Nombre del proceso"
                     className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300  dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -102,14 +103,24 @@ export default function ModalForm({
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Siguente paso: ☺</span>
-                  <input
-                    type="text"
+                  <Tippy content="Es el paso a seguir en la evaluacion del proyecto" placement="left" zIndex={"99999"} animation="scale"
+        duration={[300, 300]}
+        delay={[150, 0]}>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">
+                    Siguiente paso:  <FaQuestionCircle className="hover:opacity-35 cursor-pointer"/> 
+                  </span></Tippy> 
+                  <select
                     name="SiguientePaso"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.SiguientePaso}
-                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
-                  />
+                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+                    className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 bg-gray-100 dark:bg-slate-600 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                  >
+                    <option value="">Seleccione el paso a seguir</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatico">Automatico</option>
+                    <option value="EnlazarOperador">Enlazar operador</option>
+                    <option value="EnlaceNEP">Enlace NEP</option>
+                  </select>
                 </label>
                 <label className="block">
                   <span className="text-sm flex text-gray-700 dark:text-slate-300">Proceso negado: </span>
@@ -123,58 +134,67 @@ export default function ModalForm({
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">CTL tiempos</span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">CTL tiempos</span>
                   <input
                     type="text"
                     name="CTLTiempos"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
                     value={formPro.CTLTiempos}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-gray-700">Grupo: </span>
-                  <input
-                    type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-gray-700">Producto de negado </span>
-                  <input
-                    type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-gray-700">Estado de aprobación: ▼ </span>
-                  <input
-                    type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-gray-700">Recibe nueva solicitud: ▼ </span>
-                  <input
-                    type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500  px-2 py-1 bg-gray-100 dark:bg-slate-600 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
 
                 <label className="block">
-                  <span className="text-sm flex text-gray-700">Página de captura</span>
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Codigo grupo de proceso: </span>
+                  <input
+                    type="text"
+                    name="CodigoGrupoProceso"
+                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+                    value={formPro.CodigoGrupoProceso}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 dark:border-zinc-500 bg-gray-100 dark:bg-slate-600 focus:outline-none focus:border-blue-500 focus:ring-0"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Producto de negado: </span>
+                  <input
+                    type="text"
+                    name="ProductoNegado"
+                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+                    value={formPro.ProductoNegado}
+                    className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 bg-gray-100 dark:bg-slate-600 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">
+                    Estado de aprobación:
+                  </span>
+                  <select
+                    name="EstadoAprobacion"
+                    value={formPro.EstadoAprobacion}
+                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+                    className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 bg-gray-100 dark:bg-slate-600 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                  >
+                    <option value="">Selecciona un estado</option>
+                    <option value="Preaprobado">Preaprobado</option>
+                    <option value="Aprobado">Aprobado</option>
+                    <option value="Negado">Negado</option>
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Indicador de nueva solicitud: </span>
+                  <input
+                    type="text"
+                    name="IndicadorNuevaSolicitud"
+                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+                    value={formPro.IndicadorNuevaSolictud}
+                    className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 bg-gray-100 dark:bg-slate-600 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="text-sm flex text-gray-700 dark:text-slate-300">Página de captura</span>
                   <input
                     type="text"
                     /*name="nombre"

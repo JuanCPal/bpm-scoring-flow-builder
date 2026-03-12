@@ -44,7 +44,7 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
       >
         {/* Header */}
         <div
-          className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-700 backdrop-blur-lg 
+          className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-800 backdrop-blur-lg 
              rounded-t-lg border-gray-300 dark:border-zinc-500 pt-4 pb-2 px-3 w-[100%]`}
         >
           <div className="flex items-center">

@@ -46,7 +46,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("info");
             setIsOpen(true);
           }}
-          className={`px-3 py-0.5 ml-4 border-none rounded-l-md w-37 ${activeTab === "info" ? "bg-black text-blue-200" : "bg-blue-200 text-black"
+          className={`px-2 py-0.5 ml-4 border-blue-500 border-1 rounded-l-md w-37 ${activeTab === "info" ? "bg-blue-500 text-slate-900 " : "bg-transparent text-blue-500"
             }`}
         >
           Data
@@ -56,7 +56,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("details");
             setIsOpen(true);
           }}
-          className={`px-3 py-0.5 mb-3 w-37 ${activeTab === "details" ? "bg-black text-blue-200" : "bg-blue-200 text-black"
+          className={`px-2 py-0.5 mb-3 w-37 border-blue-500 border-1 ${activeTab === "details" ? "bg-blue-500 text-slate-900" : "bg-transparent text-blue-500"
             }`}
         >
           Details
@@ -92,7 +92,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 function NodeDetails({ node }) {
   if (!node)
     return (
-      <p className=" text-gray-500 mx-6 mt-4">
+      <p className=" text-gray-500 dark:text-zinc-400 mx-6 mt-4">
         Selecciona un nodo para ver detalles.
       </p>
     );
@@ -107,25 +107,26 @@ function NodeDetails({ node }) {
         entries.map(([key, value]) => (
           <div key={key} className="bg-white dark:bg-slate-800 shadow-sm rounded-md p-4">
             {/* Título de sección */}
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-3">
               {key.replace(/_/g, " ")}
             </h3>
 
             {/* Contenido */}
             {typeof value === "object" && value !== null ? (
               key === "parametros" ? (
-                <div className="grid grid-cols-[120px_1fr] gap-x-4 gap-y-2">
+                <div className="grid grid-cols-[135px_1fr] gap-x-4 gap-y-2">
                   {Object.entries(value).map(([paramKey, paramValue]) => (
                     <>
                       <div
                         key={paramKey + "-label"}
-                        className="text-xs text-gray-500 text-left font-medium"
+                        className="text-xs text-gray-500 dark:text-zinc-400 text-left font-medium truncate cursor-default"
+                        title={paramKey}
                       >
                         {paramKey}:
                       </div>
                       <div
                         key={paramKey + "-value"}
-                        className="text-sm text-gray-900 dark:text-gray-100 truncate"
+                        className="text-[13px] text-gray-900 dark:text-gray-100"
                       >
                         {String(paramValue)}
                       </div>

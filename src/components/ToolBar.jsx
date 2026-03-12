@@ -97,7 +97,7 @@ export default function ToolBar({
 
           {/* Acciones fuertes */}
           <div className="flex items-center gap-3 text-[14px] mr-7">
-            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-900 dark:bg-blue-400 hover:bg-blue-800 dark:hover:bg-slate-400 text-white dark:text-slate-800 rounded-md transition-all">Guardar</button>
+            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[28px] cursor-pointer bg-blue-500 dark:bg-blue-400 hover:bg-blue-800 dark:hover:bg-slate-400 text-white dark:text-slate-800 rounded-md transition-all">Guardar</button>
 
             <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[28px] cursor-pointer bg-transparent hover:bg-blue-200 dark:hover:bg-slate-300 text-blue-800 dark:text-blue-200 border-1 border-blue-800 dark:border-blue-200 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
 

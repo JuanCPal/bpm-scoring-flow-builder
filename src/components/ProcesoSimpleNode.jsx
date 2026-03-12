@@ -60,8 +60,8 @@ export function ProcesoSimpleNode({ data, selected }) {
 }
 
 const handleStyle = {
-  background: "#1e3a8a", // azul light
-  border: "1px solid #1e3a8a",
+  background: "#345ccf", // azul light
+  border: "1px solid #345ccf",
   width: 8,
   height: 8,
   borderRadius: "50%",

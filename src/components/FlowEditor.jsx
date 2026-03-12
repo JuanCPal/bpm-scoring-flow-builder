@@ -129,7 +129,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const [formPro, setFormPro] = useState({
         orden: 1,
         nombre: '',
-        descripcion: ''
+        descripcion: '',
+        SiguientePaso: '',
+        ProcesoNegado: '',
+        CTLTiempos: '',
+        CodigoGrupoProceso: '',
+        ProductoNegado: '',
+        EstadoAprobacion: '',
+        IndicadorNuevaSolicitud: '' 
     })
     const [isDark, setIsDark] = useState(false);
     useEffect(() => {
@@ -296,7 +303,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 id,
                 type: "Proceso",
                 position: { x: 160 + Math.random() * 520, y: 80 + Math.random() * 60 },
-                data: { label: `Proceso ${id}`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '' }, width: 320, height: 220 },
+                data: { label: `Proceso ${id}`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '', SiguientePaso: '', ProcesoNegado: '', CTLTiempos: '', CodigoGrupoProceso: '', ProductoNegado: '', EstadoAprobacion: '', IndicadorNuevaSolicitud: '' }, width: 320, height: 220 },
             },
         ]);
     }, [genId, setNodes]);
@@ -520,6 +527,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                                 orden: formPro.orden,
                                 proceso: formPro.nombre,
                                 descripcion: formPro.descripcion,
+                                SiguientePaso: formPro.SiguientePaso,
+                                ProcesoNegado: formPro.ProcesoNegado,
+                                CTLTiempos: formPro.CTLTiempos,
+                                CodigoGrupoProceso: formPro.CodigoGrupoProceso,
+                                ProductoNegado: formPro.ProductoNegado,
+                                EstadoAprobacion: formPro.EstadoAprobacion,
+                                IndicadorNuevaSolicitud: formPro.IndicadorNuevaSolicitud
+
                             }
                         }
                     }
