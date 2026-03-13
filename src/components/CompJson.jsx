@@ -25,15 +25,15 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
     content={isOpen ? "Ocultar panel" : "Mostrar detalles"}
     placement={isOpen ? "bottom" : "left"}
     >
-      <div className="flex absolute top-15 right-1 z-[9999]">
+      <div className={`flex absolute top-15 right-1 z-[9999] ${isOpen ? "right-[320px]" : ""}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`px-2 rounded-md py-[7px] mt-1 cursor-pointer mr-2 ${isOpen ? "bg-transparent text-black dark:text-slate-300 text-[20px]" : "bg-gray-800 dark:bg-slate-500 text-blue-200 dark:text-zinc-800" }`}
+          className={`px-1.5 rounded-md py-[7px] mt-1 cursor-pointer mr-2 transition-all duration-300 ${isOpen ? " dark:text-black font-bold dark:font-normal text-zinc-100 bg-blue-400 border-1 border-blue-400 pr-6" : "bg-gray-800 dark:bg-blue-400 text-blue-200 dark:text-zinc-800" }`}
         >
           {isOpen ? <FaArrowRight className="-mr-1.5 -mt-0.5"  /> : <FaArrowLeft />}
         </button>
       </div>
-      </Tippy>
+    </Tippy>
 
       <div
         className={`bg-white dark:bg-slate-800 border-zinc-500 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
@@ -46,7 +46,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("info");
             setIsOpen(true);
           }}
-          className={`px-2 py-0.5 ml-4 border-blue-500 border-1 rounded-l-md w-37 ${activeTab === "info" ? "bg-blue-500 text-slate-900 " : "bg-transparent text-blue-500"
+          className={`px-1.5 py-0.5 ml-[34px] cursor-pointer border-blue-400 border-1 rounded-l-md w-38 ${activeTab === "info" ? "bg-blue-400 text-slate-900 " : "bg-transparent text-blue-400"
             }`}
         >
           Data
@@ -56,7 +56,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("details");
             setIsOpen(true);
           }}
-          className={`px-2 py-0.5 mb-3 w-37 border-blue-500 border-1 ${activeTab === "details" ? "bg-blue-500 text-slate-900" : "bg-transparent text-blue-500"
+          className={`px-1.5 py-0.5 mb-3 w-38 cursor-pointer border-blue-400 border-1 rounded-r-md ${activeTab === "details" ? "bg-blue-400 text-slate-900" : "bg-transparent text-blue-400"
             }`}
         >
           Details
@@ -65,7 +65,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 
         {activeTab === "info" && (
           <>
-            <h2 className="text-lg font-bold mb-2 ml-4 ">Edges JSON</h2>
+            <h2 className="text-lg font-bold mb-2 ml-4">Edges JSON</h2>
             <pre className="text-sm bg-blue-50 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
               {JSON.stringify(edges, null, 2)}
             </pre>

@@ -1,6 +1,6 @@
 import Tippy from "@tippyjs/react";
 import { useEffect, useState } from "react";
-import { FaHireAHelper, FaQuestionCircle, FaTimes, FaTools } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaCog, FaHireAHelper, FaQuestionCircle, FaTimes, FaTools } from "react-icons/fa";
 
 export default function ModalForm({
   selectedNode,
@@ -43,14 +43,21 @@ export default function ModalForm({
 
   return (
     <div className="fixed font-sans inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[99999]">
+      <div className="absolute left-10 cursor-pointer hover:animate-pulse rounded-md top-72 px-3 py-[3px] bg-blue-400 text-slate-800 flex">
+        <FaArrowLeft className="mt-1 mr-1" /> <h2>Anterior</h2>
+      </div>
+      <div className="absolute right-10 cursor-pointer rounded-md top-72 px-3 py-[3px] bg-blue-400 text-slate-800 flex hover:z-[9999999] ">
+       <h2 className="flex gap-1 truncate">Siguiente {selectedNode.data?.label}</h2> <FaArrowRight className="mt-1 ml-1" /> 
+      </div>
+
       <div
         className={`bg-white dark:bg-slate-700 pb-5 rounded-lg shadow-2xl px-6 relative max-h-[98%] overflow-y-auto ${selectedNode.type === "Variable" ? "w-[1100px] " : "w-[1100px]"} max-w-full`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-800/50 backdrop-blur-lg pt-3 rounded-t-lg border-gray-300 dark:border-zinc-500 pb-1 px-3 ${selectedNode.type === "Variable" ? "w-[1100px]" : "w-[1100px]"}`}>
           <div className="flex">
-            <h2 className="text-[18px] text-blue-900 dark:text-slate-200">
-              <span>{selectedNode.data?.proceso || selectedNode.data?.variable || selectedNode.data?.label}</span>
+            <h2 className="text-[18px] flex text-blue-900 dark:text-slate-200 ">
+              <FaCog className="mr-1.5 mt-1" /> <span>{selectedNode.data?.proceso || selectedNode.data?.variable || selectedNode.data?.label}</span>
             </h2>
             <button
               onClick={selectedNode?.type === "Variable" ? handleEditVariable : handleEditProceso}
@@ -104,11 +111,11 @@ export default function ModalForm({
 
                 <label className="block">
                   <Tippy content="Es el paso a seguir en la evaluacion del proyecto" placement="left" zIndex={"99999"} animation="scale"
-        duration={[300, 300]}
-        delay={[150, 0]}>
-                  <span className="text-sm flex text-gray-700 dark:text-slate-300">
-                    Siguiente paso:  <FaQuestionCircle className="hover:opacity-35 cursor-pointer"/> 
-                  </span></Tippy> 
+                    duration={[300, 300]}
+                    delay={[150, 0]}>
+                    <span className="text-sm flex text-gray-700 dark:text-slate-300">
+                      Siguiente paso:  <FaQuestionCircle className="hover:opacity-35 cursor-pointer" />
+                    </span></Tippy>
                   <select
                     name="SiguientePaso"
                     value={formPro.SiguientePaso}

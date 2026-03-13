@@ -87,7 +87,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const [nodes, setNodes, onNodesChange] = useNodesState(savedNodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdges || []);
-
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [contextMenu, setContextMenu] = useState(null);
     const [renameModal, setRenameModal] = useState('');
@@ -136,20 +135,20 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         CodigoGrupoProceso: '',
         ProductoNegado: '',
         EstadoAprobacion: '',
-        IndicadorNuevaSolicitud: '' 
+        IndicadorNuevaSolicitud: ''
     })
     const [isDark, setIsDark] = useState(false);
     useEffect(() => {
-    // Detecta el modo dark del sistema
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    setIsDark(mediaQuery.matches);
+        // Detecta el modo dark del sistema
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        setIsDark(mediaQuery.matches);
 
-    // Escucha cambios en tiempo real
-    const handler = (e) => setIsDark(e.matches);
-    mediaQuery.addEventListener("change", handler);
+        // Escucha cambios en tiempo real
+        const handler = (e) => setIsDark(e.matches);
+        mediaQuery.addEventListener("change", handler);
 
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
+        return () => mediaQuery.removeEventListener("change", handler);
+    }, []);
 
     useEffect(() => {
         if (savedId) setChangeEdit(savedId)
@@ -294,6 +293,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     /* ----------------------------
        Creación de nodos (sidebar y contextual)
        ---------------------------- */
+    const offsetX = 220
+    const randomY = Math.random() * 80 - 40
+
 
     const addProceso = useCallback(() => {
         const id = genId("pp");
@@ -310,12 +312,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addProceson = useCallback(() => {
         const id = genId("P");
-        setNodes((nds) => [...nds, { id, type: "Proceson", position: { x: 220, y: 380 }, data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+        setNodes((nds) => [...nds, { id, type: "Proceson", position: {x: 240 + offsetX,
+  y: 360 + randomY}, data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
     }, [genId, setNodes]);
 
     const addStart = useCallback(() => {
         const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Inicio ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Start", position: {x: 240 + offsetX,
+  y: 360 + randomY}, data: { label: `Inicio ${id}` } }]);
     }, [genId, setNodes]);
 
     const addFin = useCallback(() => {
@@ -408,7 +412,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             };
 
             const andLabels = {
-                "s-t": {formVar},
+                "s-t": { formVar },
                 "s-r": "Si",
                 "s-b": "No",
                 "s-l": "No",
@@ -477,7 +481,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         alert(`El flujo del ${data.id} ha sido guardado correctamente`);
     };
 
-//Cargar flujo
+    //Cargar flujo
 
     const loadNodeFlow = (nodeId) => {
         const saved = JSON.parse(localStorage.getItem(`Proceso_${arbol}`));
@@ -489,7 +493,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         setOpenVariables(false);
     };
 
-//Descargar flujo
+    //Descargar flujo
 
     const DownloadFile = () => {
         const data = {
@@ -514,7 +518,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     }
 
-/* llenar nodos con info del formulario */
+    /* llenar nodos con info del formulario */
 
     const handleEditProceso = () => {
         setNodes((prev) =>
@@ -600,6 +604,44 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     //const { resolvedTheme } = useTheme();
     //const [mounted, setMounted] = useState(false);
+    const duplicateNode = useCallback((nodeId) => {
+    const original = nodes.find((n) => n.id === nodeId);
+    if (!original) return;
+
+    const newId = crypto.randomUUID();
+
+    // posición inteligente
+    const offsetX = 220;
+    const randomY = Math.random() * 80 - 40;
+
+    const newNode = {
+        ...original,
+        id: newId,
+        position: {
+            x: original.position.x + offsetX,
+            y: original.position.y + randomY
+        },
+        data: {
+            ...original.data,
+            label: original.data.label + " copia"
+        },
+        selected: false
+    };
+
+    setNodes((nds) => [...nds, newNode]);
+
+    // seleccionar automáticamente
+    setSelectedNode(newNode);
+
+}, [nodes, setNodes]);
+
+const handleDuplicate = useCallback(() => {
+    if (!contextMenu) return;
+
+    duplicateNode(contextMenu.nodeId);
+
+    setContextMenu(null);
+}, [contextMenu, duplicateNode]);
 
 
     //#d7e5fc -lines
@@ -619,7 +661,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 addAnd={addAnd}
             />
 
-            <ReactFlow 
+            <ReactFlow
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
@@ -640,7 +682,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 fitView>
 
                 <MiniMap className="dark:hidden" />
-                <Controls className="dark:hidden" color="#162456"  />
+                <Controls className="dark:hidden" color="#162456" />
                 <Background gap={35} variant="grid" color={isDark ? "#182130" : "#d7e5fc"} size={7} />
 
                 {/* Panel JSON con Details*/}
@@ -677,6 +719,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     openBaseModal={openBaseModal}
                     setOpenBaseModal={setOpenBaseModal}
                     deleteNode={deleteNode}
+                    handleDuplicate={handleDuplicate}
                 />
             )}
             {/*Fin menu contextual */}

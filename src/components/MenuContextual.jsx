@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaArrowRight, FaEdit, FaEye, FaInbox, FaOpencart, FaOpenid, FaPen, FaReact, FaRegEdit, FaRegFrownOpen, FaTrash, FaUserEdit } from "react-icons/fa";
+import { FaArrowRight, FaCopy, FaEdit, FaEye, FaInbox, FaOpencart, FaOpenid, FaPen, FaReact, FaRegEdit, FaRegFrownOpen, FaTrash, FaUserEdit } from "react-icons/fa";
 
 export function ContextMenu({
   contextMenu,
@@ -17,7 +17,8 @@ export function ContextMenu({
   loadNodeFlow,
   openBaseModal,
   deleteNode,
-  setOpenBaseModal
+  setOpenBaseModal,
+  handleDuplicate
 }) {
     
 
@@ -38,6 +39,14 @@ export function ContextMenu({
       </div>
 
       {/* Editar parámetros */}
+      <div
+        className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-slate-200 cursor-pointer mb-1 border-b-gray-800 dark:border-b-zinc-200 flex gap-2"
+        onClick={handleDuplicate}
+      >
+        <FaPen/> duplicar
+      </div>
+
+            {/* Editar parámetros */}
       <div
         className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-slate-200 cursor-pointer mb-1 border-b-gray-800 dark:border-b-zinc-200 flex gap-2"
         onMouseDown={(e) => {
@@ -67,7 +76,7 @@ export function ContextMenu({
           setContextMenu(null);
         }}
       >
-        <FaPen/> Editar parámetros
+        <FaCopy/> Duplicar
       </div>
 
       {/* Opciones específicas si es un Proceso */}

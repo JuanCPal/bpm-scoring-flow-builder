@@ -29,7 +29,7 @@ export default function SidebarNodeMenu({
         delay={[150, 0]}
       >
         <button
-          className="absolute text-[15px] left-3 top-16 z-60 px-2 py-[7px] rounded-md text-blue-100 dark:text-gray-800 bg-gray-800 dark:bg-slate-500 cursor-pointer font-sans font-semibold transition-all"
+          className="absolute text-[15px] left-3 top-16 z-60 px-2 py-[7px] rounded-md text-blue-100 dark:text-gray-800 bg-gray-800 dark:bg-blue-400 cursor-pointer font-sans font-semibold transition-all"
           onClick={() => setSidebarOpen((s) => !s)}
         >
           {sidebarOpen ? <FaMinus /> : <FaPlus />}
