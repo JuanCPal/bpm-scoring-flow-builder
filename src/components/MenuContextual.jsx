@@ -43,7 +43,7 @@ export function ContextMenu({
         className="px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-slate-500 text-gray-900 dark:text-slate-200 cursor-pointer mb-1 border-b-gray-800 dark:border-b-zinc-200 flex gap-2"
         onClick={handleDuplicate}
       >
-        <FaPen/> duplicar
+        <FaCopy className="text-[17px] text-zinc-500" size={18}/> duplicar
       </div>
 
             {/* Editar parámetros */}
@@ -76,7 +76,7 @@ export function ContextMenu({
           setContextMenu(null);
         }}
       >
-        <FaCopy/> Duplicar
+        <FaPen/> Parametrizar 
       </div>
 
       {/* Opciones específicas si es un Proceso */}

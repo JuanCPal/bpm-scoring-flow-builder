@@ -676,7 +676,7 @@ const handleDuplicate = useCallback(() => {
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
                 snapToGrid={true}
-                snapGrid={[5, 5]}
+                snapGrid={[15, 15]}
                 minZoom={0.01}
                 deleteKeyCode={null}
                 fitView>
