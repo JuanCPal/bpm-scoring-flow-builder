@@ -8,7 +8,8 @@ import ReactFlow, {
     MiniMap,
     useNodesState,
     useEdgesState,
-    MarkerType
+    MarkerType,
+    Position
 
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -33,7 +34,7 @@ import { BaseModal } from "./BaseModal";
 import { title } from "process";
 import { ProcesoSimpleNode } from "./ProcesoSimpleNode";
 import StatusBar from "./StatusBar";
-
+import { v4 as uuidv4 } from 'uuid';
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -293,58 +294,83 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     /* ----------------------------
        Creación de nodos (sidebar y contextual)
        ---------------------------- */
-    const offsetX = 220
-    const randomY = Math.random() * 80 - 40
+
+
+    let nextNodePosition = { x: 100, y: 100 }; // posición inicial de nodos
+
+    const getNextPosition = (width = 320, height = 220) => {
+        const pos = { ...nextNodePosition };
+        nextNodePosition.x += width + 40; // espacio horizontal entre nodos
+        if (nextNodePosition.x > 1200) { // límite canvas, baja una fila
+            nextNodePosition.x = 100;
+            nextNodePosition.y += height + 40; // espacio vertical entre nodos
+        }
+        return pos;
+    };
+
 
 
     const addProceso = useCallback(() => {
-        const id = genId("pp");
+        const id = `pp-${uuidv4()}`;
+        const position = getNextPosition(320, 220);
+
         setNodes((nds) => [
             ...nds,
             {
                 id,
-                type: "Proceso",
-                position: { x: 160 + Math.random() * 520, y: 80 + Math.random() * 60 },
-                data: { label: `Proceso ${id}`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '', SiguientePaso: '', ProcesoNegado: '', CTLTiempos: '', CodigoGrupoProceso: '', ProductoNegado: '', EstadoAprobacion: '', IndicadorNuevaSolicitud: '' }, width: 320, height: 220 },
+                type: 'Proceso',
+                position,
+                data: {
+                    label: `Proceso ${id}`,
+                    children: [],
+                    nombre: '',
+                    parametros: { orden: '', proceso: '', descripcion: '', SiguienteProeso: '', ProcesoNegado: '', CTLTiempos: '', CodigoGrupoProceso: '', ProductoNegado: '', EstadoAprobacion: '', IndicadorNuevaSolicitud: '' },
+                    width: 320,
+                    height: 220,
+                },
             },
         ]);
-    }, [genId, setNodes]);
+    }, [setNodes]);
 
     const addProceson = useCallback(() => {
-        const id = genId("P");
-        setNodes((nds) => [...nds, { id, type: "Proceson", position: {x: 240 + offsetX,
-  y: 360 + randomY}, data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+        const id = `p-${uuidv4()}`;
+        const position = getNextPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
     }, [genId, setNodes]);
 
     const addStart = useCallback(() => {
-        const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: {x: 240 + offsetX,
-  y: 360 + randomY}, data: { label: `Inicio ${id}` } }]);
-    }, [genId, setNodes]);
+        const id = `S-${uuidv4()}`;
+        const position = getNextPosition(180, 100);
+
+        setNodes((nds) => [
+            ...nds,
+            { id, type: 'Start', position, data: { label: 'Inicio' } },
+        ]);
+    }, [setNodes]);
 
     const addFin = useCallback(() => {
-        const id = genId("F");
-        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 200, y: 350 }, data: { label: `Fin ${id}` } }]);
+        const id = `f-${uuidv4()}`;
+        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin` } }]);
     }, [genId, setNodes]);
 
     const addOr = useCallback(() => {
-        const id = genId("O");
-        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 340, y: 260 }, data: { label: `OR ${id}` } }]);
+        const id = `o-${uuidv4()}`;
+        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR` } }]);
     }, [genId, setNodes]);
 
     const addXor = useCallback(() => {
-        const id = genId("X");
+        const id = `x-${uuidv4()}`;
         setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR ${id}` } }]);
     }, [genId, setNodes]);
 
     const addAnd = useCallback(() => {
-        const id = genId("A");
+        const id = `a-${uuidv4()}`;
         setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND ${id}` } }]);
     }, [genId, setNodes]);
 
     const addVariableInside = useCallback(
         (procesoId) => {
-            const id = genId("V");
+            const id = `v-${uuidv4()}`;
             const parent = nodes.find((n) => n.id === procesoId);
             if (!parent) return;
             setNodes((nds) => [
@@ -448,14 +474,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [nodes]
     );
 
-    /* ----------------------
+    /* --------------------------  Un remolachon
         Guardar flujo
     -----------------------------*/
 
     const getName = () => (nameCounter.current++).toString();
 
     const saveToLocalStorage = () => {
-        const name = getName(); // si no usas esto, puedes quitarlo
+        const name = getName();
         const data = {
             id: `Linea_${arbol}`,
             nodes,
@@ -463,7 +489,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             savedAt: new Date().toISOString(),
         };
 
-        // Guardar en localStorage (opcional)
+        // Guardar en localStorage 
         localStorage.setItem(data.id, JSON.stringify(data));
 
         alert(`Árbol ${data.id} guardado`);
@@ -604,45 +630,92 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     //const { resolvedTheme } = useTheme();
     //const [mounted, setMounted] = useState(false);
+
+    /*------------------------------------------------------------------------- 
+    ------------------- OPCIONES MENU CONTEXTUAL ----------------------- 
+    --------------------------------------------------------------------------*/
+
+    //------------------DUPLICAR ----------------------------------------------
+
     const duplicateNode = useCallback((nodeId) => {
-    const original = nodes.find((n) => n.id === nodeId);
-    if (!original) return;
+        const original = nodes.find((n) => n.id === nodeId);
+        if (!original) return;
 
-    const newId = crypto.randomUUID();
+        const newId = crypto.randomUUID();
 
-    // posición inteligente
-    const offsetX = 220;
-    const randomY = Math.random() * 80 - 40;
+        // posición inteligente
+        const offsetX = 220;
+        const randomY = Math.random() * 80 - 40;
 
-    const newNode = {
-        ...original,
-        id: newId,
-        position: {
-            x: original.position.x + offsetX,
-            y: original.position.y + randomY
-        },
-        data: {
-            ...original.data,
-            label: original.data.label + " copia"
-        },
-        selected: false
+        const newNode = {
+            ...original,
+            id: newId,
+            position: {
+                x: original.position.x + offsetX,
+                y: original.position.y + randomY
+            },
+            data: {
+                ...original.data,
+                label: original.data.label
+            },
+            selected: false
+        };
+
+        setNodes((nds) => [...nds, newNode]);
+
+        // seleccionar automáticamente
+        setSelectedNode(newNode);
+
+    }, [nodes, setNodes]);
+
+    const handleDuplicate = useCallback(() => {
+        if (!contextMenu) return;
+
+        duplicateNode(contextMenu.nodeId);
+
+        setContextMenu(null);
+    }, [contextMenu, duplicateNode]);
+
+
+
+    //---------------------- AÑADIR NODOS ------------------------------------
+
+
+    const addNodeConnected = (sourceNodeId, type) => {
+        const newId = `${type}-${uuidv4()}`;
+
+        const sourceNode = nodes.find(n => n.id === sourceNodeId);
+        if (!sourceNode) return;
+
+        // posición relativa al nodo origen
+        const newPosition = {
+            x: sourceNode.position.x + (sourceNode.data?.width || 180) + 40,
+            y: sourceNode.position.y,
+        };
+
+        const newNode = {
+            id: newId,
+            type,
+            position: newPosition,
+            data: { label: `${type}` },
+        };
+
+        const newEdge = {
+            id: `e-${sourceNodeId}-${newId}`,
+            source: sourceNodeId,
+            sourceHandle: 'cs1',
+            target: newId,
+            targetHandle: 'ct2',
+            type: 'default',
+            animated: true,
+            style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
+            markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
+        };
+
+        setNodes(nds => [...nds, newNode]);
+        setEdges(eds => [...eds, newEdge]);
+        setContextMenu(null); // cierra el menú después de agregar
     };
-
-    setNodes((nds) => [...nds, newNode]);
-
-    // seleccionar automáticamente
-    setSelectedNode(newNode);
-
-}, [nodes, setNodes]);
-
-const handleDuplicate = useCallback(() => {
-    if (!contextMenu) return;
-
-    duplicateNode(contextMenu.nodeId);
-
-    setContextMenu(null);
-}, [contextMenu, duplicateNode]);
-
 
     //#d7e5fc -lines
     //#020f24 -bg
@@ -676,13 +749,13 @@ const handleDuplicate = useCallback(() => {
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
                 snapToGrid={true}
-                snapGrid={[15, 15]}
+                snapGrid={[5, 5]}
                 minZoom={0.01}
                 deleteKeyCode={null}
                 fitView>
 
                 <MiniMap className="dark:hidden" />
-                <Controls className="dark:hidden" color="#162456" />
+                <Controls className="dark:hidden" color="#162456" vocab="" />
                 <Background gap={35} variant="grid" color={isDark ? "#182130" : "#d7e5fc"} size={7} />
 
                 {/* Panel JSON con Details*/}
@@ -720,6 +793,8 @@ const handleDuplicate = useCallback(() => {
                     setOpenBaseModal={setOpenBaseModal}
                     deleteNode={deleteNode}
                     handleDuplicate={handleDuplicate}
+                    addNodeConnected={addNodeConnected}
+
                 />
             )}
             {/*Fin menu contextual */}
