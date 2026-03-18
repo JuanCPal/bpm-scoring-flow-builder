@@ -102,15 +102,15 @@ export default function ToolBar({
             <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[30px] cursor-pointer bg-transparent hover:bg-blue-200 dark:hover:bg-slate-300 text-blue-800 dark:text-blue-200 border-1 border-blue-800 dark:border-blue-200 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
 
             {OpenMasOpciones && (
-              <div className="block bg-white dark:bg-blue-950 w-[130px] border-1 border-gray-400 text-gray-500 rounded-b-md absolute  top-10 right-11 pt-1">
-                <div className="pl-9 py-1 w-full hover:bg-gray-100 hover:text-blue-800 cursor-pointer border-b-1 border-gray-200">
+              <div className="block bg-white dark:bg-slate-800 w-[115px] border-1 dark:border-zinc-300 border-gray-400 text-gray-500 dark:text-slate-200 rounded-b-md absolute top-[42px] right-6 pt-1">
+                <div className="pl-6 py-0.5 w-full hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-slate-200 cursor-pointer border-b-1 border-gray-200 dark:border-slate-400">
                   <label htmlFor="import-file" >
                     Importar
-                    <input id="import-file" type="file" accept="application/json" onChange={handleImportFlow} className="hidden" />
+                    <input id="import-file" type="file" accept="application/json" onChange={handleImportFlow}className="hidden" />
                   </label>
                 </div>
 
-                <button onClick={DownloadFile} className="py-1 -pl-5 cursor-pointer w-full hover:text-blue-800 hover:bg-gray-100 rounded">Descargar</button>
+                <button onClick={DownloadFile} className="py-1 -pl-5 cursor-pointer w-full hover:text-blue-800 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">Descargar</button>
               </div>
             )}
 

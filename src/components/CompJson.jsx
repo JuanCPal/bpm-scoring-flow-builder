@@ -46,10 +46,10 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("info");
             setIsOpen(true);
           }}
-          className={`px-1.5 py-0.5 ml-[34px] cursor-pointer border-blue-400 border-1 rounded-l-md w-38 ${activeTab === "info" ? "bg-blue-400 text-slate-900 " : "bg-transparent text-blue-400"
+          className={`px-1.5 py-0.5 ml-[34px] cursor-pointer border-blue-400 border-1 rounded-l-md w-38 ${activeTab === "info" ? "bg-blue-400 text-slate-900" : "bg-transparent text-blue-400"
             }`}
         >
-          Data
+          JSON
         </button>
         <button
           onClick={() => {
@@ -59,18 +59,18 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
           className={`px-1.5 py-0.5 mb-3 w-38 cursor-pointer border-blue-400 border-1 rounded-r-md ${activeTab === "details" ? "bg-blue-400 text-slate-900" : "bg-transparent text-blue-400"
             }`}
         >
-          Details
+          Propiedades
         </button>
        
 
         {activeTab === "info" && (
           <>
-            <h2 className="text-lg font-bold mb-2 ml-4">Edges JSON</h2>
-            <pre className="text-sm bg-blue-50 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
+            <h2 className="text-lg font-bold mb-2 ml-4 ">Edges JSON</h2>
+            <pre className="text-sm dark:selection:bg-slate-600/60 selection:bg-blue-300/60 dark:selection:text-blue-300 selection:text-slate-600 bg-blue-50 dark:bg-slate-800/60 dark:text-blue-200 text-slate-700 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll scrollbar scrollbar-thumb-blue-500 scrollbar-track-gray-800">
               {JSON.stringify(edges, null, 2)}
             </pre>
             <h2 className="text-lg mt-3 font-bold mb-2 ml-4">Nodes JSON</h2>
-            <pre className="text-sm bg-blue-50 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
+            <pre className="text-sm dark:selection:bg-slate-600/60 selection:bg-blue-300/60 dark:selection:text-blue-300 selection:text-slate-600 bg-blue-50 dark:bg-slate-800 dark:text-blue-200 text-slate-700 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
               {JSON.stringify(nodes, null, 2)}
             </pre>
           </>
