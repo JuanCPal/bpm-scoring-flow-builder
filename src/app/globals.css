@@ -32,3 +32,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.handle {
+  @apply w-2 h-2 rounded-md;
+  transition: all 0.15s ease;
+}
+
+.handle:hover {
+  @apply scale-125 bg-blue-400;
+}

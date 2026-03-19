@@ -42,16 +42,15 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
         className={`bg-white dark:bg-slate-900 pb-5 shadow-2xl px-6 relative 
           w-[100%] h-[100%] max-h-[100vh] max-w-full`}
       >
-        {/* Header */}
+        {/* Header */} 
         <div
-          className={`fixed border-b-1 -ml-6 bg-blue-50/50 dark:bg-slate-800 backdrop-blur-lg 
+          className={`fixed border-b-1 -ml-6 bg-white dark:bg-slate-800 backdrop-blur-lg 
              rounded-t-lg border-gray-300 dark:border-zinc-500 pt-4 pb-2 px-3 w-[100%]`}
         >
           <div className="flex items-center">
             <p
               className="ml-2 mr-3 -mt-1.5 text-gray-500 dark:text-slate-300 hover:text-gray-800 dark:hover:text-slate-200 cursor-pointer border-r-1 border-gray-300 dark:border-zinc-400 py-2.5 pr-3"
               onClick={() => setOpenBaseModal(false)}
-
             >
               <FaArrowLeft />
             </p>
@@ -61,13 +60,10 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
               <span className="mx-2 text-[24px] text-gray-400 dark:textslate-500 -mt-1.5">/</span>
               <span className="text-[18px] text-blue-900 dark:text-slate-200 font-bold">{labelNode}</span>
             </nav>
-
           </div>
-
         </div>
 
         <div className="mt-13">
-
 
           {/* Aquí irá tu contenido en el futuro|  */}
 
@@ -76,7 +72,6 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
             savedEdgesVar={projectVar.edges}
             savedNodesVar={projectVar.nodes}
           />
-
         </div>
       </div>
     </div>

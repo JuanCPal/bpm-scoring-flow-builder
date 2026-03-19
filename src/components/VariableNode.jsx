@@ -1,43 +1,65 @@
-import { FaHashtag, FaPuzzlePiece } from "react-icons/fa";
+import { FaPuzzlePiece } from "react-icons/fa";
+import { HiPuzzle } from "react-icons/hi";
 import { Handle, Position } from "reactflow";
 import "reactflow/dist/style.css";
 
 export function VariableNode({ data, selected }) {
   return (
     <div
-      className={`
-        relative flex flex-col items-center justify-center text-center
-        rounded-md box-border
-        px-2 py-1
-        w-[${data?.width ?? 120}px] h-[${data?.height ?? 100}px]
-        bg-blue-500/20 backdrop-blur-xl
-        border-2
-        ${selected ? "border-blue-500 shadow-[0_0_0_1px_rgba(37,99,235,0.4)]" : "border-blue-300"}
-      `}
+      style={{
+        width: data?.width ?? 90,
+        height: data?.height ?? 45,
+        background: "rgba(59, 130, 246, 0.4)", // azul claro translúcido
+        border: `2px solid ${selected ? "#3B82F6" : "#93C5FD"}`, // azul fuerte si seleccionado, azul claro si no
+        borderRadius: 12,
+        transition: "all 0.3s ease",
+        boxShadow: selected ? "0 0 0 6px #3B82F655" : "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        boxSizing: "border-box",
+        textAlign: "center",
+        padding: 4,
+      }}
+      className="font-sans font-medium text-blue-700 dark:text-blue-300"
     >
-      {/* Nombre de la variable */}
-      <div className="text-[13px] text-blue-900 mt-0.5 truncate max-w-[90%] flex items-center">
-        <FaPuzzlePiece size={22} className="text-blue-700 mr-1 -mt-0.5" />
-        <h1>{data?.parametros?.variable || data?.label}</h1>
+      {/* Icono azul claro */}
+      <HiPuzzle
+        size={16}
+        color={selected ? "" : "#2477ff"} // azul fuerte vs azul más claro 
+        className="mr-1"
+      />
+
+      {/* Texto */}
+      <div
+        style={{
+          fontSize: 11,
+          marginTop: 4,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          maxWidth: "90%",
+        }}
+        title={data?.parametros?.variable || data?.label}
+      >
+        {data?.parametros?.variable || data?.label}
       </div>
 
-      {/* Handles (4 targets + 4 sources) */}
-      <Handle id="vt1" type="target" position={Position.Top} style={handleStyle} />
-      <Handle id="vt2" type="target" position={Position.Left} style={handleStyle} />
-      <Handle id="vt3" type="target" position={Position.Right} style={handleStyle} />
-      <Handle id="vt4" type="target" position={Position.Bottom} style={handleStyle} />
-      <Handle id="vs1" type="source" position={Position.Right} style={handleStyle} />
-      <Handle id="vs2" type="source" position={Position.Bottom} style={handleStyle} />
-      <Handle id="vs3" type="source" position={Position.Top} style={handleStyle} />
-      <Handle id="vs4" type="source" position={Position.Left} style={handleStyle} />
+      {/* Handles */}
+      <Handle id="vt1" type="target" position={Position.Top} style={handleStyle}/>
+      <Handle id="vs1" type="source" position={Position.Bottom} style={handleStyle}/>
+      <Handle id="vl1" type="target" position={Position.Left} style={handleStyle}/>
+      <Handle id="vr1" type="source" position={Position.Right} style={handleStyle}/>
     </div>
   );
 }
 
+// Handles azul claro
 const handleStyle = {
-  background: "#1e3a8a", // Azul fuerte (Tailwind blue-600)
-  border: "1px solid #1e3a8a",
   width: 6,
   height: 6,
+  background: "#60A5FA", // azul claro
+  border: "1px solid #60A5FA",
   borderRadius: "50%",
 };

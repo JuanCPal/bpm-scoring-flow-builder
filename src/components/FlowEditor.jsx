@@ -335,7 +335,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const addProceson = useCallback(() => {
         const id = `p-${uuidv4()}`;
         const position = getNextPosition(180, 100);
-        setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+        setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
     }, [genId, setNodes]);
 
     const addStart = useCallback(() => {
@@ -381,7 +381,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     parentNode: procesoId,
                     extent: "parent",
                     position: { x: 24, y: 40 + Math.random() * 80 }, // relativo
-                    data: { label: `Proceso ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
+                    data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
                 },
             ]);
             setContextMenu(null);
@@ -453,8 +453,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             const sourceHandle = connection.sourceHandle;
 
-            let labelFromHandle;
-
+            let labelFromHandle
             if (isXor) {
                 labelFromHandle = xorLabels[sourceHandle];
             } else if (isOr) {
