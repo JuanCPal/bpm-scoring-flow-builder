@@ -9,12 +9,12 @@ export default function OneOc() {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div className="min-h-screen  bg-gray-200 overflow-y-hidden">
-            <div className="bg-gray-200 w-full h-[45px] flex">
+        <div className="min-h-screen  bg-blue-200 dark:bg-slate-700 overflow-y-hidden">
+            <div className="bg-blue-200 dark:bg-slate-700 w-full h-[45px] flex">
                { /* <Image
                     src={logogyg1}
                     alt="Logo"
-
+    
                     priority
                     className="ml-12 my-0.5 w-15 h-12"
                 />*/}
@@ -26,18 +26,18 @@ export default function OneOc() {
             </div>
 
             <div className="flex">
-                <div className={`bg-gray-200  h-[92vh] transition-all ${isOpen ? "w-[46px]" : "w-[200px]"}`}>
+                <div className={`bg-blue-200 dark:bg-slate-700 h-[92vh] transition-all ${isOpen ? "w-[46px]" : "w-[200px]"}`}>
                     <nav className="block ml-[15px] mt-[50px]">
-                        <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start bg-gray-300 w-[170px] py-0.5 border-none rounded-md transition-all">
-                            <div className="text-[14px] ml-2 mt-1 text-gray-900 font-bold mr-2">
-                                <LuHouse />
+                        <button className="text-gray-700 dark:text-zinc-50 text-[14px] mb-2 flex justify-items-start bg-zinc-100 dark:bg-slate-600 w-[170px] py-0.5 border-none rounded-md transition-all">
+                            <div className="text-[14px] ml-2 mt-1 text-gray-900 dark:text-zinc-100 font-bold mr-2">
+                                <LuHouse /> 
                             </div>
                             <div className="pt-1">
                                 <h2>Principal</h2>
                             </div>
                         </button>
-                        <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-gray-300 w-[170px] py-0.5 border-none rounded-md transition-all" onClick={() => setHidden(!Hidden)}>
-                            <div className="text-[14px] ml-2 mt-1.5 text-gray-900 font-bold mr-2">
+                        <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-zinc-100 w-[170px] py-0.5 border-none rounded-md transition-all" onClick={() => setHidden(!Hidden)}>
+                            <div className="text-[14px] ml-2 mt-1.5 text-zinc-900 font-sans font-bold mr-2">
                                 <LuGroup />
                             </div>
                             <div className="pt-1 flex text-[14px]">
@@ -47,7 +47,7 @@ export default function OneOc() {
                         {/*COMPONENTE OCULTO */}
                         {Hidden && (
                             <>
-                                <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-gray-300 w-[170px] py-0.5 border-none rounded-md transition-all">
+                                <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-zinc-100 w-[170px] py-0.5 border-none rounded-md transition-all">
 
                                     <div className="pt-1 ml-2 font-light">
                                         <h2>SubItem 1</h2>
@@ -68,7 +68,7 @@ export default function OneOc() {
                             </>
                         )}
 
-                        <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-gray-300 w-[170px] py-0.5 border-none rounded-md transition-all">
+                        <button className="text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-zinc-100 w-[170px] py-0.5 border-none rounded-md transition-all">
                             <div className="text-[14px] mt-1.5 ml-2 text-gray-900 font-bold mr-2">
                                 <LuLayoutTemplate />
                             </div>
@@ -92,7 +92,7 @@ export default function OneOc() {
                                 <h2>Información</h2>
                             </div>
                         </button>
-                        <button className={`text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-gray-300  py-0.5 border-none rounded-md transition-all absolute bottom-6 ${isOpen ? "w-[30px]" : "w-[170px]"}`} onClick={() => setIsOpen(!isOpen)}>
+                        <button className={`text-gray-700 text-[14px] mb-2 flex justify-items-start hover:bg-zinc-100  py-0.5 border-none rounded-md transition-all absolute bottom-6 ${isOpen ? "w-[30px]" : "w-[170px]"}`} onClick={() => setIsOpen(!isOpen)}>
                             <div className="text-[14px] mt-1.5 ml-2 text-gray-900 font-bold mr-2">
                                 {isOpen ? <LuArrowRight /> : <LuArrowLeft />}
                             </div>
@@ -103,12 +103,12 @@ export default function OneOc() {
                     </nav>
 
                 </div>
-                <div className={`bg-white h-[92vh] border-gray-300 rounded-tl-xl transition-all text-white overflow-y-scroll 
+                <div className={`bg-white dark:bg-slate-900 h-[92vh] border-gray-300 dark:border-zinc-600 rounded-tl-xl transition-all text-white overflow-y-scroll 
                 ${isOpen ? "w-[95vw]" : "w-[85vw]"} `} >
-                    <div className="w-full h-[35px] rounded-tl-xl border-b-gray-300 border-b-1 py-2 px-5 bg-white/70 backdrop-blur-md fixed"><p className="text-gray-500 font-extralight text-[15px]"> <span className="hover:underline transition-all cursor-pointer">Home</span> / <span className="hover:underline transition-all cursor-pointer">usuario01</span></p> <FaEllipsisH className="absolute right-5 top-13 rounded-full p-1 text-[24px] hover:bg-gray-100 text-gray-800" /></div>
+                    <div className="w-full h-[35px] rounded-tl-xl border-b-gray-300 border-b-1 py-2 px-5 bg-white/70 backdrop-blur-md dark:bg-slate-900/70 dark:backdrop-blur-md fixed"><p className="text-gray-500 dark:text-zinc-300 font-extralight text-[15px]"> <span className="hover:underline transition-all cursor-pointer">Home</span> / <span className="hover:underline transition-all cursor-pointer">usuario01</span></p> <FaEllipsisH className="absolute right-5 top-13 rounded-full p-1 text-[24px] hover:bg-gray-100 text-gray-800" /></div>
                     <div className="mt-15 mx-9 leading-[62px] h-[180px] border-b-1 border-b-gray-400 text-[60px] text-gray-700 font-bold">TITULO O ENCABEZADO DE LA SECCION EN MAYUSCULA</div>
 
-                    <div className="flex mx-9 px-1 mt-12 text-gray-700 justify-between"><div className="flex mt-3 cursor-pointer hover:text-gray-500" title="Ordenar por"><LuListOrdered className="mr-1 mt-0.5" /><h6>reciente</h6></div>
+                    <div className="flex mx-9 px-1 mt-12 text-gray-700  justify-between"><div className="flex mt-3 cursor-pointer hover:text-gray-500" title="Ordenar por"><LuListOrdered className="mr-1 mt-0.5" /><h6>reciente</h6></div>
                         <div className="flex"><LuSearch className="translate-x-6 mt-2"/><input className="w-[35vw] border border-gray-600 rounded-xl h-auto py-1 pl-8 pr-3 text-[16px] text-gray-500 bg-gray-100 focus:outline-none focus:ring-1 transition-all"
                             type="text"
                             placeholder="Busca una tarjeta ..."

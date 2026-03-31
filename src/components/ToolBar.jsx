@@ -49,7 +49,7 @@ export default function ToolBar({
 
   return (
     <>
-      <div className="absolute top-0 left-0 right-0 h-14 bg-white dark:bg-slate-800 dark:text-blue-50 border-zinc-500 border-b-1 flex items-center justify-between px-4 z-[99]">
+      <div className="absolute top-0 left-0 right-0 h-14 bg-white dark:bg-slate-800 dark:text-blue-50 border-slate-300 dark:border-zinc-500  border-b-1 flex items-center justify-between px-4 z-[99]">
         {/* Título */}
         <div className="flex items-center gap-2 cursor-text" title="Haz click para editar el titulo del flujo">
           <MdCircle

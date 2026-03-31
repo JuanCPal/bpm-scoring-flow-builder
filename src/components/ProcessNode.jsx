@@ -1,4 +1,5 @@
-import { FaCog } from "react-icons/fa";
+import { FaCog, FaLayerGroup, FaRegObjectGroup } from "react-icons/fa";
+import { HiUserGroup } from "react-icons/hi";
 import { Handle, Position } from "reactflow";
 import "reactflow/dist/style.css";
 
@@ -10,23 +11,24 @@ export function ProcessNode({ data, selected }) {
     style={{
         width: data?.width ?? 320,
         height: data?.height ?? 220,
+        boxShadow: selected ? "0 0 0 10px #74798255" : "none",
     }}
       className={`
-        rounded-lg 
-        p-2 
+        rounded-[35px] 
+        p-4 
         flex flex-col 
         box-border 
         border-2
         ${selected ? "border-gray-700 dark:border-gray-300" : "border-gray-300 dark:border-gray-600"}
-        ${isDroppable ? "bg-gray-100 dark:bg-gray-700" : "bg-gray-50 dark:bg-gray-800"}
+        ${isDroppable ? "bg-gray-100 dark:bg-gray-700" : "bg-gray-200 dark:bg-gray-700"}
         transition-all duration-300
       `}
     >
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
-        <FaCog
+        <FaLayerGroup
           size={20}
-          className={`text-gray-700 dark:text-gray-300 ${selected ? "text-gray-900 dark:text-gray-100" : ""}`}
+          className={`text-gray-700 dark:text-gray-300 ${selected ? "text-gray-900 dark:text-slate-100" : ""}`}
         />
         <strong className="truncate text-gray-800 dark:text-gray-200">
           {data?.parametros?.proceso || data?.label}

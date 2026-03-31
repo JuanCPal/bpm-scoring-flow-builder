@@ -77,8 +77,6 @@ const nodeTypes = {
     And: andNode,
 };
 
-
-
 /* ----------------------------
    Componente principal
    ---------------------------- */
@@ -214,14 +212,13 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
         },
         [findDroppableContainer, setNodes]
     );
-  
 
     const onNodeDragStop = useCallback(
         (event, node) => {
             if (!node) return;
 
-            // Obtenemos la info del estado previo (para limpiar children si corresponde)
-            const currentParentId = node.parentNode; // si venía dentro de un contenedor
+            // Obtenemos la info del estado previo (para limpiar children si corresponde) 
+            const currentParentId = node.parentNode; // si venía dentro de un contenedor 
             const targetContainer = findDroppableContainer(node);
 
             if (node.type === "Variable") {
@@ -280,7 +277,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
     //El silencio era un ruido ensordecedor para mi alma 
 
     /* ----------------------------
-       Creación de nodos (sidebar y contextual)
+       Creación de nodos (sidebar y contextual) 
        ---------------------------- */
 
     const addProceso = useCallback(() => {
@@ -291,40 +288,39 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
                 id,
                 type: "Proceso",
                 position: { x: 160 + Math.random() * 520, y: 80 + Math.random() * 60 },
-                data: { label: `Grupo de variables ${id}`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '' }, width: 320, height: 220 },
+                data: { label: `Grupo de variables`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '' }, width: 320, height: 220 },
             },
         ]);
     }, [genId, setNodes]);
 
-
     const addVariable = useCallback(() => {
         const id = genId("V");
-        setNodes((nds) => [...nds, { id, type: "Variable", position: { x: 220, y: 380 }, data: { label: `Variable ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+        setNodes((nds) => [...nds, { id, type: "Variable", position: { x: 220, y: 380 }, data: { label: `Variable`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
     }, [genId, setNodes]);
 
     const addStart = useCallback(() => {
         const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Start ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Inicio` } }]);
     }, [genId, setNodes]);
 
     const addFin = useCallback(() => {
         const id = genId("F");
-        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin` } }]);
     }, [genId, setNodes]);
 
     const addOr = useCallback(() => {
         const id = genId("O");
-        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR` } }]);
     }, [genId, setNodes]);
 
     const addXor = useCallback(() => {
         const id = genId("X");
-        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR` } }]);
     }, [genId, setNodes]);
 
     const addAnd = useCallback(() => {
         const id = genId("A");
-        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
     }, [genId, setNodes]);
 
     const addVariableInside = useCallback(
@@ -340,7 +336,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
                     parentNode: procesoId,
                     extent: "parent",
                     position: { x: 24, y: 40 + Math.random() * 80 }, // relativo
-                    data: { label: `Variable ${id}`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
+                    data: { label: `Variable`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
                 },
             ]);
             setContextMenu(null);
@@ -381,7 +377,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
             const isOr = sourceNode?.type === "Or";
             const isAnd = sourceNode?.type === "And";
 
-            //Reglas de los source
+            //Reglas de los source 
             const xorLabels = {
                 "s-t": "Si",
                 "s-r": "Si",
@@ -390,7 +386,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
             };
 
             const orLabels = {
-                "s-t": "Opción 1",
+                "s-t": "Var.",
                 "s-r": "Opción 2",
                 "s-b": "Opción 3",
                 "s-l": "Opción 4",
@@ -406,7 +402,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
             const edgeOptions = {
                 type: "default",
                 animated: true,
-                style: { stroke: "#5e5e5e", strokeWidth: 2, strokeDasharray: "5 5" },
+                style: { stroke: "#78859e", strokeWidth: 2, strokeDasharray: "5 5" },
                 markerEnd: { type: MarkerType.ArrowClosed, color: "#5e5e5e" },
             };
 

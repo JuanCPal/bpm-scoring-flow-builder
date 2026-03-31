@@ -748,7 +748,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 onNodeClick={onNodeClick}
                 onSelectionChange={onSelectionChange}
                 snapToGrid={true}
-                snapGrid={[5, 5]}
+                snapGrid={[6, 6]}
                 minZoom={0.01}
                 deleteKeyCode={null}
                 fitView>
