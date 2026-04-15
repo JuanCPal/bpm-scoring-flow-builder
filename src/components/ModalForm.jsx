@@ -34,7 +34,6 @@ export default function ModalForm({
         descripcionVar: selectedNode.data?.parametros?.descripcionVar || "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNode]);
 
   const nodeType = String(selectedNode?.type || "").toLowerCase();
@@ -91,9 +90,9 @@ export default function ModalForm({
                     type="text"
                     name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}
+                    value={formPro.nombre}                    
                     placeholder="Nombre del proceso"
-                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300  dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
+                    className="mt-1 block w-full rounded-md border bg-gray-100 dark:bg-slate-600 border-gray-300  dark:border-zinc-500 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-1"
                   />
                 </label>
 

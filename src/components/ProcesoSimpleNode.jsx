@@ -11,6 +11,7 @@ export function ProcesoSimpleNode({ data, selected }) {
         background: "rgba(37, 99, 235, 0.2)", // azul suave light
         border: `2px solid ${selected ? "#2563EB" : "#5d6875"}`,
         borderRadius: 15,
+        scale: `${selected ? 1.3 : 1.1 }`,
         transition: "all 0.4s ease",
         boxShadow: selected ? "0 0 0 10px #2563EB33" : "none",
         display: "flex",
@@ -22,7 +23,7 @@ export function ProcesoSimpleNode({ data, selected }) {
         textAlign: "center",
         padding: 8,
       }}
-      className="font-sans font-bold text-blue-800 dark:text-blue-200 border-zinc-500 dark:border-blue-400"
+      className="font-sans font-bold text-blue-800 dark:text-blue-200 border-zinc-500 dark:border-blue-400 "
     >
       {/* Ícono central */}
       <FaCog

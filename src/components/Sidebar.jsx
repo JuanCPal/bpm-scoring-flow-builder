@@ -17,7 +17,6 @@ export default function SidebarNodeMenu({
   const [mostrarGateway, setMostrarGateway] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-
   return (
     <>
       {/* Botón para abrir/cerrar sidebar */}

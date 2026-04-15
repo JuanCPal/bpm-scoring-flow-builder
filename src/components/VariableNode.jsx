@@ -9,8 +9,8 @@ export function VariableNode({ data, selected }) {
       style={{
         width: data?.width ?? 90,
         height: data?.height ?? 45,
-        background: "rgba(59, 130, 246, 0.4)", // azul claro translúcido
-        border: `2px solid ${selected ? "#3B82F6" : "#93C5FD"}`, // azul fuerte si seleccionado, azul claro si no
+        background: "rgba(59, 130, 246, 0.4)", 
+        border: `2px solid ${selected ? "#3B82F6" : "#93C5FD"}`,
         borderRadius: 12,
         transition: "all 0.3s ease",
         boxShadow: selected ? "0 0 0 6px #3B82F655" : "none",
@@ -27,7 +27,7 @@ export function VariableNode({ data, selected }) {
       {/* Icono azul claro */}
       <HiPuzzle
         size={16}
-        color={selected ? "" : "#2477ff"} // azul fuerte vs azul más claro 
+        color={selected ? "" : "#2477ff"}
         className="mr-1"
       />
 
@@ -59,7 +59,8 @@ export function VariableNode({ data, selected }) {
 const handleStyle = {
   width: 6,
   height: 6,
-  background: "#60A5FA", // azul claro
+  background: "#60A5FA",
   border: "1px solid #60A5FA",
   borderRadius: "50%",
 };
+

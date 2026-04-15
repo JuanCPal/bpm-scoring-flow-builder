@@ -203,9 +203,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [containers]
     );
 
-    /* ----------------------------
+    /* ----------------------------------------------------
        Handlers de drag (usar node que React Flow pasa)
-       ---------------------------- */
+       ------------------------------------------------ */
 
     const onNodeDragStart = useCallback((event, node) => {
         // node es el objeto más actual en tiempo de arrastre
@@ -291,10 +291,11 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [findDroppableContainer, resetDropHighlights]
     );
 
-    /* ----------------------------
+    /* -----------------------------------------
        Creación de nodos (sidebar y contextual)
-       ---------------------------- */
+       --------------------------------------- */
 
+//
 
     let nextNodePosition = { x: 100, y: 100 }; // posición inicial de nodos
 
@@ -307,8 +308,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         }
         return pos;
     };
-
-
 
     const addProceso = useCallback(() => {
         const id = `pp-${uuidv4()}`;
@@ -360,12 +359,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addXor = useCallback(() => {
         const id = `x-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR ${id}` } }]);
+        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR` } }]);
     }, [genId, setNodes]);
 
     const addAnd = useCallback(() => {
         const id = `a-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND ${id}` } }]);
+        setNodes((nds) => [...nds, { id, name, type: "And", position: { x: 240, y: 360 }, data: { label: `AND ${name}` } }]);
     }, [genId, setNodes]);
 
     const addVariableInside = useCallback(
@@ -424,7 +423,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             //Reglas de los source
             const xorLabels = {
-                "s-t": "67",
+                "s-t": "Si",
                 "s-r": "Si",
                 "s-b": "No",
                 "s-l": "No",
@@ -438,7 +437,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             };
 
             const andLabels = {
-                "s-t": { formVar },
+                "s-t": "Si",
                 "s-r": "Si",
                 "s-b": "No",
                 "s-l": "No",
@@ -467,7 +466,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 edgeOptions.labelBgStyle = { fill: "#fff", fillOpacity: 0.8 };
                 edgeOptions.labelStyle = { fill: "#000", fontWeight: 500, fontSize: 18 };
             }
-
             setEdges((eds) => addEdge({ ...connection, ...edgeOptions }, eds));
         },
         [nodes]
@@ -563,7 +561,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                                 ProductoNegado: formPro.ProductoNegado,
                                 EstadoAprobacion: formPro.EstadoAprobacion,
                                 IndicadorNuevaSolicitud: formPro.IndicadorNuevaSolicitud
-
                             }
                         }
                     }
@@ -634,8 +631,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     ------------------- OPCIONES MENU CONTEXTUAL ----------------------- 
     --------------------------------------------------------------------------*/
 
-    //------------------DUPLICAR ----------------------------------------------
-
+    //-------------------------DUPLICAR ----------------------------------------
     const duplicateNode = useCallback((nodeId) => {
         const original = nodes.find((n) => n.id === nodeId);
         if (!original) return;
@@ -675,10 +671,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         setContextMenu(null);
     }, [contextMenu, duplicateNode]);
 
-
-
-    //---------------------- AÑADIR NODOS ------------------------------------
-
+    //---------------------- AÑADIR NODOS --------------------------------------
 
     const addNodeConnected = (sourceNodeId, type) => {
         const newId = `${type}-${uuidv4()}`;

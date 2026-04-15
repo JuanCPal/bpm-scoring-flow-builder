@@ -1,8 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import FlowWrapper from "@/components/FlowWrapper"; // tu editor de nodos
-
+import FlowWrapper from "@/components/FlowWrapper";
 export default function ProjectPage() {
   const { id } = useParams();
   const [projectData, setProjectData] = useState(null);

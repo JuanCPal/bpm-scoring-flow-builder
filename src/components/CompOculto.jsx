@@ -6,17 +6,16 @@ import logogyg1 from "../../public/logo/logogyg1.png";
 
 export default function OneOc() {
     const [Hidden, setHidden] = useState(false);
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className="min-h-screen  bg-blue-200 dark:bg-slate-700 overflow-y-hidden">
             <div className="bg-blue-200 dark:bg-slate-700 w-full h-[45px] flex">
-               { /* <Image
+                {/*<Image
                     src={logogyg1}
                     alt="Logo"
-    
                     priority
-                    className="ml-12 my-0.5 w-15 h-12"
+                    className="ml-12 my-0.5 w-15 h-12"  
                 />*/}
                 <div className="absolute right-9 flex">
                     <button className="w-auto h-auto py-.0.5 px-2 flex mt-2 border-1 border-blue-500 rounded-md text-blue-600 mr-5 hover:bg-blue-200  transition-all cursor-pointer"> <LuPlus className="mr-1 mt-1" /> Nuevo canvas
@@ -113,7 +112,7 @@ export default function OneOc() {
                             type="text"
                             placeholder="Busca una tarjeta ..."
                         /></div>
-                        <div className="cursor pointer hover:text-gray-500 mt-3 flex" title="filtrar por"><LuFilter className="cursor-pointer mr-1" /><h6 className="cursor-pointer">filtrar</h6></div> </div>
+                        <div className="cursor pointer hover:text-gray-500 mt-3 flex" title="filtrar por"><LuFilter className="cursor-pointer mr-1" /><h6 className="cursor-pointer">Filtrar</h6></div> </div>
 
                     <div className="mx-9 mt-5 w-auto h-auto hover:shadow-gray-300 transition-all hover:shadow-2xl rounded-xl border-1 border-gray-300 pt-1 px-1 pb-1 bg-gray-200">
                         <div className="flex text-gray-800 px-5 py-2 cursor-pointer"><div className="mr-3"><FaProjectDiagram /></div><div><h3>Titulo de la tarjeta</h3></div></div>
@@ -129,7 +128,7 @@ export default function OneOc() {
                             <p className="text-gray-700 text-[15px] pb-1.5">Descripcion detallada de la linea de iniciacion para el cliente Banco Union, en donde se encuentran procesos y variables que juntos forman una linea de procesos o diagrama de flujo para un producto financiero especifico </p>
                             <p className="text-[12px] text-gray-600">Ultima actualizacion: 20 de Octubre de 2025 a las 4:45 p.m | En proceso
                             </p>
-                            <p className="text-[12px] text-gray-600">Autores(s): User1, User2, </p>
+                            <p className="text-[12px] text-gray-600">Autores(s): User1, User2 </p>
                         </div>
                     </div>
                     <div className="mx-9 mt-5 w-auto h-auto hover:shadow-gray-300 transition-all hover:shadow-2xs rounded-xl border-1 border-gray-400 pt-1 px-1 hover:pb-3 pb-1 bg-gray-200">

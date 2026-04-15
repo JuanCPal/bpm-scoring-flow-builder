@@ -23,7 +23,7 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
       console.error("Error al recuperar o parsear datos de localStorage:", error);
     }
   }, [idNodo]);
-  //
+
   console.log("selectedNode en baseModal:" + idNodo);
   console.log("ProyectVar", projectVar);
   console.log("ProyectVar edges", projectVar.edges);
@@ -32,9 +32,7 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
   if (!projectVar) {
     alert("error"+idNodo);
   }    
-*/
-
-//diaby, Nkunku, Nkietah, pepe sarr, ismahila sarr, okafor, onana, jay jay okocha, mihamed salah,  
+*/  
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-[999]">
@@ -49,10 +47,10 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
         >
           <div className="flex items-center">
             <p
-              className="ml-2 mr-3 -mt-1.5 text-gray-500 dark:text-slate-300 hover:text-gray-800 dark:hover:text-slate-200 cursor-pointer border-r-1 border-gray-300 dark:border-zinc-400 py-2.5 pr-3"
+              className="ml-2 mr-3 -mt-1.5 text-gray-500 dark:text-slate-300 hover:text-gray-800 dark:hover:text-slate-200 cursor-pointer py-2.5 pr-3"
               onClick={() => setOpenBaseModal(false)}
             >
-              <FaArrowLeft />
+              <FaArrowLeft /> 
             </p>
             {/* Breadcrumbs de ejemplo */}
             <nav className="flex z-[9999]">
@@ -65,7 +63,7 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
 
         <div className="mt-13">
 
-          {/* Aquí irá tu contenido en el futuro|  */}
+          {/* Gurrumino */}
 
           <FlowWrapperVar
             selectedNode={idNodo}

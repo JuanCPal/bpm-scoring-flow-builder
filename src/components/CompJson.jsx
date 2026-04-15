@@ -61,8 +61,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
         >
           Propiedades
         </button>
-       
-
+      
         {activeTab === "info" && (
           <>
             <h2 className="text-lg font-bold mb-2 ml-4 ">Edges JSON</h2>

@@ -24,10 +24,10 @@ export function FinNode({ data, selected }) {
       {selected && (
         <>
         <p className="font-sans font-bold text-red-800 dark:text-red-400  text-[12px] w-30 mt-4 ml-3.5">{data?.parametros?.variable || data?.label}</p>
-        </>
+        </> 
       )}
 
-      {/* Solo salida, porque el inicio no recibe conexiones */}
+      {/* Solo salida, porque el inicio no recibe conexiones  */}
       <Handle
         type="target"
         position={Position.Left}
@@ -39,7 +39,7 @@ export function FinNode({ data, selected }) {
 
 const handleStyle = {
   background: "#ef4444",
-  border: "1px solid #c40808", // rojo más oscuro
+  border: "1px solid #c40808",
   width: 8,
   height: 8,
 };
