@@ -36,7 +36,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
     </Tippy>
 
       <div
-        className={`bg-white dark:bg-slate-800 border-zinc-500 pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
+        className={`bg-white dark:bg-slate-800 border-zinc-400 shadow pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
         w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
       >

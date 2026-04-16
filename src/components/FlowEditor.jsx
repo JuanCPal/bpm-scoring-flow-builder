@@ -35,6 +35,7 @@ import { title } from "process";
 import { ProcesoSimpleNode } from "./ProcesoSimpleNode";
 import StatusBar from "./StatusBar";
 import { v4 as uuidv4 } from 'uuid';
+import toast from 'react-hot-toast';
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -295,7 +296,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
        Creación de nodos (sidebar y contextual)
        --------------------------------------- */
 
-//
+    //
 
     let nextNodePosition = { x: 100, y: 100 }; // posición inicial de nodos
 
@@ -489,8 +490,21 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         // Guardar en localStorage 
         localStorage.setItem(data.id, JSON.stringify(data));
 
-        alert(`Árbol ${data.id} guardado`);
-
+        toast.success(`Árbol ${data.id} guardado`,
+            {
+                duration: 4000,
+                style: {
+                    background: '#1f2937', // gris oscuro
+                    color: '#fff',
+                    borderRadius: '10px',
+                    padding: '12px 16px',
+                },
+                iconTheme: {
+                    primary: '#22c55e',
+                    secondary: '#fff',
+                },
+            }
+        );
     };
 
     const saveNodeFlowToLocalStorage = (contextMenu, nodes, edges) => {
