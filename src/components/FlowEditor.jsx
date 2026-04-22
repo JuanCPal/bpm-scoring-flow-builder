@@ -296,16 +296,15 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
        Creación de nodos (sidebar y contextual)
        --------------------------------------- */
 
-    //
 
     let nextNodePosition = { x: 100, y: 100 }; // posición inicial de nodos
 
     const getNextPosition = (width = 320, height = 220) => {
         const pos = { ...nextNodePosition };
-        nextNodePosition.x += width + 40; // espacio horizontal entre nodos
+        nextNodePosition.x += width + 30; // espacio horizontal entre nodos
         if (nextNodePosition.x > 1200) { // límite canvas, baja una fila
             nextNodePosition.x = 100;
-            nextNodePosition.y += height + 40; // espacio vertical entre nodos
+            nextNodePosition.y += height + 30; // espacio vertical entre nodos
         }
         return pos;
     };
@@ -365,7 +364,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const addAnd = useCallback(() => {
         const id = `a-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, name, type: "And", position: { x: 240, y: 360 }, data: { label: `AND ${name}` } }]);
+        setNodes((nds) => [...nds, { id, name, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
     }, [genId, setNodes]);
 
     const addVariableInside = useCallback(
@@ -408,7 +407,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const confirmRename = useCallback(() => {
         if (!renameModal) return;
-        setNodes((nds) => nds.map((n) => (n.id === renameModal.nodeId ? { ...n, data: { ...n.data, label: renameModal.value } } : n)));
+        setNodes((nds) => nds.map((n) => (n.id === renameModal.nodeId ? { ...n, data: { ...n.data, name: renameModal.value,  label: renameModal.value } } : n)));
         setRenameModal(null);
     }, [renameModal, setNodes]);
 
@@ -490,11 +489,11 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         // Guardar en localStorage 
         localStorage.setItem(data.id, JSON.stringify(data));
 
-        toast.success(`Árbol ${data.id} guardado`,
+        toast.success(`${data.id} guardado`,
             {
                 duration: 4000,
                 style: {
-                    background: '#1f2937', // gris oscuro
+                    background: '#1f2937',
                     color: '#fff',
                     borderRadius: '10px',
                     padding: '12px 16px',
@@ -597,6 +596,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     : node
             )
         );
+
         setFormVar('')
         setIsOpenEdit(false)
     };
@@ -633,7 +633,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     }, [setNodes, setEdges]);
 
     /* ----------------------------
-       Render
+       Render 
        ---------------------------- */
 
     //DARK MODE

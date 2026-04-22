@@ -61,6 +61,7 @@ export default function ModalForm({
             <button
               onClick={selectedNode?.type === "Variable" ? handleEditVariable : handleEditProceso}
               className="absolute right-15 -mt-1.5 px-3 py-1 text-[14px] bg-blue-900 dark:bg-blue-400 text-white dark:text-slate-950 rounded-lg hover:bg-slate-600 transition cursor-pointer"
+
             >
               Guardar
             </button>
@@ -205,7 +206,7 @@ export default function ModalForm({
                     type="text"
                     /*name="nombre"
                     onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
+                    value={formPro.nombre} otra cosa importantese es escribir aqui en el bloc de notas como si fuera obsidian y enviar cada una de estas notas a mi pc personal, eliminandola de aqui para tener esa info en mi laptop bien organizada incluyendo el grande */
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>

@@ -51,7 +51,7 @@ export default function DashboardPage() {
       />
 
       {/* NAVBAR */}
-      <nav className="fixed top-0 w-full bg-white dark:bg-slate-900 px-8 py-1 flex items-center justify-between">
+      <nav className="fixed top-0 w-full bg-white dark:bg-slate-900 px-8 py-1 z-50 flex items-center justify-between">
         <ul className="flex items-center space-x-6">
           <li className="text-gray-400 font-extralight tracking-[3px] hover:text-blue-600 cursor-pointer text-[14px]">
             SISTEMAS GYG
@@ -80,7 +80,7 @@ export default function DashboardPage() {
       </nav>
 
       {/* HERO */}
-      <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-200 to-white dark:from-blue-400 dark:to-slate-900 text-center">
+      <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-300 to-white dark:from-slate-500 dark:to-slate-900 text-center">
         <h1 className="text-[125px] font-bold text-blue-950 dark:text-blue-200 tracking-tight leading-24 mt-4 font-sans">
           Constructor <span className='text-blue-800 dark:text-blue-300 font-serif text-[115px] italic'>visual</span> <br /> de flujos de procesos
         </h1>
@@ -95,7 +95,7 @@ export default function DashboardPage() {
             value={busqueda}
             onChange={manejarCambio}
             placeholder="Buscar flujo o línea"
-            className="w-full py-3 pl-5 pr-12 text-base rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white dark:bg-slate-800 placeholder-gray-400 transition"
+            className="w-full py-3 pl-5 pr-12 text-base rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white dark:bg-slate-900 placeholder-gray-400 font-extralight transition"
           />
           <button
             className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-800 transition"
@@ -121,7 +121,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3 mb-15">
           {proyectosFiltrados.map(project => (
             <ProjectCard
               key={project.id}
