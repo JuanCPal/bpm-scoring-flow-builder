@@ -89,7 +89,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const [nodes, setNodes, onNodesChange] = useNodesState(savedNodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdges || []);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const [contextMenu, setContextMenu] = useState(null);
     const [renameModal, setRenameModal] = useState('');
     const [selectedNode, setSelectedNode] = useState(null);

@@ -80,7 +80,7 @@ export default function DashboardPage() {
       </nav>
 
       {/* HERO */}
-      <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-300 to-white dark:from-slate-500 dark:to-slate-900 text-center">
+      <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-200 to-white dark:from-slate-500 dark:to-slate-900 text-center">
         <h1 className="text-[125px] font-bold text-blue-950 dark:text-blue-200 tracking-tight leading-24 mt-4 font-sans">
           Constructor <span className='text-blue-800 dark:text-blue-300 font-serif text-[115px] italic'>visual</span> <br /> de flujos de procesos
         </h1>
