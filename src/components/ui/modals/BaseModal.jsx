@@ -1,7 +1,7 @@
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import ReactFlow, { Background } from "reactflow";
-import { FlowWrapper } from "./FlowWrapper";
-import { FlowWrapperVar } from "./FlowWrapperVar";
+import { FlowWrapper } from "@/components/shared/flow/FlowWrapper";
+import { FlowWrapperVar } from "@/components/shared/flow/FlowWrapperVar";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

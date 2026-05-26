@@ -13,24 +13,24 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { FaCog, FaPuzzlePiece, FaArrowRight, FaEdit, FaRandom, FaPlay, FaStop, FaTimes, FaCircle, FaPlusCircle, FaSearch, FaArrowLeft } from "react-icons/fa";
-import { ProcessNode } from "@/components/ProcessNode";
-import { VariableNode } from "@/components/VariableNode";
-import { DecisionNode } from "@/components/DecisionNode";
-import { StartNode } from "@/components/StartNode";
-import { FinNode } from "@/components/FinNode";
-import { orNode, xorNode, andNode } from "@/components/GatewaysNodes";
-import PanelJson from "./CompJson";
-import ContextMenuOptions from "./RenameNodo";
-import RenameModal from "./RenameNodo";
+import { ProcessNode } from "@/components/nodes/ProcessNode";
+import { VariableNode } from "@/components/nodes/VariableNode";
+import { DecisionNode } from "@/components/nodes/DecisionNode";
+import { StartNode } from "@/components/nodes/StartNode";
+import { FinNode } from "@/components/nodes/FinNode";
+import { orNode, xorNode, andNode } from "@/components/nodes/GatewaysNodes";
+import CompJson from "@/components/layout/CompJson";
+import ContextMenuOptions from "@/components/ui/modals/RenameNodo";
+import RenameModal from "@/components/ui/modals/RenameNodo";
 import EditorPage from "@/app/editor/[id]/page";
 import { MdDiamond, MdRedo, MdUndo } from "react-icons/md";
-import ModalForm from "./ModalForm";
-import SidebarNodeMenu from "./Sidebar";
-import ModalDetalles, { ModalProceso, ModalVariable } from "./ModalDetalles";
-import { ContextMenu } from "./MenuContextual";
-import { BaseModal } from "./BaseModal";
+import ModalForm from "@/components/ui/modals/ModalForm";
+import SidebarNodeMenu from "@/components/layout/Sidebar";
+import ModalDetalles, { ModalProceso, ModalVariable } from "@/components/ui/modals/ModalDetalles";
+import { ContextMenu } from "@/components/layout/MenuContextual";
+import { BaseModal } from "@/components/ui/modals/BaseModal";
 import { title } from "process";
-import SidebarVariables from "./SidebarVariables";
+import SidebarVariables from "@/components/layout/SidebarVariables";
 import { AiFillHome } from "react-icons/ai";
 
 /* ----------------------------
@@ -273,8 +273,6 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
         },
         [findDroppableContainer, resetDropHighlights]
     );
-
-    //El silencio era un ruido ensordecedor para mi alma 
 
     /* ----------------------------
        Creación de nodos (sidebar y contextual) 
@@ -643,7 +641,7 @@ const deleteNode = useCallback((nodeId) => {
 
             <div className="absolute -top-13 -right-6">
                 {/* Panel JSON con Details*/}
-                <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNodeVar} />
+                <CompJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNodeVar} />
                 
             </div>
 

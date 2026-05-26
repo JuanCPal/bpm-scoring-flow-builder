@@ -14,26 +14,26 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { FaCog, FaPuzzlePiece, FaArrowRight, FaEdit, FaRandom, FaPlay, FaStop, FaTimes, FaCircle, FaPlusCircle, FaSearch, FaArrowLeft } from "react-icons/fa";
-import { ProcessNode } from "@/components/ProcessNode";
-import { VariableNode } from "@/components/VariableNode";
-import { DecisionNode } from "@/components/DecisionNode";
-import { StartNode } from "@/components/StartNode";
-import { FinNode } from "@/components/FinNode";
-import { orNode, xorNode, andNode } from "@/components/GatewaysNodes";
-import PanelJson from "./CompJson";
-import ContextMenuOptions from "./RenameNodo";
-import RenameModal from "./RenameNodo";
-import ToolBar from "./ToolBar";
+import { ProcessNode } from "@/components/nodes/ProcessNode";
+import { VariableNode } from "@/components/nodes/VariableNode";
+import { DecisionNode } from "@/components/nodes/DecisionNode";
+import { StartNode } from "@/components/nodes/StartNode";
+import { FinNode } from "@/components/nodes/FinNode";
+import { orNode, xorNode, andNode } from "@/components/nodes/GatewaysNodes";
+import PanelJson from "@/components/layout/CompJson";
+import ContextMenuOptions from "@/components/ui/modals/RenameNodo";
+import RenameModal from "@/components/ui/modals/RenameNodo";
+import ToolBar from "@/components/layout/ToolBar";
 import EditorPage from "@/app/editor/[id]/page";
 import { MdDiamond } from "react-icons/md";
-import ModalForm from "./ModalForm";
-import SidebarNodeMenu from "./Sidebar";
-import ModalDetalles, { ModalProceso, ModalVariable } from "./ModalDetalles";
-import { ContextMenu } from "./MenuContextual";
-import { BaseModal } from "./BaseModal";
+import ModalForm from "@/components/ui/modals/ModalForm";
+import SidebarNodeMenu from "@/components/layout/Sidebar";
+import ModalDetalles, { ModalProceso, ModalVariable } from "@/components/ui/modals/ModalDetalles";
+import { ContextMenu } from "@/components/layout/MenuContextual";
+import { BaseModal } from "@/components/ui/modals/BaseModal";
 import { title } from "process";
-import { ProcesoSimpleNode } from "./ProcesoSimpleNode";
-import StatusBar from "./StatusBar";
+import { ProcesoSimpleNode } from "@/components/nodes/ProcesoSimpleNode";
+import StatusBar from "@/components/layout/StatusBar";
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
 
@@ -204,9 +204,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [containers]
     );
 
-    /* ----------------------------------------------------
+    /* ------------------------------------------------
        Handlers de drag (usar node que React Flow pasa)
-       ------------------------------------------------ */
+       -------------------------------------------- */
 
     const onNodeDragStart = useCallback((event, node) => {
         // node es el objeto más actual en tiempo de arrastre
@@ -292,19 +292,18 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [findDroppableContainer, resetDropHighlights]
     );
 
-    /* -----------------------------------------
-       Creación de nodos (sidebar y contextual)
-       --------------------------------------- */
+    /* ---------------------------------
+       Creación de nodos
+       ------------------------------- */
 
-
-    let nextNodePosition = { x: 100, y: 100 }; // posición inicial de nodos
+    let nextNodePosition = { x: 100, y: 100 };
 
     const getNextPosition = (width = 320, height = 220) => {
         const pos = { ...nextNodePosition };
-        nextNodePosition.x += width + 30; // espacio horizontal entre nodos
-        if (nextNodePosition.x > 1200) { // límite canvas, baja una fila
+        nextNodePosition.x += width + 30;
+        if (nextNodePosition.x > 1200) {
             nextNodePosition.x = 100;
-            nextNodePosition.y += height + 30; // espacio vertical entre nodos
+            nextNodePosition.y += height + 30;
         }
         return pos;
     };
@@ -335,7 +334,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         const id = `p-${uuidv4()}`;
         const position = getNextPosition(180, 100);
         setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
-    }, [genId, setNodes]);
+    }, [setNodes]);
 
     const addStart = useCallback(() => {
         const id = `S-${uuidv4()}`;
@@ -350,22 +349,22 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const addFin = useCallback(() => {
         const id = `f-${uuidv4()}`;
         setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin` } }]);
-    }, [genId, setNodes]);
+    }, [setNodes]);
 
     const addOr = useCallback(() => {
         const id = `o-${uuidv4()}`;
         setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR` } }]);
-    }, [genId, setNodes]);
+    }, [setNodes]);
 
     const addXor = useCallback(() => {
         const id = `x-${uuidv4()}`;
         setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR` } }]);
-    }, [genId, setNodes]);
+    }, [setNodes]);
 
     const addAnd = useCallback(() => {
         const id = `a-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, name, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
-    }, [genId, setNodes]);
+        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
+    }, [setNodes]);
 
     const addVariableInside = useCallback(
         (procesoId) => {
@@ -379,13 +378,13 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     type: "Variable",
                     parentNode: procesoId,
                     extent: "parent",
-                    position: { x: 24, y: 40 + Math.random() * 80 }, // relativo
+                    position: { x: 24, y: 40 + Math.random() * 80 },
                     data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
                 },
             ]);
             setContextMenu(null);
         },
-        [genId, nodes, setNodes]
+        [nodes, setNodes]
     );
 
     /* ----------------------------
@@ -421,7 +420,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             const isOr = sourceNode?.type === "Or";
             const isAnd = sourceNode?.type === "And";
 
-            //Reglas de los source
             const xorLabels = {
                 "s-t": "Si",
                 "s-r": "Si",
@@ -471,9 +469,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         [nodes]
     );
 
-    /* --------------------------  Un remolachon
+    /* --------------------------
         Guardar flujo
-    -----------------------------*/
+    ------------------------------ */
 
     const getName = () => (nameCounter.current++).toString();
 
@@ -486,7 +484,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             savedAt: new Date().toISOString(),
         };
 
-        // Guardar en localStorage 
         localStorage.setItem(data.id, JSON.stringify(data));
 
         toast.success(`${data.id} guardado`,
@@ -517,8 +514,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         alert(`El flujo del ${data.id} ha sido guardado correctamente`);
     };
 
-    //Cargar flujo
-
     const loadNodeFlow = (nodeId) => {
         const saved = JSON.parse(localStorage.getItem(`Proceso_${arbol}`));
         return saved || { nodes: [], edges: [] };
@@ -529,8 +524,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         setOpenVariables(false);
     };
 
-    //Descargar flujo
-
     const DownloadFile = () => {
         const data = {
             id: `Linea_${arbol}`,
@@ -538,7 +531,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             edges,
             savedAt: new Date().toISOString(),
         };
-        // Descargar como archivo JSON
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
 
@@ -553,8 +545,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         console.log("descargado")
 
     }
-
-    /* llenar nodos con info del formulario */
 
     const handleEditProceso = () => {
         setNodes((prev) =>
@@ -632,27 +622,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         );
     }, [setNodes, setEdges]);
 
-    /* ----------------------------
-       Render 
-       ---------------------------- */
-
-    //DARK MODE
-
-    //const { resolvedTheme } = useTheme();
-    //const [mounted, setMounted] = useState(false);
-
-    /*------------------------------------------------------------------------- 
-    ------------------- OPCIONES MENU CONTEXTUAL ----------------------- 
-    --------------------------------------------------------------------------*/
-
-    //-------------------------DUPLICAR ----------------------------------------
     const duplicateNode = useCallback((nodeId) => {
         const original = nodes.find((n) => n.id === nodeId);
         if (!original) return;
 
         const newId = crypto.randomUUID();
 
-        // posición inteligente
         const offsetX = 220;
         const randomY = Math.random() * 80 - 40;
 
@@ -672,7 +647,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
         setNodes((nds) => [...nds, newNode]);
 
-        // seleccionar automáticamente
         setSelectedNode(newNode);
 
     }, [nodes, setNodes]);
@@ -685,15 +659,12 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         setContextMenu(null);
     }, [contextMenu, duplicateNode]);
 
-    //---------------------- AÑADIR NODOS --------------------------------------
-
     const addNodeConnected = (sourceNodeId, type) => {
         const newId = `${type}-${uuidv4()}`;
 
         const sourceNode = nodes.find(n => n.id === sourceNodeId);
         if (!sourceNode) return;
 
-        // posición relativa al nodo origen
         const newPosition = {
             x: sourceNode.position.x + (sourceNode.data?.width || 180) + 40,
             y: sourceNode.position.y,
@@ -720,11 +691,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
         setNodes(nds => [...nds, newNode]);
         setEdges(eds => [...eds, newEdge]);
-        setContextMenu(null); // cierra el menú después de agregar
+        setContextMenu(null);
     };
 
-    //#d7e5fc -lines
-    //#020f24 -bg
     return (
         <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[#f0f5fc] dark:bg-slate-900">
             {/* Sidebar */}
@@ -803,7 +772,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
                 />
             )}
-            {/*Fin menu contextual */}
 
             {/* VER DETALLES ↓ */}
             {selectedProceso && (

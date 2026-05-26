@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { FlowWrapper } from "@/components/FlowWrapper";
+import { FlowWrapper } from "@/components/shared/flow/FlowWrapper";
 
 export default function EditorPage() {
   const { id } = useParams();

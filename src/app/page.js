@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import ProjectCard from '@/components/ProjectCard';
+import ProjectCard from '@/components/features/ProjectCard';
 import { FaSearch, FaFilter, FaRegClock } from "react-icons/fa";
 import { useEffect, useState } from 'react';
 import { Particles } from "@tsparticles/react";

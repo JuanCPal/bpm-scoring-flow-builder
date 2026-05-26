@@ -204,9 +204,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700 dark:text-slate-300">Página de captura</span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre} otra cosa importantese es escribir aqui en el bloc de notas como si fuera obsidian y enviar cada una de estas notas a mi pc personal, eliminandola de aqui para tener esa info en mi laptop bien organizada incluyendo el grande */
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -214,9 +211,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Tiempo Máx. Proceso</span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -224,9 +218,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Nep de llamado </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -234,9 +225,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Programa a llamar</span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -245,9 +233,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Secuencia de llamdo </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -255,9 +240,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Tipo de llamado ▼ </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -265,9 +247,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Dia Máx. a transferir </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -275,9 +254,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Linea a pasar solicitud </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -285,9 +261,6 @@ export default function ModalForm({
                   <span className="text-sm flex text-gray-700">Proceso a pasar </span>
                   <input
                     type="text"
-                    /*name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}*/
                     className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 focus:outline-none focus:border-blue-500 focus:ring-0"
                   />
                 </label>
@@ -325,7 +298,6 @@ export default function ModalForm({
                         type="checkbox"
                         className="sr-only peer"
                         onChange={() => { setMostrarVarRela(!mostrarVarRela) }}
-                      // Maneja el estado tú mismo
                       />
                       <div className="w-5 h-5 rounded border border-gray-400 peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-colors duration-200 flex items-center justify-center">
                         <svg

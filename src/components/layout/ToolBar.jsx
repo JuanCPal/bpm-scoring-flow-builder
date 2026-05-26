@@ -32,7 +32,7 @@ import {
 } from "react-icons/md";
 import { AiFillHome } from 'react-icons/ai';
 import { useState } from "react";
-import ThemeToggle from "./theme-toggle";
+import ThemeToggle from "@/components/ui/theme/theme-toggle";
 import Tippy from "@tippyjs/react";
 
 export default function ToolBar({

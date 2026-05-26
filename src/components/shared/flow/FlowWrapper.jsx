@@ -1,5 +1,5 @@
 import { ReactFlowProvider } from "reactflow";
-import FlowWithContainers from "./FlowEditor";
+import FlowWithContainers from "@/components/shared/flow/FlowEditor";
 
 export function FlowWrapper({ projectId, savedEdges, savedNodes, savedId }) {
 

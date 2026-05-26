@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import FlowWrapper from "@/components/FlowWrapper";
+import { FlowWrapper } from "@/components/shared/flow/FlowWrapper";
 export default function ProjectPage() {
   const { id } = useParams();
   const [projectData, setProjectData] = useState(null);

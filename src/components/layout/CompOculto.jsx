@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaArrowUp, FaEllipsisH, FaMap, FaProjectDiagram, FaTag, FaTools } from "react-icons/fa";
 import { LuActivity, LuArrowBigDown, LuArrowBigDownDash, LuArrowDown, LuArrowDown01, LuArrowLeft, LuArrowRight, LuArrowUp, LuFile, LuFileBox, LuFilter, LuFilterX, LuGitBranch, LuGitCommitVertical, LuGitGraph, LuGitMerge, LuGitPullRequest, LuGroup, LuHouse, LuInfo, LuLayoutTemplate, LuListOrdered, LuMerge, LuPlus, LuProjector, LuSearch, LuTimer, LuWorkflow } from "react-icons/lu";
 import Image from "next/image";
-import logogyg1 from "../../public/logo/logogyg1.png"; 
+import logogyg1 from "../../../public/logo/logogyg1.png"; 
 
 export default function OneOc() {
     const [Hidden, setHidden] = useState(false);

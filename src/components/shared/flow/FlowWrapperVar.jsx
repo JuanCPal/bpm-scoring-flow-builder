@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from "reactflow";
 
-import FlowEditorVariables from "./FlowEditorVariables";
+import FlowEditorVariables from "@/components/shared/flow/FlowEditorVariables";
 
 export function FlowWrapperVar({ selectedNode, savedEdgesVar, savedNodesVar }) {
 
