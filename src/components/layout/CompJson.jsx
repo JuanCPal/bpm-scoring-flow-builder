@@ -1,6 +1,7 @@
 import Tippy from "@tippyjs/react";
 import { useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { saveProject } from "@/lib/api-client";
 
 export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,15 +9,21 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
   const nameCounter = useRef(1);
   const getName = () => (nameCounter.current++).toString();
 
-  const saveToLocalStorage = () => {
+  const saveToLocalStorage = async () => {
     const data = {
-      id: "Linea " + arbol,
+      id: arbol,
       nodes,
       edges,
       savedAt: new Date().toISOString(),
     };
-    localStorage.setItem(data.id, JSON.stringify(data));
-    alert(`Árbol ${data.id} guardado`);
+
+    try {
+      await saveProject(data);
+      alert(`Árbol ${data.id} guardado`);
+    } catch (error) {
+      console.error("Error guardando proyecto:", error);
+      alert("No se pudo guardar el proyecto. Revisa la consola.");
+    }
   };
 
   return (

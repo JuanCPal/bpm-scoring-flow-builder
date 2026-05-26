@@ -4,6 +4,7 @@ import { FlowWrapper } from "@/components/shared/flow/FlowWrapper";
 import { FlowWrapperVar } from "@/components/shared/flow/FlowWrapperVar";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { loadNodeFlow } from "@/lib/api-client";
 
 export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
   const idNodo = selectedNode?.id;
@@ -13,15 +14,22 @@ export function BaseModal({ selectedNode, setOpenBaseModal, arbol }) {
   useEffect(() => {
     if (!idNodo) return;
 
-    try {
-      const savedDataVarStr = localStorage.getItem("Proceso_" + idNodo || selectedNode);
-      if (!savedDataVarStr) return;
-
-      const savedDataVar = JSON.parse(savedDataVarStr);
-      setProjectVar(savedDataVar);
-    } catch (error) {
-      console.error("Error al recuperar o parsear datos de localStorage:", error);
+    let mounted = true;
+    async function load() {
+      try {
+        const savedDataVar = await loadNodeFlow(idNodo);
+        if (!mounted) return;
+        if (savedDataVar) setProjectVar(savedDataVar);
+      } catch (error) {
+        console.error("Error al recuperar datos de node flow:", error);
+      }
     }
+
+    load();
+
+    return () => {
+      mounted = false;
+    };
   }, [idNodo]);
 
   console.log("selectedNode en baseModal:" + idNodo);

@@ -1,22 +1,37 @@
 import { ReactFlowProvider } from "reactflow";
 import FlowWithContainers from "@/components/shared/flow/FlowEditor";
+import { useEffect, useState } from "react";
+import { getProjectById } from "@/lib/api-client";
 
-export function FlowWrapper({ projectId, savedEdges, savedNodes, savedId }) {
+export function FlowWrapper({ projectId, savedEdges: initialEdges = [], savedNodes: initialNodes = [], savedId }) {
+  const id = projectId || savedId;
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
+  const [idState, setIdState] = useState(id);
 
-  if (typeof window !== "undefined") {
-    const savedData = JSON.parse(localStorage.getItem(projectId));
-    if (savedData) {
-      savedNodes = savedData.nodes || [];
-      savedEdges = savedData.edges || [];
-      savedId = savedData.id || [];
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      if (!id) return;
+      const p = await getProjectById(id);
+      if (!mounted) return;
+      if (p) {
+        setNodes(p.nodes || []);
+        setEdges(p.edges || []);
+        setIdState(p.id || id);
+      }
     }
-  }
-  
-  console.log("idNombre en wrapper", savedId)
+
+    load();
+
+    return () => {
+      mounted = false;
+    };
+  }, [id]);
 
   return (
     <ReactFlowProvider>
-      <FlowWithContainers savedNodes={savedNodes} savedEdges={savedEdges} savedId={savedId} />
+      <FlowWithContainers savedNodes={nodes} savedEdges={edges} savedId={idState} />
     </ReactFlowProvider>
   );
 }

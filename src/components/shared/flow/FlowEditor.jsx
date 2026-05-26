@@ -36,6 +36,7 @@ import { ProcesoSimpleNode } from "@/components/nodes/ProcesoSimpleNode";
 import StatusBar from "@/components/layout/StatusBar";
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
+import { saveProject, saveNodeFlow, loadNodeFlow as loadNodeFlowFromClient } from "@/lib/api-client";
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -475,8 +476,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
     const getName = () => (nameCounter.current++).toString();
 
-    const saveToLocalStorage = () => {
-        const name = getName();
+    const saveToLocalStorage = async () => {
         const data = {
             id: `Linea_${arbol}`,
             nodes,
@@ -484,38 +484,52 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             savedAt: new Date().toISOString(),
         };
 
-        localStorage.setItem(data.id, JSON.stringify(data));
-
-        toast.success(`${data.id} guardado`,
-            {
-                duration: 4000,
-                style: {
-                    background: '#1f2937',
-                    color: '#fff',
-                    borderRadius: '10px',
-                    padding: '12px 16px',
-                },
-                iconTheme: {
-                    primary: '#22c55e',
-                    secondary: '#fff',
-                },
-            }
-        );
+        try {
+            await saveProject(data);
+            toast.success(`${data.id} guardado`,
+                {
+                    duration: 4000,
+                    style: {
+                        background: '#1f2937',
+                        color: '#fff',
+                        borderRadius: '10px',
+                        padding: '12px 16px',
+                    },
+                    iconTheme: {
+                        primary: '#22c55e',
+                        secondary: '#fff',
+                    },
+                }
+            );
+        } catch (error) {
+            console.error('Error guardando proyecto:', error);
+            toast.error('No se pudo guardar el proyecto');
+        }
     };
 
-    const saveNodeFlowToLocalStorage = (contextMenu, nodes, edges) => {
+    const saveNodeFlowToLocalStorage = async (contextMenu, nodes, edges) => {
         const data = {
             id: `Proceso_${contextMenu?.nodeId}`,
             nodes,
             edges,
             savedAt: new Date().toISOString(),
         };
-        localStorage.setItem(data.id, JSON.stringify(data));
-        alert(`El flujo del ${data.id} ha sido guardado correctamente`);
+
+        try {
+            await saveNodeFlow(contextMenu?.nodeId, nodes, edges);
+            alert(`El flujo del ${data.id} ha sido guardado correctamente`);
+        } catch (error) {
+            console.error('Error guardando flujo del nodo:', error);
+            alert('No se pudo guardar el flujo del nodo');
+        }
     };
 
-    const loadNodeFlow = (nodeId) => {
-        const saved = JSON.parse(localStorage.getItem(`Proceso_${arbol}`));
+    const loadNodeFlow = async (nodeId) => {
+        if (!nodeId) {
+            return { nodes: [], edges: [] };
+        }
+
+        const saved = await loadNodeFlowFromClient(nodeId);
         return saved || { nodes: [], edges: [] };
     };
 

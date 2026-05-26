@@ -32,6 +32,7 @@ import { BaseModal } from "@/components/ui/modals/BaseModal";
 import { title } from "process";
 import SidebarVariables from "@/components/layout/SidebarVariables";
 import { AiFillHome } from "react-icons/ai";
+import { saveNodeFlow, loadNodeFlow as loadNodeFlowFromClient } from "@/lib/api-client";
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -432,30 +433,32 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
 
     console.log("nodo:"+selectedNode)
 
-    const saveToLocalStorageV = () => {
-        const name = getName(); // si no usas esto, puedes quitarlo
+    const saveToLocalStorageV = async () => {
+        const name = getName();
+        const nodeKey = selectedNode || name;
         const data = {
-            id: `Proceso_${selectedNode || name}`,
+            id: `Proceso_${nodeKey}`,
             nodes,
             edges,
             savedAt: new Date().toISOString(),
         };
 
-        // Guardar en localStorage (opcional)
-        localStorage.setItem(data.id, JSON.stringify(data));
-
-        alert(`Flujo ${data.id} guardado`);
-
+        try {
+            await saveNodeFlow(nodeKey, nodes, edges);
+            alert(`Flujo ${data.id} guardado`);
+        } catch (error) {
+            console.error('Error guardando flujo de variable:', error);
+            alert('No se pudo guardar el flujo');
+        }
     };
 
-
-    const loadNodeFlow = (nodeId) => {
-        const saved = JSON.parse(localStorage.getItem(`Proceso_${contextMenu?.nodeId}`));
+    const loadNodeFlow = async (nodeId) => {
+        const saved = await loadNodeFlowFromClient(contextMenu?.nodeId || nodeId);
         return saved || { nodes: [], edges: [] };
     };
 
-    const handleSaveNodeFlow = () => {
-        saveNodeFlowToLocalStorage(currentNodeId, internalNodes, internalEdges);
+    const handleSaveNodeFlow = async () => {
+        await saveNodeFlow(currentNodeId, internalNodes, internalEdges);
         setOpenVariables(false);
     };
 

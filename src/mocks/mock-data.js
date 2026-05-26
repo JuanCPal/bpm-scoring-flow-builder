@@ -19,8 +19,221 @@ export const projectDetails = {
   "linea-1": {
     id: "linea-1",
     name: "Proyecto de prueba 1",
-    nodes: [],
-    edges: [],
+    nodes: [{
+    "id": "p-06422f09-12ec-4734-8c22-15647d737dbf",
+    "type": "Proceson",
+    "position": {
+      "x": -42,
+      "y": 114
+    },
+    "data": {
+      "label": "Proceso",
+      "nombre": "",
+      "parametros": {
+        "orden": "",
+        "variable": "",
+        "reglaEvaluadora": "",
+        "reglaDeCalculo": "",
+        "descripcionVar": "",
+        "varRel": "",
+        "tipo": "",
+        "naturaleza": "",
+        "tam": "",
+        "caus": "",
+        "NRE": "",
+        "limInferior": "",
+        "limSuperior": "",
+        "descripcion": "",
+        "puntaje": "",
+        "p_bif": "",
+        "reporte": "",
+        "RC": "",
+        "desPagDinamic": "",
+        "observaciones": ""
+      }
+    },
+    "width": 90,
+    "height": 80,
+    "selected": false,
+    "dragging": false,
+    "positionAbsolute": {
+      "x": -42,
+      "y": 114
+    }
+  },
+  {
+    "id": "S-becfbba3-d14c-4bd1-a8c3-0b1cc5d2f3bf",
+    "type": "Start",
+    "position": {
+      "x": -168,
+      "y": 126
+    },
+    "data": {
+      "label": "Inicio"
+    },
+    "width": 50,
+    "height": 50,
+    "selected": false,
+    "positionAbsolute": {
+      "x": -168,
+      "y": 126
+    },
+    "dragging": false
+  },
+  {
+    "id": "Proceson-3edffdcb-24a2-4854-b18f-a95ff4e8e11e",
+    "type": "Proceson",
+    "position": {
+      "x": 178,
+      "y": 114
+    },
+    "data": {
+      "label": "Proceson"
+    },
+    "width": 90,
+    "height": 80,
+    "selected": false,
+    "dragging": false
+  },
+  {
+    "id": "Proceson-e516997d-ab78-4a99-bb55-201f08824549",
+    "type": "Proceson",
+    "position": {
+      "x": 402,
+      "y": 114
+    },
+    "data": {
+      "label": "Proceson"
+    },
+    "width": 90,
+    "height": 80,
+    "selected": false,
+    "positionAbsolute": {
+      "x": 402,
+      "y": 114
+    },
+    "dragging": false
+  },
+  {
+    "id": "Proceson-a3aad5a6-0aff-418d-b724-8b9c9aa0a996",
+    "type": "Proceson",
+    "position": {
+      "x": 622,
+      "y": 114
+    },
+    "data": {
+      "label": "Proceson"
+    },
+    "width": 90,
+    "height": 80,
+    "selected": false,
+    "dragging": false
+  },
+  {
+    "id": "Fin-2ce09420-2e9f-4b25-bcd5-5eb4b85ec7d4",
+    "type": "Fin",
+    "position": {
+      "x": 842,
+      "y": 114
+    },
+    "data": {
+      "label": "Fin"
+    },
+    "width": 50,
+    "height": 50,
+    "selected": false,
+    "dragging": false
+  }],
+    edges: [{
+    "source": "S-becfbba3-d14c-4bd1-a8c3-0b1cc5d2f3bf",
+    "sourceHandle": null,
+    "target": "p-06422f09-12ec-4734-8c22-15647d737dbf",
+    "targetHandle": "ct2",
+    "type": "default",
+    "animated": true,
+    "style": {
+      "stroke": "#0060fa",
+      "strokeWidth": 2,
+      "strokeDasharray": "5 5"
+    },
+    "markerEnd": {
+      "type": "arrowclosed",
+      "color": "#0060fa"
+    },
+    "id": "reactflow__edge-S-becfbba3-d14c-4bd1-a8c3-0b1cc5d2f3bf-p-06422f09-12ec-4734-8c22-15647d737dbfct2"
+  },
+  {
+    "id": "e-p-06422f09-12ec-4734-8c22-15647d737dbf-Proceson-3edffdcb-24a2-4854-b18f-a95ff4e8e11e",
+    "source": "p-06422f09-12ec-4734-8c22-15647d737dbf",
+    "sourceHandle": "cs1",
+    "target": "Proceson-3edffdcb-24a2-4854-b18f-a95ff4e8e11e",
+    "targetHandle": "ct2",
+    "type": "default",
+    "animated": true,
+    "style": {
+      "stroke": "#0060fa",
+      "strokeWidth": 2,
+      "strokeDasharray": "5 5"
+    },
+    "markerEnd": {
+      "type": "arrowclosed",
+      "color": "#0060fa"
+    }
+  },
+  {
+    "id": "e-Proceson-3edffdcb-24a2-4854-b18f-a95ff4e8e11e-Proceson-e516997d-ab78-4a99-bb55-201f08824549",
+    "source": "Proceson-3edffdcb-24a2-4854-b18f-a95ff4e8e11e",
+    "sourceHandle": "cs1",
+    "target": "Proceson-e516997d-ab78-4a99-bb55-201f08824549",
+    "targetHandle": "ct2",
+    "type": "default",
+    "animated": true,
+    "style": {
+      "stroke": "#0060fa",
+      "strokeWidth": 2,
+      "strokeDasharray": "5 5"
+    },
+    "markerEnd": {
+      "type": "arrowclosed",
+      "color": "#0060fa"
+    }
+  },
+  {
+    "id": "e-Proceson-e516997d-ab78-4a99-bb55-201f08824549-Proceson-a3aad5a6-0aff-418d-b724-8b9c9aa0a996",
+    "source": "Proceson-e516997d-ab78-4a99-bb55-201f08824549",
+    "sourceHandle": "cs1",
+    "target": "Proceson-a3aad5a6-0aff-418d-b724-8b9c9aa0a996",
+    "targetHandle": "ct2",
+    "type": "default",
+    "animated": true,
+    "style": {
+      "stroke": "#0060fa",
+      "strokeWidth": 2,
+      "strokeDasharray": "5 5"
+    },
+    "markerEnd": {
+      "type": "arrowclosed",
+      "color": "#0060fa"
+    }
+  },
+  {
+    "id": "e-Proceson-a3aad5a6-0aff-418d-b724-8b9c9aa0a996-Fin-2ce09420-2e9f-4b25-bcd5-5eb4b85ec7d4",
+    "source": "Proceson-a3aad5a6-0aff-418d-b724-8b9c9aa0a996",
+    "sourceHandle": "cs1",
+    "target": "Fin-2ce09420-2e9f-4b25-bcd5-5eb4b85ec7d4",
+    "targetHandle": "ct2",
+    "type": "default",
+    "animated": true,
+    "style": {
+      "stroke": "#0060fa",
+      "strokeWidth": 2,
+      "strokeDasharray": "5 5"
+    },
+    "markerEnd": {
+      "type": "arrowclosed",
+      "color": "#0060fa"
+    }
+  }],
   },
   "linea-2": {
     id: "linea-2",

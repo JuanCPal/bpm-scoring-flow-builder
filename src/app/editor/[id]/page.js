@@ -1,23 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import { FlowWrapper } from "@/components/shared/flow/FlowWrapper";
+import { useData } from "@/hooks/useData";
+import { getProjectById } from "@/lib/api-client";
 
 export default function EditorPage() {
   const { id } = useParams();
-  const [project, setProject] = useState(null);
+  const { data: project = null, loading } = useData(() => getProjectById(id), [id]);
 
-  useEffect(() => {
-    if (!id) return;
-    const savedData = JSON.parse(localStorage.getItem(id));
-    if (savedData) {
-      setProject(savedData);
-    }
-  }, [id]);
+  if (loading) {
+    return <p className="p-4">Cargando proyecto...</p>;
+  }
 
   if (!project) {
-    return <p className="p-4">Cargando proyecto...</p>;
+    return <p className="p-4">Proyecto no encontrado</p>;
   }
 
   console.log("idNombre en urldinamica", project.id)

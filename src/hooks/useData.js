@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
  * Hook genérico para cargar datos desde un fetcher.
  * @param {Function} fetcher Función async que retorna datos.
  * @param {Array} deps Dependencias para recargar datos.
+ * @param {any} initialData Valor inicial de data.
  */
-export function useData(fetcher, deps = []) {
-  const [data, setData] = useState(null);
+export function useData(fetcher, deps = [], initialData = null) {
+  const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

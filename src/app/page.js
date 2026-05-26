@@ -3,23 +3,15 @@
 import Link from 'next/link';
 import ProjectCard from '@/components/features/ProjectCard';
 import { FaSearch, FaFilter, FaRegClock } from "react-icons/fa";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-
-function getSavedTrees() {
-  return Object.keys(localStorage)
-    .filter((k) => k.startsWith("Linea_"))
-    .map((k) => JSON.parse(localStorage.getItem(k)));
-}
+import { useData } from "@/hooks/useData";
+import { getProjects } from "@/lib/api-client";
 
 export default function DashboardPage() {
   const [busqueda, setBusqueda] = useState('');
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    setProjects(getSavedTrees());
-  }, []);
+  const { data: projects = [], loading } = useData(getProjects, [], []);
 
   const manejarCambio = (e) => setBusqueda(e.target.value);
 
