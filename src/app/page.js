@@ -8,6 +8,7 @@ import { Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { useData } from "@/hooks/useData";
 import { getProjects } from "@/lib/api-client";
+import Image from "next/image";
 
 export default function DashboardPage() {
   const [busqueda, setBusqueda] = useState('');
@@ -45,22 +46,24 @@ export default function DashboardPage() {
       {/* NAVBAR */}
       <nav className="fixed top-0 w-full bg-white dark:bg-slate-900 px-8 py-1 z-50 flex items-center justify-between">
         <ul className="flex items-center space-x-6">
-          <li className="text-gray-400 font-extralight tracking-[3px] hover:text-blue-600 cursor-pointer text-[14px]">
-            SISTEMAS GYG
-            <img></img>
+          <li className="cursor-pointer">
+            
           </li>
         </ul>
-        <div className='flex'>
+
+        <div className="flex">
           <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
             Procesos
           </button>
-              <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
+
+          <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
             Variables
           </button>
-              <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
+
+          <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
             Plantillas
           </button>
-              <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
+          <button className="flex items-center px-4 py-0.5 text-sm font-extralight text-gray-700 dark:text-zinc-200 rounded-md cursor-pointer hover:text-blue-700 dark:hover:text-slate-400 transition-all">
             Documentación
           </button>
           <Link href="/canvas">
@@ -73,9 +76,31 @@ export default function DashboardPage() {
 
       {/* HERO */}
       <header className="mt-14 mx-8 pt-20 pb-16 z-50 rounded-t-[50px] bg-gradient-to-b from-blue-200 to-white dark:from-slate-500 dark:to-slate-900 text-center">
-        <h1 className="text-[125px] font-bold text-blue-950 dark:text-blue-200 tracking-tight leading-24 mt-4 font-sans">
-          Constructor <span className='text-blue-800 dark:text-blue-300 font-serif text-[115px] italic'>visual</span> <br /> de flujos de procesos
-        </h1>
+        <div className="flex flex-col items-center justify-center gap-6">
+          <div className="flex items-center justify-center gap-3">
+            <Image
+              src="/logo/Logo_SIIF_blanco.svg"
+              alt="Logo dark"
+              width={90}
+              height={25}
+              priority
+              className="hidden dark:block"
+            />
+            <Image
+              src="/logo/logogyg1.png"
+              alt="Logo light"
+              width={90}
+              height={25}
+              priority
+              className="block dark:hidden"
+            />
+          </div>
+
+          <h1 className="text-[125px] font-bold text-blue-950 dark:text-blue-200 tracking-tight leading-24 mt-4 font-sans">
+            Constructor <span className='text-blue-800 dark:text-blue-300 font-serif text-[115px] italic'>visual</span> <br /> de flujos de procesos
+          </h1>
+        </div>
+
         <p className="text-[24px] text-gray-700 dark:text-zinc-300 mt-8 font-sans">
           Módulo de <span className='text-blue-800 dark:text-blue-300 italic font-serif font-bold'>iniciación</span> de clientes
         </p>
