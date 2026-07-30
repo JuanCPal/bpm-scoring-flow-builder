@@ -35,7 +35,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
       <div className={`flex absolute top-15 right-1 z-[9999] ${isOpen ? "right-[320px]" : ""}`}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`px-1.5 rounded-md py-[7px] mt-1 cursor-pointer mr-2 transition-all duration-300 ${isOpen ? " dark:text-black font-bold dark:font-normal text-zinc-100 bg-blue-400 border-1 border-blue-400 pr-6" : "bg-gray-800 dark:bg-blue-400 text-blue-200 dark:text-zinc-800" }`}
+          className={`px-1.5 rounded-md py-[7px] mt-1 cursor-pointer mr-2 transition-all duration-300 ${isOpen ? "font-bold dark:font-normal text-[var(--accent-foreground)] bg-[var(--accent)] border-1 border-[var(--accent)] pr-6" : "bg-[var(--surface)] text-[var(--accent)] border-1 border-[var(--border)]" }`}
         >
           {isOpen ? <FaArrowRight className="-mr-1.5 -mt-0.5"  /> : <FaArrowLeft />}
         </button>
@@ -43,9 +43,9 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
     </Tippy>
 
       <div
-        className={`bg-white dark:bg-slate-800 border-zinc-400 shadow pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
+        className={`bg-[var(--surface)] border-[var(--border)] shadow pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}
-        w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 border-gray-300 overflow-hidden`}
+        w-[360px] max-h-[90vh] min-h-[89vh] border-l-1 overflow-hidden`}
       >
 
        <button
@@ -53,7 +53,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("info");
             setIsOpen(true);
           }}
-          className={`px-1.5 py-0.5 ml-[34px] cursor-pointer border-blue-400 border-1 rounded-l-md w-38 ${activeTab === "info" ? "bg-blue-400 text-slate-900" : "bg-transparent text-blue-400"
+          className={`px-1.5 py-0.5 ml-[34px] cursor-pointer border-[var(--accent)] border-1 rounded-l-md w-38 ${activeTab === "info" ? "bg-[var(--accent)] text-[var(--accent-foreground)]" : "bg-transparent text-[var(--accent)]"
             }`}
         >
           JSON
@@ -63,7 +63,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
             setActiveTab("details");
             setIsOpen(true);
           }}
-          className={`px-1.5 py-0.5 mb-3 w-38 cursor-pointer border-blue-400 border-1 rounded-r-md ${activeTab === "details" ? "bg-blue-400 text-slate-900" : "bg-transparent text-blue-400"
+          className={`px-1.5 py-0.5 mb-3 w-38 cursor-pointer border-[var(--accent)] border-1 rounded-r-md ${activeTab === "details" ? "bg-[var(--accent)] text-[var(--accent-foreground)]" : "bg-transparent text-[var(--accent)]"
             }`}
         >
           Propiedades
@@ -72,11 +72,11 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
         {activeTab === "info" && (
           <>
             <h2 className="text-lg font-bold mb-2 ml-4 ">Edges JSON</h2>
-            <pre className="text-sm dark:selection:bg-slate-600/60 selection:bg-blue-300/60 dark:selection:text-blue-300 selection:text-slate-600 bg-blue-50 dark:bg-slate-800/60 dark:text-blue-200 text-slate-700 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll scrollbar scrollbar-thumb-blue-500 scrollbar-track-gray-800">
+            <pre className="text-sm selection:bg-[var(--accent)] selection:text-[var(--accent-foreground)] bg-[var(--surface-muted)] text-[var(--foreground)] p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll scrollbar scrollbar-thumb-[var(--accent)] scrollbar-track-[var(--surface)]">
               {JSON.stringify(edges, null, 2)}
             </pre>
             <h2 className="text-lg mt-3 font-bold mb-2 ml-4">Nodes JSON</h2>
-            <pre className="text-sm dark:selection:bg-slate-600/60 selection:bg-blue-300/60 dark:selection:text-blue-300 selection:text-slate-600 bg-blue-50 dark:bg-slate-800 dark:text-blue-200 text-slate-700 p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
+            <pre className="text-sm selection:bg-[var(--accent)] selection:text-[var(--accent-foreground)] bg-[var(--surface-muted)] text-[var(--foreground)] p-2 ml-2 mr-4 h-[210px] rounded shadow overflow-y-scroll overflow-x-scroll">
               {JSON.stringify(nodes, null, 2)}
             </pre>
           </>
@@ -84,7 +84,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 
         {activeTab === "details" && (
           <>
-            <h2 className="text-xl font-mono font-semibold dark:text-zinc-400 text-gray-800 pb-2 ml-4">
+            <h2 className="text-xl font-mono font-semibold text-[var(--foreground)] pb-2 ml-4">
               {selectedNode?.data?.nombre || selectedNode?.data?.label}
             </h2>
             <NodeDetails node={selectedNode} />
@@ -98,7 +98,7 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
 function NodeDetails({ node }) {
   if (!node)
     return (
-      <p className=" text-gray-500 dark:text-zinc-400 mx-6 mt-4">
+      <p className="text-[var(--muted)] mx-6 mt-4">
         Selecciona un nodo para ver detalles.
       </p>
     );
@@ -111,9 +111,9 @@ function NodeDetails({ node }) {
     <div className="max-h-[60vh] overflow-auto space-y-6">
       {entries.length ? (
         entries.map(([key, value]) => (
-          <div key={key} className="bg-white dark:bg-slate-800 shadow-sm rounded-md p-4">
+          <div key={key} className="bg-[var(--surface)] border border-[var(--border)] shadow-sm rounded-md p-4">
             {/* Título de sección */}
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">
               {key.replace(/_/g, " ")}
             </h3>
 
@@ -125,14 +125,14 @@ function NodeDetails({ node }) {
                     <>
                       <div
                         key={paramKey + "-label"}
-                        className="text-xs text-gray-500 dark:text-zinc-400 text-left font-medium truncate cursor-default"
+                        className="text-xs text-[var(--muted)] text-left font-medium truncate cursor-default"
                         title={paramKey}
                       >
                         {paramKey}:
                       </div>
                       <div
                         key={paramKey + "-value"}
-                        className="text-[13px] text-gray-900 dark:text-gray-100"
+                        className="text-[13px] text-[var(--foreground)]"
                       >
                         {String(paramValue)}
                       </div>
@@ -140,17 +140,17 @@ function NodeDetails({ node }) {
                   ))}
                 </div>
               ) : (
-                <pre className="text-xs bg-gray-100 dark:bg-zinc-700 p-2 rounded break-words">
+                <pre className="text-xs bg-[var(--surface-muted)] text-[var(--foreground)] border border-[var(--border)] p-2 rounded break-words">
                   {JSON.stringify(value, null, 2)}
                 </pre>
               )
             ) : (
-              <p className="text-sm text-gray-900 dark:text-gray-100 truncate">{String(value)}</p>
+              <p className="text-sm text-[var(--foreground)] truncate">{String(value)}</p>
             )}
           </div>
         ))
       ) : (
-        <p className="text-gray-500 font-mono ml-4">No hay información en este nodo.</p>
+        <p className="text-[var(--muted)] font-mono ml-4">No hay información en este nodo.</p>
       )}
     </div>
   );

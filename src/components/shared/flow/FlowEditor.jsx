@@ -140,19 +140,6 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         EstadoAprobacion: '',
         IndicadorNuevaSolicitud: ''
     })
-    const [isDark, setIsDark] = useState(false);
-    useEffect(() => {
-        // Detecta el modo dark del sistema
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        setIsDark(mediaQuery.matches);
-
-        // Escucha cambios en tiempo real
-        const handler = (e) => setIsDark(e.matches);
-        mediaQuery.addEventListener("change", handler);
-
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
     useEffect(() => {
         if (savedId) setChangeEdit(savedId)
     }, [savedId, setChangeEdit])
@@ -445,8 +432,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             const edgeOptions = {
                 type: "default",
                 animated: true,
-                style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
-                markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
+                style: { stroke: "var(--accent)", strokeWidth: 2, strokeDasharray: "5 5" },
+                markerEnd: { type: MarkerType.ArrowClosed, color: "var(--accent)" },
             };
 
             const sourceHandle = connection.sourceHandle;
@@ -462,8 +449,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
 
             if (labelFromHandle) {
                 edgeOptions.label = labelFromHandle;
-                edgeOptions.labelBgStyle = { fill: "#fff", fillOpacity: 0.8 };
-                edgeOptions.labelStyle = { fill: "#000", fontWeight: 500, fontSize: 18 };
+                edgeOptions.labelBgStyle = { fill: "var(--surface)", fillOpacity: 0.8 };
+                edgeOptions.labelStyle = { fill: "var(--foreground)", fontWeight: 500, fontSize: 18 };
             }
             setEdges((eds) => addEdge({ ...connection, ...edgeOptions }, eds));
         },
@@ -490,14 +477,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 {
                     duration: 4000,
                     style: {
-                        background: '#1f2937',
-                        color: '#fff',
+                        background: 'var(--surface)',
+                        color: 'var(--foreground)',
                         borderRadius: '10px',
                         padding: '12px 16px',
                     },
                     iconTheme: {
-                        primary: '#22c55e',
-                        secondary: '#fff',
+                        primary: 'var(--accent)',
+                        secondary: 'var(--accent-foreground)',
                     },
                 }
             );
@@ -699,8 +686,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             targetHandle: 'ct2',
             type: 'default',
             animated: true,
-            style: { stroke: "#0060fa", strokeWidth: 2, strokeDasharray: "5 5" },
-            markerEnd: { type: MarkerType.ArrowClosed, color: "#0060fa" },
+            style: { stroke: "var(--accent)", strokeWidth: 2, strokeDasharray: "5 5" },
+            markerEnd: { type: MarkerType.ArrowClosed, color: "var(--accent)" },
         };
 
         setNodes(nds => [...nds, newNode]);
@@ -709,7 +696,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     };
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[#f0f5fc] dark:bg-slate-900">
+        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[var(--background)]">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
@@ -744,8 +731,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 fitView>
 
                 <MiniMap className="dark:hidden" />
-                <Controls className="dark:hidden" color="#162456" />
-                <Background gap={35} variant="grid" color={isDark ? "#182130" : "#d7e5fc"} size={7} />
+                <Controls className="dark:hidden" color="var(--accent)" />
+                <Background gap={35} variant="grid" color="var(--grid-color)" size={7} />
 
                 {/* Panel JSON con Details*/}
                 <PanelJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNode} />
