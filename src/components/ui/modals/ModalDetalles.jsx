@@ -14,9 +14,9 @@ export function ModalProceso({
   if (!selectedNode) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-[color:var(--foreground)]/40 backdrop-blur-xs z-50">
       <div
-        className={`bg-white pb-5 rounded-lg shadow-2xl px-6 relative ${
+        className={`rounded-lg bg-[var(--surface)] px-6 pb-5 shadow-2xl relative ${
           selectedNode.type === "Variable"
             ? "w-[1100px] max-h-[98%] overflow-y-auto"
             : "w-[600px] max-h-[80vh] overflow-y-auto"
@@ -24,12 +24,12 @@ export function ModalProceso({
       >
         {/* Header */}
         <div
-          className={`fixed border-b-1 -ml-6 bg-white pt-3 rounded-t-lg border-gray-300 pb-1 px-3 ${
+          className={`fixed -ml-6 rounded-t-lg border-b border-[var(--border)] bg-[var(--surface-muted)] px-3 pb-1 pt-3 ${
             selectedNode.type === "Variable" ? "w-[1100px]" : "w-[600px]"
           }`}
         >
           <div className="flex items-center">
-            <h2 className="text-[16px] text-blue-900 font-bold">
+            <h2 className="text-[16px] font-bold text-[var(--foreground)]">
               {selectedNode.data?.proceso || selectedNode.data?.label}
             </h2>
             <button
@@ -38,12 +38,12 @@ export function ModalProceso({
                   ? handleEditVariable()
                   : handleEditProceso()
               }
-              className="absolute right-14 -mt-1.5 px-3 py-1 text-[14px] bg-blue-900 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+              className="absolute right-14 -mt-1.5 cursor-pointer rounded-lg bg-[var(--accent)] px-3 py-1 text-[14px] text-[var(--accent-foreground)] transition hover:opacity-90"
             >
               Guardar
             </button>
             <p
-              className="absolute right-6 text-gray-500 hover:text-gray-800 cursor-pointer"
+              className="absolute right-6 cursor-pointer text-[var(--muted)] transition hover:text-[var(--foreground)]"
               onClick={() => setSelectedProceso(null)}
             >
               <FaTimes />
@@ -54,22 +54,21 @@ export function ModalProceso({
         {/* Contenido */}
         <div className="mt-15 space-y-4">
           {/* Breadcrumbs */}
-          <nav className="flex text-sm text-gray-600 mb-4">
-            <span className="cursor-pointer hover:text-blue-600">{arbol}</span>
+          <nav className="mb-4 flex text-sm text-[var(--muted)]">
+            <span className="cursor-pointer transition hover:text-[var(--accent)]">{arbol}</span>
             <span className="mx-2">/</span>
-            <span className="text-gray-800 font-medium">
+            <span className="font-medium text-[var(--foreground)]">
               {selectedNode.data?.proceso || selectedNode.data?.label}
             </span>
           </nav>
 
           {/* Buscador */}
           <div className="relative">
-            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted)]" />
             <input
               type="text"
               placeholder="Buscar variable..."
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
-                focus:outline-none focus:border-blue-500 text-sm text-gray-700 bg-gray-50"
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] py-2 pl-10 pr-3 text-sm text-[var(--foreground)] focus:border-[var(--accent)] focus:outline-none"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -96,19 +95,19 @@ export function ModalProceso({
                   return (
                     <li
                       key={childId}
-                      className="p-3 border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 flex justify-between items-center transition"
+                      className="flex items-center justify-between rounded-lg border border-[var(--border)] p-3 shadow-sm transition hover:bg-[var(--surface-muted)]"
                     >
                       <div>
-                        <p className="font-medium text-gray-800">
+                        <p className="font-medium text-[var(--foreground)]">
                           {variableNode?.data?.label || childId}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-[var(--muted)]">
                           {variableNode?.data?.parametros?.descripcionVar ||
                             "Sin descripción"}
                         </p>
                       </div>
                       <button
-                        className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 rounded-lg hover:bg-blue-50 transition"
+                        className="rounded-lg px-3 py-1 text-sm text-[var(--accent)] transition hover:bg-[var(--surface-muted)] hover:text-[var(--accent)]"
                         onClick={() => {
                           setSelectedVariable(true);
                           setSelectedProceso(false);
@@ -139,9 +138,9 @@ export function ModalVariable({
   if (!selectedNode) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-[color:var(--foreground)]/40 backdrop-blur-xs z-50">
       <div
-        className={`bg-white pb-5 rounded-lg shadow-2xl px-6 relative ${
+        className={`rounded-lg bg-[var(--surface)] px-6 pb-5 shadow-2xl relative ${
           selectedNode.type === "Variable"
             ? "w-[1100px] max-h-[98%] overflow-y-auto"
             : "w-[1100px]"
@@ -149,13 +148,13 @@ export function ModalVariable({
       >
         {/* Header */}
         <div
-          className={`fixed border-b-1 -ml-6 bg-blue-50/50 backdrop-blur-lg pt-3 rounded-t-lg border-gray-300 pb-1 px-3 ${
+          className={`fixed -ml-6 rounded-t-lg border-b border-[var(--border)] bg-[var(--surface-muted)] px-3 pb-1 pt-3 backdrop-blur-lg ${
             selectedNode.type === "Variable" ? "w-[1100px]" : "w-[400px]"
           }`}
         >
           <div className="flex">
             <p
-              className="ml-2 mr-3 mt-1 text-gray-500 hover:text-gray-800 cursor-pointer"
+              className="ml-2 mr-3 mt-1 cursor-pointer text-[var(--muted)] transition hover:text-[var(--foreground)]"
               onClick={() => {
                 setSelectedVariable(false);
                 setSelectedProceso(true);
@@ -163,7 +162,7 @@ export function ModalVariable({
             >
               <FaArrowLeft />
             </p>
-            <h2 className="text-[18px] text-blue-900 font-bold">
+            <h2 className="text-[18px] font-bold text-[var(--foreground)]">
               <span>
                 {selectedNode.data?.proceso ||
                   selectedNode.data?.variable ||
@@ -172,7 +171,7 @@ export function ModalVariable({
             </h2>
 
             <p
-              className="absolute right-6 text-gray-500 hover:text-gray-800 cursor-pointer"
+              className="absolute right-6 cursor-pointer text-[var(--muted)] transition hover:text-[var(--foreground)]"
               onClick={() => setSelectedVariable(false)}
             >
               <FaTimes />
@@ -182,38 +181,38 @@ export function ModalVariable({
 
         {/* Contenido */}
         <div className="mt-15 space-y-4">
-          <nav className="flex text-sm text-gray-600">
-            <span className="cursor-pointer hover:text-blue-600">{arbol}</span>
+          <nav className="flex text-sm text-[var(--muted)]">
+            <span className="cursor-pointer transition hover:text-[var(--accent)]">{arbol}</span>
             <span className="mx-2">/</span>
-            <span className="cursor-pointer hover:text-blue-600">
+            <span className="cursor-pointer transition hover:text-[var(--accent)]">
               {selectedNode.data?.proceso || selectedNode.data?.label}
             </span>
             <span className="mx-2">/</span>
-            <span className="text-gray-800 font-medium">
+            <span className="font-medium text-[var(--foreground)]">
               {selectedNode?.data?.variable || "Variable"}
             </span>
           </nav>
 
           <div className="space-y-4 mt-5">
             <div>
-              <span className="text-sm text-gray-700 font-medium">Orden:</span>
-              <p className="text-base text-gray-900 mt-1">
+              <span className="text-sm font-medium text-[var(--foreground)]">Orden:</span>
+              <p className="mt-1 text-base text-[var(--foreground)]">
                 {VariableNode?.data?.nombre || "N/A"}
               </p>
             </div>
 
             <div>
-              <span className="text-sm text-gray-700 font-medium">
+              <span className="text-sm font-medium text-[var(--foreground)]">
                 Nombre del proceso:
               </span>
-              <p className="text-base text-gray-900 mt-1">
+              <p className="mt-1 text-base text-[var(--foreground)]">
                 {VariableNode?.data?.nombre || "N/A"}
               </p>
             </div>
 
             <div>
-              <span className="text-sm text-gray-700 font-medium">Descripción:</span>
-              <p className="text-base text-gray-900 mt-1 whitespace-pre-wrap">
+              <span className="text-sm font-medium text-[var(--foreground)]">Descripción:</span>
+              <p className="mt-1 whitespace-pre-wrap text-base text-[var(--foreground)]">
                 {selectedNode.data?.parametros?.descripcionVar || "Sin descripción"}
               </p>
             </div>

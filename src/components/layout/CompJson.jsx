@@ -133,21 +133,17 @@ function NodeDetails({ node }) {
               key === "parametros" ? (
                 <div className="grid grid-cols-[135px_1fr] gap-x-4 gap-y-2">
                   {Object.entries(value).map(([paramKey, paramValue]) => (
-                    <>
+                    <div key={`${paramKey}-row`} className="contents">
                       <div
-                        key={paramKey + "-label"}
                         className="text-xs text-[var(--muted)] text-left font-medium truncate cursor-default"
                         title={paramKey}
                       >
                         {paramKey}:
                       </div>
-                      <div
-                        key={paramKey + "-value"}
-                        className="text-[13px] text-[var(--foreground)]"
-                      >
+                      <div className="text-[13px] text-[var(--foreground)]">
                         {String(paramValue)}
                       </div>
-                    </>
+                    </div>
                   ))}
                 </div>
               ) : (
