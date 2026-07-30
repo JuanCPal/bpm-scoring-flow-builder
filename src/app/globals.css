@@ -2,15 +2,81 @@
 @import 'tippy.js/dist/tippy.css';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Blue palette - light mode */
+  --blue-50: #f4f8ff;
+  --blue-100: #e8f0ff;
+  --blue-200: #cfdfff;
+  --blue-300: #aec8ff;
+  --blue-400: #85abff;
+  --blue-500: #5d8dff;
+  --blue-600: #406ff0;
+  --blue-700: #3057cc;
+  --blue-800: #2747a3;
+  --blue-900: #223b80;
+  --blue-950: #172652;
+
+  /* Neutral palette with cool/blue undertone - light mode */
+  --neutral-50: #f8faff;
+  --neutral-100: #f0f4ff;
+  --neutral-200: #e0e8f8;
+  --neutral-300: #c7d4eb;
+  --neutral-400: #9aabc7;
+  --neutral-500: #6f83a3;
+  --neutral-600: #526481;
+  --neutral-700: #3c4d66;
+  --neutral-800: #2a384d;
+  --neutral-900: #1b2638;
+  --neutral-950: #111a2a;
+
+  /* Semantic variables - light mode */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+  --surface: #ffffff;
+  --surface-muted: var(--neutral-100);
+  --border: var(--neutral-200);
+  --muted: var(--neutral-600);
+  --accent: var(--blue-600);
+  --accent-foreground: #ffffff;
+  --grid-color: #b8cef2;
 }
 
-:root {
-  --grid-color: #b8cef2; 
-}
 .dark {
-  --grid-color: #00172e; 
+  /* Blue palette - dark mode */
+  --blue-50: #eaf1ff;
+  --blue-100: #d8e5ff;
+  --blue-200: #b7cdfa;
+  --blue-300: #8eaef0;
+  --blue-400: #678edc;
+  --blue-500: #4e74bf;
+  --blue-600: #3d5f9c;
+  --blue-700: #314d7f;
+  --blue-800: #273d64;
+  --blue-900: #1c2d49;
+  --blue-950: #101a2d;
+
+  /* Neutral palette with cool/blue undertone - dark mode */
+  --neutral-50: #f8faff;
+  --neutral-100: #dbe5fb;
+  --neutral-200: #bcc9e1;
+  --neutral-300: #95a8c3;
+  --neutral-400: #7088a7;
+  --neutral-500: #546a86;
+  --neutral-600: #3f526b;
+  --neutral-700: #2d3e54;
+  --neutral-800: #1f2d40;
+  --neutral-900: #152032;
+  --neutral-950: #0d1523;
+
+  /* Semantic variables - dark mode */
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-100);
+  --surface: var(--neutral-900);
+  --surface-muted: var(--neutral-800);
+  --border: var(--neutral-700);
+  --muted: var(--neutral-300);
+  --accent: var(--blue-300);
+  --accent-foreground: var(--neutral-950);
+  --grid-color: #00172e;
 }
 
 @theme inline {
@@ -22,8 +88,39 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --blue-50: #eaf1ff;
+    --blue-100: #d8e5ff;
+    --blue-200: #b7cdfa;
+    --blue-300: #8eaef0;
+    --blue-400: #678edc;
+    --blue-500: #4e74bf;
+    --blue-600: #3d5f9c;
+    --blue-700: #314d7f;
+    --blue-800: #273d64;
+    --blue-900: #1c2d49;
+    --blue-950: #101a2d;
+
+    --neutral-50: #f8faff;
+    --neutral-100: #dbe5fb;
+    --neutral-200: #bcc9e1;
+    --neutral-300: #95a8c3;
+    --neutral-400: #7088a7;
+    --neutral-500: #546a86;
+    --neutral-600: #3f526b;
+    --neutral-700: #2d3e54;
+    --neutral-800: #1f2d40;
+    --neutral-900: #152032;
+    --neutral-950: #0d1523;
+
+    --background: var(--neutral-950);
+    --foreground: var(--neutral-100);
+    --surface: var(--neutral-900);
+    --surface-muted: var(--neutral-800);
+    --border: var(--neutral-700);
+    --muted: var(--neutral-300);
+    --accent: var(--blue-300);
+    --accent-foreground: var(--neutral-950);
+    --grid-color: #00172e;
   }
 }
 
