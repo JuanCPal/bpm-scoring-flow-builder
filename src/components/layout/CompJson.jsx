@@ -1,4 +1,4 @@
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { saveProject } from "@/lib/api-client";
@@ -27,20 +27,31 @@ export default function PanelJson({ nodes, edges, arbol, selectedNode }) {
   };
 
   return (
-    < >
-    <Tippy
-    content={isOpen ? "Ocultar panel" : "Mostrar detalles"}
-    placement={isOpen ? "bottom" : "left"}
-    >
-      <div className={`flex absolute top-15 right-1 z-[9999] ${isOpen ? "right-[320px]" : ""}`}>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`px-1.5 rounded-md py-[7px] mt-1 cursor-pointer mr-2 transition-all duration-300 ${isOpen ? "font-bold dark:font-normal text-[var(--accent-foreground)] bg-[var(--accent)] border-1 border-[var(--accent)] pr-6" : "bg-[var(--surface)] text-[var(--accent)] border-1 border-[var(--border)]" }`}
-        >
-          {isOpen ? <FaArrowRight className="-mr-1.5 -mt-0.5"  /> : <FaArrowLeft />}
-        </button>
-      </div>
-    </Tippy>
+    <>
+      <Tooltip.Provider delayDuration={150}>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <div className={`flex absolute top-15 right-1 z-[9999] ${isOpen ? "right-[320px]" : ""}`}>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`px-1.5 rounded-md py-[7px] mt-1 cursor-pointer mr-2 transition-all duration-300 ${isOpen ? "font-bold dark:font-normal text-[var(--accent-foreground)] bg-[var(--accent)] border-1 border-[var(--accent)] pr-6" : "bg-[var(--surface)] text-[var(--accent)] border-1 border-[var(--border)]" }`}
+              >
+                {isOpen ? <FaArrowRight className="-mr-1.5 -mt-0.5" /> : <FaArrowLeft />}
+              </button>
+            </div>
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content
+              side={isOpen ? "bottom" : "left"}
+              sideOffset={8}
+              className="z-[99999] rounded-md border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs text-[var(--foreground)] shadow"
+            >
+              {isOpen ? "Ocultar panel" : "Mostrar detalles"}
+              <Tooltip.Arrow className="fill-[var(--surface)]" />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
 
       <div
         className={`bg-[var(--surface)] border-[var(--border)] shadow pt-2 ml-1 transition-transform duration-300 absolute z-[999] top-14 right-0 ease-in-out

@@ -33,7 +33,7 @@ import {
 import { AiFillHome } from 'react-icons/ai';
 import { useState } from "react";
 import ThemeToggle from "@/components/ui/theme/theme-toggle";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 export default function ToolBar({
   saveToLocalStorage,
@@ -53,37 +53,47 @@ export default function ToolBar({
     
       <div className="absolute top-0 left-0 right-0 h-14 bg-[var(--surface)] text-[var(--foreground)] border-[var(--border)] border-b-1 flex items-center justify-between px-4 z-[99]">
         {/* Título */}
-        <Tippy
-        content="Editar titulo del flujo"
-        placement="bottom"
-        className="bg-[var(--accent)] text-[var(--accent-foreground)]"
-        >
-        <div className="flex items-center gap-2 cursor-text">
+        <Tooltip.Provider delayDuration={150}>
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <div className="flex items-center gap-2 cursor-text">
                   
-          <MdCircle
-          onClick={() => setEditar(true)} 
-          className="text-[var(--foreground)]" />
-          {editar ? (            
-            <input
-              autoFocus
-              value={arbol}
-              onChange={(e) => setChangeEdit(e.target.value)}
-              onBlur={() => setEditar(false)}
-              onKeyDown={(e) => e.key === 'Enter' && setEditar(false)}
-              className="w-64 text-sm font-medium bg-transparent border-b border-[var(--border)] text-[var(--foreground)] focus:outline-none"
-              placeholder="Nombre del árbol"
-            />
-            
-          ) : (
-            <h1
-              onClick={() => setEditar(true)}
-              className="text-lg font-semibold text-[var(--muted)] cursor-pointer hover:underline"
-            >
-              {arbol}
-            </h1>
-          )}
-        </div>
-        </Tippy>
+                <MdCircle
+                onClick={() => setEditar(true)} 
+                className="text-[var(--foreground)]" />
+                {editar ? (            
+                  <input
+                    autoFocus
+                    value={arbol}
+                    onChange={(e) => setChangeEdit(e.target.value)}
+                    onBlur={() => setEditar(false)}
+                    onKeyDown={(e) => e.key === 'Enter' && setEditar(false)}
+                    className="w-64 text-sm font-medium bg-transparent border-b border-[var(--border)] text-[var(--foreground)] focus:outline-none"
+                    placeholder="Nombre del árbol"
+                  />
+                  
+                ) : (
+                  <h1
+                    onClick={() => setEditar(true)}
+                    className="text-lg font-semibold text-[var(--muted)] cursor-pointer hover:underline"
+                  >
+                    {arbol}
+                  </h1>
+                )}
+              </div>
+            </Tooltip.Trigger>
+            <Tooltip.Portal>
+              <Tooltip.Content
+                side="bottom"
+                sideOffset={8}
+                className="z-[99999] rounded-md border border-[var(--border)] bg-[var(--accent)] px-2 py-1 text-xs text-[var(--accent-foreground)] shadow"
+              >
+                Editar titulo del flujo
+                <Tooltip.Arrow className="fill-[var(--accent)]" />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
 
         {/* Acciones */}
         <div className="flex items-center gap-6">
