@@ -87,7 +87,7 @@ export default function ToolBar({
 
         {/* Acciones */}
         <div className="flex items-center gap-6">
-          {/* <ThemeToggle/> */}
+          <ThemeToggle />
 
           {/* Controles "ligeros" */}
           <div className="flex relative items-center gap-1 text-sm text-[var(--muted)] left-0">

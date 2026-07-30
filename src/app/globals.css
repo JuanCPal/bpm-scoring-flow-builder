@@ -87,7 +87,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light):not(.dark) {
     --blue-50: #eaf1ff;
     --blue-100: #d8e5ff;
     --blue-200: #b7cdfa;
