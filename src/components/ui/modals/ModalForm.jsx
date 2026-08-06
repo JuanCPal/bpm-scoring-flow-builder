@@ -1,6 +1,12 @@
 import Tippy from "@tippyjs/react";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaCog, FaHireAHelper, FaQuestionCircle, FaTimes, FaTools } from "react-icons/fa";
+import {
+  variableEditFields,
+  variableEvalAlfanumericaFields,
+  variableEvalNumericaFields,
+  variableReglaCalculoFields,
+} from "@/mocks/mock-data";
 
 export default function ModalForm({
   selectedNode,
@@ -13,6 +19,46 @@ export default function ModalForm({
   setFormPro,
   setFormVar
 }) {
+  const baseFieldClassName =
+    "mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0";
+
+  const renderFormVarField = (field) => (
+    <label key={field.name} className="block">
+      <span className="text-sm text-[var(--foreground)]">{field.label}</span>
+      {field.type === "textarea" ? (
+        <textarea
+          name={field.name}
+          onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
+          value={formVar[field.name] || ""}
+          className={field.inputClassName || baseFieldClassName}
+        />
+      ) : field.type === "select" ? (
+        <select
+          name={field.name}
+          onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
+          value={formVar[field.name] || ""}
+          className={field.inputClassName || baseFieldClassName}
+        >
+          <option value="">{field.placeholder || "Selecciona una opción"}</option>
+          {(field.options || []).map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type={field.type || "text"}
+          name={field.name}
+          onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
+          value={formVar[field.name] || ""}
+          placeholder={field.placeholder || ""}
+          className={field.inputClassName || baseFieldClassName}
+        />
+      )}
+    </label>
+  );
+
   const [mostrarExtra1, setMostrarExtra1] = useState(false);
   const [mostrarExtra2, setMostrarExtra2] = useState(false);
   const [mostrarVarRela, setMostrarVarRela] = useState(false);
@@ -42,10 +88,10 @@ export default function ModalForm({
 
   return (
     <div className="fixed font-sans inset-0 bg-[color:var(--neutral-800)]/40 backdrop-blur-xs flex items-center justify-center z-[99999]">
-      <div className="absolute left-10 top-72 flex cursor-pointer rounded-md bg-[var(--accent)] px-3 py-[3px] text-[var(--accent-foreground)] transition hover:opacity-90">
+      <div className="absolute left-10 top-72 hidden flex cursor-pointer rounded-md bg-[var(--accent)] px-3 py-[3px] text-[var(--accent-foreground)] transition hover:opacity-90">
         <FaArrowLeft className="mt-1 mr-1" /> <h2>Anterior</h2>
       </div>
-      <div className="absolute right-10 top-72 flex cursor-pointer rounded-md bg-[var(--accent)] px-3 py-[3px] text-[var(--accent-foreground)] transition hover:opacity-90 hover:z-[9999999] ">
+      <div className="absolute right-10 top-72 hidden flex cursor-pointer rounded-md bg-[var(--accent)] px-3 py-[3px] text-[var(--accent-foreground)] transition hover:opacity-90 hover:z-[9999999] ">
        <h2 className="flex gap-1 truncate">Siguiente {selectedNode.data?.label}</h2> <FaArrowRight className="mt-1 ml-1" /> 
       </div>
 
@@ -334,119 +380,7 @@ export default function ModalForm({
                   </div>
 
                   <div className="grid grid-cols-3 gap-4">
-
-                    {/* Columna izquierda */}
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Orden: </span>
-                      <input
-                        type="number"
-                        name="orden"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.orden}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Variable</span>
-                      <input
-                        type="text"
-                        name="variable"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.variable}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    {/* Columna derecha */}
-
-
-                    {/* Más inputs visibles por defecto */}
-
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Tipo</span>
-                      <input
-                        type="text"
-                        name="tipo"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.tipo}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Naturaleza</span>
-                      <input
-                        type="text"
-                        name="naturaleza"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.naturaleza}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Tamaño</span>
-                      <input
-                        type="text"
-                        name="tamano"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.tamano}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Causal</span>
-                      <input
-                        type="text"
-                        name="causal"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.causal}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Limite inferior</span>
-                      <input
-                        type="text"
-                        name="limInf"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.limInf}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Limite superior</span>
-                      <input
-                        type="text"
-                        name="limSup"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.limSup}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    {/* Otro input visible */}
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Puntaje</span>
-                      <input
-                        type="text"
-                        name="puntaje"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.puntaje}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    {/* Textarea ocupa toda la fila */}
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Descripción</span>
-                      <textarea
-                        name="descripcionVar"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.descripcionVar}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-2 min-h-[80px] resize focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
+                    {variableEditFields.map(renderFormVarField)}
                   </div>
                 </>
               )}
@@ -467,34 +401,7 @@ export default function ModalForm({
                     </div>
 
                     {mostrarExtra1 && (
-
-                      <>
-                        <label className="block">
-                          <span className="text-sm text-[var(--foreground)]">Número de regla</span>
-                          <input
-                            type="text"
-                            name="ReglaEvaluadora"
-                            onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                            value={formVar.ReglaEvaluadora}
-                            className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                          />
-                        </label>
-
-                        {/* Más inputs visibles por defecto */}
-
-                        <label className="block">
-                          <span className="text-sm text-[var(--foreground)]">Campo adicional 1</span>
-                          <input
-                            type="text"
-                            name="extra1"
-                            className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                          />
-                        </label>
-
-
-                        {/* Textarea ocupa toda la fila */}
-
-                      </>
+                      <>{variableEvalNumericaFields.map(renderFormVarField)}</>
                     )}
                     <div className="col-span-3">
                       <button
@@ -507,33 +414,7 @@ export default function ModalForm({
                     </div>
 
                     {mostrarExtra2 && (
-
-                      <>
-                        <label className="block">
-                          <span className="text-sm text-[var(--foreground)]">Número de regla</span>
-                          <input
-                            type="text"
-                            name="ReglaEvaluadora"
-                            onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                            value={formVar.ReglaEvaluadora}
-                            className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                          />
-                        </label>
-
-                        {/* Más inputs visibles por defecto */}
-
-
-                        <label className="block">
-                          <span className="text-sm text-[var(--foreground)]">descripcion :</span>
-                          <input
-                            type="text"
-                            name="label1"
-                            className="mt-1 h-7 block w-full rounded-md border border-[var(--border)] px-2 py-1"
-                          />
-                        </label>
-
-
-                      </>
+                      <>{variableEvalAlfanumericaFields.map(renderFormVarField)}</>
                     )}
                   </div>
 
@@ -543,38 +424,7 @@ export default function ModalForm({
                 <>
 
                   <div className="grid grid-cols-3 gap-4">
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Número de regla: </span>
-                      <input
-                        type="text"
-                        name="ReglaCalculo"
-                        onChange={(e) => setFormVar({ ...formVar, [e.target.name]: e.target.value })}
-                        value={formVar.ReglaCalculo}
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    {/* Columna izquierda */}
-
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Campo adicional 1</span>
-                      <input
-                        type="text"
-                        name="extra1"
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm text-[var(--foreground)]">Campo adicional 1</span>
-                      <input
-                        type="text"
-                        name="extra1"
-                        className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                      />
-                    </label>
-
-                    {/* Otro input visible */}
-
+                    {variableReglaCalculoFields.map(renderFormVarField)}
                   </div>
                 </>
               )}

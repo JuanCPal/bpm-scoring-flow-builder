@@ -242,3 +242,152 @@ export const projectDetails = {
     edges: [],
   },
 };
+
+export const variableEditFields = [
+  { name: "numeroVariable", label: "Numero de la variable", type: "text" },
+  { name: "variable", label: "Variable", type: "text" },
+    {
+    name: "tipo",
+    label: "Tipo de variable:",
+    type: "select",
+    placeholder: "Selecciona un tipo",
+    options: [
+      { value: "M", label: "M=Obligatoria" },
+      { value: "O", label: "O=Opcional" },
+      { value: "I", label: "I=Informativa" },
+    ],
+  },
+    {
+    name: "naturaleza",
+    label: "Naturaleza:",
+    type: "select",
+    placeholder: "Selecciona naturaleza",
+    options: [
+      { value: "N", label: "N=Numerica" },
+      { value: "A", label: "A=Alfanumerica" },
+      { value: "F", label: "F=Fecha" },
+    ],
+  },
+  {
+    name: "origenVariable",
+    label: "Origen de la variable:",
+    type: "select",
+    placeholder: "Selecciona un origen",
+    options: [
+      { value: "D", label: "D=Digitada" },
+      { value: "C", label: "C=Calculada" },
+      { value: "E", label: "E=Externa" },
+    ],
+  },
+  { name: "grupoVariable", label: "Grupo de la variable", type: "text" },
+  { name: "tamano", label: "Tamaño", type: "text" },
+  {
+    name: "continuacionProceso",
+    label: "Continuacion proceso: ",
+    type: "select",
+    placeholder: "Selecciona una opcion",
+    options: [
+      { value: "S", label: "Si" },
+      { value: "N", label: "No" },
+    ],
+  },
+  { name: "peso", label: "Peso", type: "number" },
+  {
+    name: "indicadorOverride",
+    label: "Indicador override: ",
+    type: "select",
+    placeholder: "Selecciona una opcion",
+    options: [
+      { value: "S", label: "Si" },
+      { value: "N", label: "No" },
+    ],
+  },
+  { name: "siNoExisteRangoContinue", label: "Si no existe rango continue: ", type: "text" },  
+  { name: "puntajeMaximo", label: "Puntaje maximo: ", type: "number" },
+  { name: "indicativoAuditoria", label: "Indicativo auditoria", type: "text" },
+  { name: "puntajeMinimo", label: "Puntaje minimo: ", type: "number" },
+  {
+    name: "indicativoCargue",
+    label: "Indicativo de cargue: ",
+    type: "select",
+    placeholder: "Selecciona un origen",
+    options: [
+      { value: "I", label: "I=Carga informacion a la linea de los estados financieros e indices" },
+      { value: "S", label: "S=Carga información a la línea asociada por medio de una variable." },
+      { value: "N", label: "N=No cargue" },
+    ],
+  },  
+  { name: "causalNegacion", label: "Puntaje maximo. ", type: "number" },
+  { name: "literal", label: "Literal: ", type: "text" },  
+  { name: "literal2", label: "Literal 2: ", type: "text" },
+  {
+    name: "descripcionVar",
+    label: "Descripción",
+    type: "textarea",
+    inputClassName:
+      "mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-2 min-h-[80px] resize focus:outline-none focus:border-[var(--accent)] focus:ring-0",
+  },
+];
+
+export const variableEvalNumericaFields = [
+  { name: "numeroRegla", label: "Número de regla", type: "text" },
+  {
+    name: "descripcionEvalNum",
+    label: "Descripción: ",
+    type: "textarea",
+    inputClassName:
+      "mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-2 min-h-[80px] resize focus:outline-none focus:border-[var(--accent)] focus:ring-0",
+  },
+  { name: "limiteInferior", label: "Limite inferior: ", type: "number" },  
+  {
+    name: "negacionCredito",
+    label: "Negacion del crédito: ",
+    type: "select",
+    placeholder: "Selecciona una opcion",
+    options: [
+      { value: "S", label: "Niega el credito" },
+      { value: "N", label: "Continua con el proceso de evaluación" },
+    ],
+  },
+  { name: "limiteSuperior", label: "Limite superior: ", type: "number" },  
+  {
+    name: "terminacionProceso",
+    label: "Continuacion proceso: ",
+    type: "select",
+    placeholder: "Selecciona un origen",
+    options: [
+      { value: "S", label: "Finaliza proceso de evaluacion" },
+      { value: "N", label: "Continua con el proceso" },
+    ],
+  },
+  { name: "puntajeConstante", label: "Puntaje Constante: ", type: "text" },
+  { name: "variableRelacionada", label: "Variable Relacionada: ", type: "number" }, 
+  { name: "Segundo factor", label: "Segundo factor: ", type: "text" },
+  { name: "suma", label: "Suma: ", type: "text" },
+  { name: "puntajeMinimo", label: "Puntaje Minimo: ", type: "number" },
+  { name: "resta", label: "Resta: ", type: "text" },
+  { name: "puntajeMaximo", label: "Puntaje maximo: ", type: "number" }, 
+  { name: "multiplicacion", label: "Multiplicacion: ", type: "text" },
+  { name: "causalNegacion", label: "Causal de negación", type: "text" },
+  { name: "division", label: "Division: ", type: "text" },
+  { name: "exponenciacion", label: "Exponenciación: ", type: "text" },
+  { name: "proceso", label: "Proceso: ", type: "text" },
+  { name: "perfil", label: "perfil: ", type: "text" },
+  { name: "peso", label: "Peso: ", type: "text" },
+  { name: "lineaProcesoBifurcacion", label: "Linea y proceso de Bifurcación: ", type: "text" },
+  { name: "fuenteDatos", label: "Fuente de datos: ", type: "text" },
+  { name: "grupoDocumentos", label: "Grupo de documentos: ", type: "text" },
+  { name: "nombreReporte", label: "Nombre del reporte: ", type: "text" },                                      
+
+];
+
+export const variableEvalAlfanumericaFields = [
+  { name: "ReglaEvaluadora", label: "Número de regla", type: "text" },
+  { name: "label1", label: "descripcion :", type: "text" },
+];
+
+export const variableReglaCalculoFields = [
+  { name: "ReglaCalculo", label: "Número de regla:", type: "text" },
+  { name: "extra1", label: "Campo adicional 1", type: "text" },
+  { name: "extra2", label: "Campo adicional 2", type: "text" },
+];
