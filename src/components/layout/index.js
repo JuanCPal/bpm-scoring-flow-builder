@@ -1,6 +1,5 @@
 // Layout Components
 export { default as Sidebar } from './Sidebar';
-export { default as SidebarVariables } from './SidebarVariables';
 export { default as ToolBar } from './ToolBar';
 export { default as StatusBar } from './StatusBar';
 export { ContextMenu } from './MenuContextual';

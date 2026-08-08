@@ -87,7 +87,6 @@ const nodeTypes = {
    ---------------------------- */
 
 export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) {
-
     const [nodes, setNodes, onNodesChange] = useNodesState(savedNodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdges || []);
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -730,8 +729,14 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 deleteKeyCode={null}
                 fitView>
 
-                <MiniMap className="dark:hidden" />
-                <Controls className="dark:hidden" color="var(--accent)" />
+                <MiniMap
+                    className="flow-minimap"
+                    color="var(--accent)"
+                    maskColor="var(--surface-muted)"
+                    maskStrokeColor="var(--border)"
+                    maskStrokeWidth={1}
+                />
+                <Controls className="flow-controls" color="var(--accent)" />
                 <Background gap={35} variant="grid" color="var(--grid-color)" size={7} />
 
                 {/* Panel JSON con Details*/}

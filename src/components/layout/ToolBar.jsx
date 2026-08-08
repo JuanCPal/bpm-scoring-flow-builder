@@ -36,6 +36,7 @@ import ThemeToggle from "@/components/ui/theme/theme-toggle";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 export default function ToolBar({
+  variant = "main",
   saveToLocalStorage,
   handleImportFlow,
   editar,
@@ -47,6 +48,59 @@ export default function ToolBar({
 }) {
   const [OpenMasOpciones, setOpenMasOpciones] = useState(false)
   const router = useRouter();
+  const isMain = variant === "main";
+
+  // Bloque de acciones compartido entre el canvas principal y el subcanvas.
+  const actions = (
+    <>
+      {/* Controles "ligeros" */}
+      <div className="flex relative items-center gap-1 text-sm text-[var(--muted)] left-0">
+        <button onClick={() => router.push('/')} className="hover:text-[var(--accent)] ml-2 border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)] cursor-pointer transition flex items-center gap-1">
+          <AiFillHome size={16} className=""  />
+          Inicio
+        </button>
+        <button onClick={() => console.log('Undo')} className="hover:text-[var(--accent)] transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)]">
+          <MdUndo size={16} />
+
+        </button>
+        <button onClick={() => console.log('Redo')} className="hover:text-[var(--accent)] transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)]">
+          <MdRedo size={16} />
+
+        </button>
+      </div>
+
+      {/* Acciones fuertes */}
+      <div className="flex items-center gap-3 text-[14px] mr-2">
+        <button onClick={saveToLocalStorage} className="px-3 py-1 h-[30px] cursor-pointer bg-[var(--accent)] hover:opacity-90 text-[var(--accent-foreground)] rounded-md transition-all">Guardar</button>
+
+        <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[30px] cursor-pointer bg-transparent hover:bg-[var(--surface-muted)] text-[var(--accent)] border-1 border-[var(--accent)] rounded-md transition-all">Mas opciones</button>
+
+        {OpenMasOpciones && (
+          <div className="block bg-[var(--surface)] w-[115px] border-1 border-[var(--border)] text-[var(--muted)] rounded-b-md absolute top-[42px] right-6 pt-1">
+            <div className="pl-6 py-0.5 w-full hover:bg-[var(--surface-muted)] hover:text-[var(--accent)] cursor-pointer border-b-1 border-[var(--border)]">
+              <label htmlFor={`import-file-${variant}`} >
+                Importar
+                <input id={`import-file-${variant}`} type="file" accept="application/json" onChange={handleImportFlow} className="hidden" />
+              </label>
+            </div>
+
+            <button onClick={DownloadFile} className="py-1 -pl-5 cursor-pointer w-full hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] rounded">Descargar</button>
+          </div>
+        )}
+
+      </div>
+    </>
+  );
+
+  // El subcanvas no tiene barra completa ni editor de título: solo un
+  // cluster de acciones flotante en la esquina.
+  if (!isMain) {
+    return (
+      <div className="absolute flex items-center gap-6 -top-10 right-2 z-[9999]">
+        {actions}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -98,43 +152,7 @@ export default function ToolBar({
         {/* Acciones */}
         <div className="flex items-center gap-6">
           <ThemeToggle />
-
-          {/* Controles "ligeros" */}
-          <div className="flex relative items-center gap-1 text-sm text-[var(--muted)] left-0">
-            <button onClick={() => router.push('/')} className="hover:text-[var(--accent)] ml-2 border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)] cursor-pointer transition flex items-center gap-1">
-              <AiFillHome size={16} className=""  />
-              Inicio
-            </button>
-            <button onClick={() => console.log('Undo')} className="hover:text-[var(--accent)] transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)]">
-              <MdUndo size={16} />
-
-            </button>
-            <button onClick={() => console.log('Redo')} className="hover:text-[var(--accent)] transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-[var(--surface-muted)]">
-              <MdRedo size={16} />
-
-            </button>
-          </div>
-
-          {/* Acciones fuertes */}
-          <div className="flex items-center gap-3 text-[14px] mr-2">
-            <button onClick={saveToLocalStorage} className="px-3 py-1 h-[30px] cursor-pointer bg-[var(--accent)] hover:opacity-90 text-[var(--accent-foreground)] rounded-md transition-all">Guardar</button>
-
-            <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[30px] cursor-pointer bg-transparent hover:bg-[var(--surface-muted)] text-[var(--accent)] border-1 border-[var(--accent)] rounded-md transition-all">Mas opciones</button>
-
-            {OpenMasOpciones && (
-              <div className="block bg-[var(--surface)] w-[115px] border-1 border-[var(--border)] text-[var(--muted)] rounded-b-md absolute top-[42px] right-6 pt-1">
-                <div className="pl-6 py-0.5 w-full hover:bg-[var(--surface-muted)] hover:text-[var(--accent)] cursor-pointer border-b-1 border-[var(--border)]">
-                  <label htmlFor="import-file" >
-                    Importar
-                    <input id="import-file" type="file" accept="application/json" onChange={handleImportFlow}className="hidden" />
-                  </label>
-                </div>
-
-                <button onClick={DownloadFile} className="py-1 -pl-5 cursor-pointer w-full hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] rounded">Descargar</button>
-              </div>
-            )}
-
-          </div>
+          {actions}
         </div>
       </div>
 

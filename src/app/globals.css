@@ -138,3 +138,27 @@ body {
 .handle:hover {
   @apply scale-125 bg-blue-400;
 }
+
+.react-flow .react-flow__minimap {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.react-flow .react-flow__controls {
+  box-shadow: none;
+}
+
+.react-flow .react-flow__controls-button {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.react-flow .react-flow__controls-button:hover {
+  background-color: var(--surface-muted);
+}
+
+.react-flow .react-flow__controls-button svg {
+  fill: var(--foreground);
+}

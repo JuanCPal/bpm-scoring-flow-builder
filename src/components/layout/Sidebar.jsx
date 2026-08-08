@@ -1,11 +1,20 @@
 import { useState } from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { FaCog, FaPuzzlePiece, FaRandom, FaPlay, FaStop, FaPlusCircle, FaCircle, FaTimesCircle, FaArrowDown, FaChevronDown, FaChevronUp, FaPlus, FaMinus } from "react-icons/fa";
+import { FaCog, FaPuzzlePiece, FaLayerGroup, FaPlay, FaStop, FaPlusCircle, FaCircle, FaTimesCircle, FaChevronDown, FaChevronUp, FaPlus, FaMinus } from "react-icons/fa";
+
+// Posicionamiento propio de cada canvas donde vive el sidebar.
+const VARIANT_STYLES = {
+  main: { button: "left-3 top-16", panel: "left-3 top-[94px]" },
+  sub: { button: "-left-3 top-3", panel: "-left-3 top-[42px]" },
+};
 
 export default function SidebarNodeMenu({
+  variant = "main",
   sidebarOpen,
   setSidebarOpen,
+  addProceso,
   addProceson,
+  addVariable,
   addStart,
   addFin,
   addXor,
@@ -17,6 +26,19 @@ export default function SidebarNodeMenu({
   const [mostrarGateway, setMostrarGateway] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const styles = VARIANT_STYLES[variant] ?? VARIANT_STYLES.main;
+
+  // El canvas principal solo crea "Proceso"; el subcanvas de variables
+  // crea "Grupo de variables" y "Variable".
+  const activityItems = variant === "sub"
+    ? [
+        { name: "Grupo de variables", icon: <FaLayerGroup />, desc: "Crea un contenedor de variables", onClick: addProceso },
+        { name: "Variable", icon: <FaPuzzlePiece />, desc: "Crea una variable", onClick: addVariable },
+      ]
+    : [
+        { name: "Proceso", icon: <FaCog />, desc: "Crea un proceso generico", onClick: addProceson },
+      ];
+
   return (
     <>
       {/* Botón para abrir/cerrar sidebar */}
@@ -24,7 +46,7 @@ export default function SidebarNodeMenu({
         <Tooltip.Root>
           <Tooltip.Trigger asChild>
             <button
-              className="absolute text-[15px] left-3 top-16 z-60 px-2 py-[7px] rounded-md text-[var(--accent-foreground)] bg-[var(--accent)] cursor-pointer font-sans font-semibold transition-all"
+              className={`absolute text-[15px] ${styles.button} z-60 px-2 py-[7px] rounded-md text-[var(--accent-foreground)] bg-[var(--accent)] cursor-pointer font-sans font-semibold transition-all`}
               onClick={() => setSidebarOpen((s) => !s)}
             >
               {sidebarOpen ? <FaMinus /> : <FaPlus />}
@@ -45,7 +67,7 @@ export default function SidebarNodeMenu({
 
       {/* Sidebar */}
       {sidebarOpen && (
-        <div className="absolute select-none left-3 top-[94px] z-50 w-[260px] max-h-[70%] bg-[var(--surface)] text-[var(--foreground)] py-2 px-2 border-1 border-[var(--border)] rounded-md font-sans overflow-y-auto">
+        <div className={`absolute select-none ${styles.panel} z-50 w-[260px] max-h-[70%] bg-[var(--surface)] text-[var(--foreground)] py-2 px-2 border-1 border-[var(--border)] rounded-md font-sans overflow-y-auto`}>
 
           {/* Buscador sutil */}
           <input
@@ -65,17 +87,17 @@ export default function SidebarNodeMenu({
           </h3>
           {mostrarActividades && (
             <>
-              {["Proceso"].filter(item => item.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
+              {activityItems.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
                 <div
-                  key={item}
+                  key={item.name}
                   className="p-3 rounded-lg cursor-pointer bg-[var(--surface)] border border-[var(--border)] mb-3 hover:bg-[var(--surface-muted)]"
-                  onClick={addProceson}
+                  onClick={item.onClick}
                 >
                   <div className="flex items-center gap-2">
-                    <FaCog />
-                    <strong>{item}</strong>
+                    {item.icon}
+                    <strong>{item.name}</strong>
                   </div>
-                  <div className="text-[var(--muted)] text-[13px]">Crea un proceso generico</div>
+                  <div className="text-[var(--muted)] text-[13px]">{item.desc}</div>
                 </div>
               ))}
             </>
