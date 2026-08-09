@@ -2,6 +2,7 @@ import Tippy from "@tippyjs/react";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight, FaCog, FaHireAHelper, FaQuestionCircle, FaTimes, FaTools } from "react-icons/fa";
 import {
+  procesonFields,
   variableEditFields,
   variableEvalAlfanumericaFields,
   variableEvalNumericaFields,
@@ -21,6 +22,44 @@ export default function ModalForm({
 }) {
   const baseFieldClassName =
     "mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0";
+
+  const renderFormProField = (field) => (
+    <label key={field.name} className="block">
+      <span className="text-sm flex text-[var(--foreground)]">{field.label}</span>
+      {field.type === "textarea" ? (
+        <textarea
+          name={field.name}
+          onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+          value={formPro[field.name] || ""}
+          placeholder={field.placeholder || ""}
+          className={field.inputClassName || baseFieldClassName}
+        />
+      ) : field.type === "select" ? (
+        <select
+          name={field.name}
+          onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+          value={formPro[field.name] || ""}
+          className={field.inputClassName || baseFieldClassName}
+        >
+          <option value="">{field.placeholder || "Selecciona una opción"}</option>
+          {(field.options || []).map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type={field.type || "text"}
+          name={field.name}
+          onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
+          value={formPro[field.name] || ""}
+          placeholder={field.placeholder || ""}
+          className={field.inputClassName || baseFieldClassName}
+        />
+      )}
+    </label>
+  );
 
   const renderFormVarField = (field) => (
     <label key={field.name} className="block">
@@ -119,197 +158,7 @@ export default function ModalForm({
           {selectedNode?.type === "Proceson" && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Orden: </span>
-                  <input
-                    type="number"
-                    name="orden"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.orden}
-                    placeholder="Orden del proceso en el flujo"
-                    className="mt-1 block w-full rounded-md border bg-[var(--surface-muted)] border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Proceso: </span>
-                  <input
-                    type="text"
-                    name="nombre"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.nombre}                    
-                    placeholder="Nombre del proceso"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-1"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Descripcion</span>
-                  <textarea
-                    type="text"
-                    name="descripcion"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.descripcion}
-                    placeholder="Añadir descripción"
-                    className="mt-1 block w-full rounded-md border font-extralight bg-[var(--surface-muted)] border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <Tippy content="Es el paso a seguir en la evaluacion del proyecto" placement="left" zIndex={"99999"} animation="scale"
-                    duration={[300, 300]}
-                    delay={[150, 0]}>
-                    <span className="text-sm flex text-[var(--foreground)]">
-                      Siguiente paso:  <FaQuestionCircle className="hover:opacity-35 cursor-pointer" />
-                    </span></Tippy>
-                  <select
-                    name="SiguientePaso"
-                    value={formPro.SiguientePaso}
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  >
-                    <option value="">Seleccione el paso a seguir</option>
-                    <option value="Manual">Manual</option>
-                    <option value="Automatico">Automatico</option>
-                    <option value="EnlazarOperador">Enlazar operador</option>
-                    <option value="EnlaceNEP">Enlace NEP</option>
-                  </select>
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Proceso negado: </span>
-                  <input
-                    type="text"
-                    name="ProcesoNegado"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.ProcesoNegado}
-                    className="mt-1 block w-full rounded-md border bg-[var(--surface-muted)] border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">CTL tiempos</span>
-                  <input
-                    type="text"
-                    name="CTLTiempos"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.CTLTiempos}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)]  px-2 py-1 bg-[var(--surface-muted)] focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Codigo grupo de proceso: </span>
-                  <input
-                    type="text"
-                    name="CodigoGrupoProceso"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.CodigoGrupoProceso}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Producto de negado: </span>
-                  <input
-                    type="text"
-                    name="ProductoNegado"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.ProductoNegado}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">
-                    Estado de aprobación:
-                  </span>
-                  <select
-                    name="EstadoAprobacion"
-                    value={formPro.EstadoAprobacion}
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  >
-                    <option value="">Selecciona un estado</option>
-                    <option value="Preaprobado">Preaprobado</option>
-                    <option value="Aprobado">Aprobado</option>
-                    <option value="Negado">Negado</option>
-                  </select>
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Indicador de nueva solicitud: </span>
-                  <input
-                    type="text"
-                    name="IndicadorNuevaSolicitud"
-                    onChange={(e) => setFormPro({ ...formPro, [e.target.name]: e.target.value })}
-                    value={formPro.IndicadorNuevaSolictud}
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Página de captura</span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Tiempo Máx. Proceso</span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Nep de llamado </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Programa a llamar</span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Secuencia de llamdo </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Tipo de llamado ▼ </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Dia Máx. a transferir </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Linea a pasar solicitud </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm flex text-[var(--foreground)]">Proceso a pasar </span>
-                  <input
-                    type="text"
-                    className="mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-1 focus:outline-none focus:border-[var(--accent)] focus:ring-0"
-                  />
-                </label>
+                {procesonFields.map(renderFormProField)}
               </div>
             </>
           )}

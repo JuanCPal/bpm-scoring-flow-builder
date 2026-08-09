@@ -1,5 +1,5 @@
-import Tippy from "@tippyjs/react";
 import { useState } from "react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { FaCog, FaPuzzlePiece, FaRandom, FaPlay, FaStop, FaPlusCircle, FaCircle, FaTimesCircle, FaArrowDown, FaChevronDown, FaChevronUp, FaObjectGroup, FaLayerGroup, FaMinus, FaPlus } from "react-icons/fa";
 
 export default function SidebarVariables({
@@ -20,20 +20,28 @@ export default function SidebarVariables({
     return (
         <>
             {/* Botón para abrir/cerrar sidebar */}
-            <Tippy
-                content={sidebarOpen ? "Cerrar panel" : "Agregar elemento"}
-                placement="right"
-                animation="scale"
-                duration={[300, 300]}
-                delay={[150, 0]}
-            >
-                <button
-                  className="absolute text-[15px] -left-3 top-3 z-60 px-2 py-[7px] rounded-md text-[var(--accent-foreground)] bg-[var(--accent)] cursor-pointer font-sans font-semibold transition-all"
+            <Tooltip.Provider delayDuration={150}>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <button
+                    className="absolute text-[15px] -left-3 top-3 z-60 px-2 py-[7px] rounded-md text-[var(--accent-foreground)] bg-[var(--accent)] cursor-pointer font-sans font-semibold transition-all"
                     onClick={() => setSidebarOpen((s) => !s)}
-                >
+                  >
                     {sidebarOpen ? <FaMinus /> : <FaPlus />}
-                </button>
-            </Tippy>
+                  </button>
+                </Tooltip.Trigger>
+                <Tooltip.Portal>
+                  <Tooltip.Content
+                    side="right"
+                    sideOffset={8}
+                    className="z-[99999] rounded-md border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs text-[var(--foreground)] shadow"
+                  >
+                    {sidebarOpen ? "Cerrar panel" : "Agregar elemento"}
+                    <Tooltip.Arrow className="fill-[var(--surface)]" />
+                  </Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
+            </Tooltip.Provider>
 
             {/* Sidebar */}
             {sidebarOpen && (
