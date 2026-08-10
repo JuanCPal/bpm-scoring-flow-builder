@@ -6,9 +6,28 @@
 export function loadFromLocalStorage(key) {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+
+    const normalized = raw.trim();
+    if (!normalized) return null;
+
+    // Ignora valores planos (ej. "dark") que no son JSON serializado.
+    const looksLikeJson =
+      normalized.startsWith("{") ||
+      normalized.startsWith("[") ||
+      normalized.startsWith('"') ||
+      /^-?\d/.test(normalized) ||
+      normalized === "true" ||
+      normalized === "false" ||
+      normalized === "null";
+
+    if (!looksLikeJson) return null;
+
+    return JSON.parse(normalized);
   } catch (error) {
-    console.error(`Error parsing localStorage item ${key}:`, error);
+    if (!(error instanceof SyntaxError)) {
+      console.error(`Error parsing localStorage item ${key}:`, error);
+    }
     return null;
   }
 }

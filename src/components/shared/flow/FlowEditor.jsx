@@ -87,6 +87,9 @@ const nodeTypes = {
    ---------------------------- */
 
 export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) {
+    const flowWrapperRef = useRef(null);
+    const reactFlowRef = useRef(null);
+    const spawnOffsetRef = useRef(0);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(savedNodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdges || []);
@@ -284,21 +287,42 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
        Creación de nodos
        ------------------------------- */
 
-    let nextNodePosition = { x: 100, y: 100 };
+    const getSpawnPosition = useCallback((width = 180, height = 100) => {
+        const wrapper = flowWrapperRef.current;
+        const instance = reactFlowRef.current;
+        const offsetIndex = spawnOffsetRef.current;
+        const column = offsetIndex % 3;
+        const row = Math.floor(offsetIndex / 3) % 3;
+        const offset = {
+            x: column * 40,
+            y: row * 40,
+        };
 
-    const getNextPosition = (width = 320, height = 220) => {
-        const pos = { ...nextNodePosition };
-        nextNodePosition.x += width + 30;
-        if (nextNodePosition.x > 1200) {
-            nextNodePosition.x = 100;
-            nextNodePosition.y += height + 30;
+        spawnOffsetRef.current += 1;
+
+        if (!wrapper || !instance) {
+            return {
+                x: 160 + offset.x,
+                y: 120 + offset.y,
+            };
         }
-        return pos;
-    };
+
+        const bounds = wrapper.getBoundingClientRect();
+        const centerScreen = {
+            x: bounds.left + bounds.width / 2,
+            y: bounds.top + bounds.height / 2,
+        };
+        const centerFlow = instance.screenToFlowPosition(centerScreen);
+
+        return {
+            x: centerFlow.x - width / 2 + offset.x,
+            y: centerFlow.y - height / 2 + offset.y,
+        };
+    }, []);
 
     const addProceso = useCallback(() => {
         const id = `pp-${uuidv4()}`;
-        const position = getNextPosition(320, 220);
+        const position = getSpawnPosition(320, 220);
 
         setNodes((nds) => [
             ...nds,
@@ -316,43 +340,47 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 },
             },
         ]);
-    }, [setNodes]);
+    }, [getSpawnPosition, setNodes]);
 
     const addProceson = useCallback(() => {
         const id = `p-${uuidv4()}`;
-        const position = getNextPosition(180, 100);
+        const position = getSpawnPosition(180, 100);
         setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
-    }, [setNodes]);
+    }, [getSpawnPosition, setNodes]);
 
     const addStart = useCallback(() => {
         const id = `S-${uuidv4()}`;
-        const position = getNextPosition(180, 100);
+        const position = getSpawnPosition(180, 100);
 
         setNodes((nds) => [
             ...nds,
             { id, type: 'Start', position, data: { label: 'Inicio' } },
         ]);
-    }, [setNodes]);
+    }, [getSpawnPosition, setNodes]);
 
     const addFin = useCallback(() => {
         const id = `f-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin` } }]);
-    }, [setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Fin", position, data: { label: `Fin` } }]);
+    }, [getSpawnPosition, setNodes]);
 
     const addOr = useCallback(() => {
         const id = `o-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR` } }]);
-    }, [setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Or", position, data: { label: `OR` } }]);
+    }, [getSpawnPosition, setNodes]);
 
     const addXor = useCallback(() => {
         const id = `x-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR` } }]);
-    }, [setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Xor", position, data: { label: `XOR` } }]);
+    }, [getSpawnPosition, setNodes]);
 
     const addAnd = useCallback(() => {
         const id = `a-${uuidv4()}`;
-        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
-    }, [setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "And", position, data: { label: `AND` } }]);
+    }, [getSpawnPosition, setNodes]);
 
     const addVariableInside = useCallback(
         (procesoId) => {
@@ -696,7 +724,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     };
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[var(--background)]">
+        <div ref={flowWrapperRef} style={{ width: "100%", height: "100vh", position: "relative" }} className="font-sans bg-[var(--background)]">
             {/* Sidebar */}
             <SidebarNodeMenu
                 sidebarOpen={sidebarOpen}
@@ -713,6 +741,9 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
+                onInit={(instance) => {
+                    reactFlowRef.current = instance;
+                }}
                 nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
