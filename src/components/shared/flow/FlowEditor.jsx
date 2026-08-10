@@ -485,7 +485,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
             const orLabels = {
                 "s-t": "opcion 1",
                 "s-r": "Opción 2",
-                "s-b": "Opción 3",
+                "s-b": "Opción 2",
                 "s-l": "Opción 4",
             };
 

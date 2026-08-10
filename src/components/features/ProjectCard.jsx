@@ -1,11 +1,21 @@
-import { FaCircle, FaEllipsisH, FaHandPointDown, FaProjectDiagram } from "react-icons/fa";
-import { useState } from "react";
+import { FaCircle, FaEllipsisH, FaProjectDiagram } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { projectCardEditFields } from "@/mocks/mock-data";
 
 export default function ProjectCard({ title, project }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isModal, setIsModal] = useState(false);
-  const [projects, setProjects] = useState([]);
+  const [formData, setFormData] = useState({ producto: "", descripcion: "" });
+
+  useEffect(() => {
+    if (!isModal) return;
+
+    setFormData({
+      producto: project?.name || title || "",
+      descripcion: project?.description || "",
+    });
+  }, [isModal, project, title]);
 
   const formattedDate = new Date(project.savedAt).toLocaleString('es-ES', {
   weekday: 'short',     // ej: "jue."
@@ -15,7 +25,36 @@ export default function ProjectCard({ title, project }) {
   hour: '2-digit',      // ej: "23"
   minute: '2-digit'     // ej: "35"
 });
-  console.log('savedAt:', project.savedAt); 
+  const renderField = (field) => (
+    <div key={field.name} className={field.type === "textarea" ? "md:col-span-2" : ""}>
+      <label className="block">
+        <span className="text-sm text-gray-700 dark:text-zinc-300">{field.label}</span>
+        {field.type === "textarea" ? (
+          <textarea
+            name={field.name}
+            value={formData[field.name] || ""}
+            onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+            placeholder={field.placeholder || ""}
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 px-3 py-1.5 min-h-[96px] focus:outline-none focus:border-blue-300 focus:ring-0 font-extralight"
+          />
+        ) : (
+          <input
+            type={field.type || "text"}
+            name={field.name}
+            value={formData[field.name] || ""}
+            onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+            placeholder={field.placeholder || ""}
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 px-3 py-1.5 font-extralight focus:outline-none focus:border-blue-300 focus:ring-0"
+          />
+        )}
+      </label>
+    </div>
+  );
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    setIsModal(false);
+  };
 
   return (
     <div
@@ -100,42 +139,30 @@ export default function ProjectCard({ title, project }) {
           onClick={() => setIsModal(false)}
         >
           <div
-            className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl w-full max-w-md relative"
+            className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl w-full max-w-5xl relative max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-semibold text-gray-800 dark:text-zinc-200 mb-4">Editar flujo</h3>
 
-            <form className="space-y-4">
-              <label className="block">
-                <span className="text-sm text-gray-700 dark:text-zinc-300">Nombre de la línea</span>
-                <input
-                  type="text"
-                  name="nombre"
-                  className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 px-3 py-1.5 font-extralight focus:outline-none focus:border-blue-300 focus:ring-0"
-                />
-              </label>
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSave}>
+              {projectCardEditFields.map(renderField)}
 
-              <label className="block">
-                <span className="text-sm text-gray-700 dark:text-zinc-300">Descripción</span>
-                <textarea
-                  type="text"
-                  name="proceso"
-                  className="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-500 px-3 py-1.5  focus:outline-none focus:border-blue-300 focus:ring-0 font-extralight"
-                />
-              </label>
+              <div className="flex justify-end gap-3 mt-2 md:col-span-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModal(false)}
+                  className="px-4 py-1.5 text-sm bg-gray-200 dark:bg-transparent border-1 dark:border-blue-300 text-gray-800 dark:text-blue-300 dark:hover:text-slate-800 rounded-lg hover:bg-gray-300 dark:hover:bg-blue-200 cursor-pointer transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 text-sm bg-blue-400 text-slate-900 rounded-lg hover:bg-blue-300 cursor-pointer transition"
+                >
+                  Guardar
+                </button>
+              </div>
             </form>
-
-            <div className="flex justify-end gap-3 mt-6">
-              <button
-                onClick={() => setIsModal(false)}
-                className="px-4 py-1.5 text-sm bg-gray-200 dark:bg-transparent border-1 dark:border-blue-300 text-gray-800 dark:text-blue-300 dark:hover:text-slate-800 rounded-lg hover:bg-gray-300 dark:hover:bg-blue-200 cursor-pointer transition"
-              >
-                Cancelar
-              </button>
-              <button className="px-4 py-1.5 text-sm bg-blue-400  text-slate-900 rounded-lg hover:bg-blue-300 cursor-pointer transition">
-                Guardar
-              </button>
-            </div>
 
             <button
               onClick={() => setIsModal(false)}

@@ -15,6 +15,31 @@ export const projects = [
   },
 ];
 
+export const projectCardEditFields = [
+  { name: "producto", label: "Producto", type: "text" },
+  {
+    name: "descripcion",
+    label: "Descripción",
+    type: "textarea",
+    placeholder: "Añadir descripción",
+  },
+  { name: "limiteInferior", label: "Limite inferior", type: "text" },
+  { name: "limiteSuperior", label: "Limite superior", type: "text" },
+  { name: "variableValorSolicitado", label: "Variable valor solicitado", type: "number" },
+  { name: "variableValorDesembolsar", label: "Variable valor desembolsar", type: "number" },
+  { name: "variableValorAprobado", label: "Variable valor aprobado", type: "number" },
+  { name: "variablePuntaje", label: "Variable puntaje", type: "number" },
+  { name: "variableMercadoObjetivo", label: "Variable mercado objetivo", type: "number" },
+  { name: "numeroNegadas", label: "Nº. de negadas", type: "text" },
+  { name: "plazoNegadas", label: "Plazo de negadas", type: "text" },
+  { name: "interesMoro", label: "Interés moro", type: "text" },
+  { name: "productoSiif", label: "Producto SIIF", type: "text" },
+  { name: "prestamos", label: "Préstamos", type: "text" },
+  { name: "plazo", label: "Plazo", type: "text" },
+  { name: "procesoParaInterface", label: "Proceso para interface", type: "text" },
+  { name: "paginaWebCaptura", label: "Pagina WEB de captura", type: "text" },
+];
+
 export const projectDetails = {
   "linea-1": {
     id: "linea-1",
@@ -486,7 +511,7 @@ export const variableEvalAlfanumericaFields = [
   { name: "limiteInferior", label: "Limite inferior: ", type: "number" },
   { name: "limiteSuperior", label: "Limite superior: ", type: "number" },
   { name: "puntajeConstante", label: "Puntaje constante: ", type: "number" },
-  { name: "NumeroRegla", label: "Número de regla: ", type: "text" },
+  { name: "NumeroReglaTexto", label: "Número de regla: ", type: "text" },
   { name: "variableRelacionada", label: "Variable relacionada: ", type: "text" },
   {
     name: "terminacionProceso",
@@ -529,7 +554,7 @@ export const variableReglaCalculoFields = [
       "mt-1 block w-full rounded-md border border-[var(--border)] px-2 py-2 min-h-[80px] resize focus:outline-none focus:border-[var(--accent)] focus:ring-0",
   },
   {
-    name: "tipoFactor",
+    name: "tipoFactor2",
     label: "Tipo de factor: ",
     type: "select",
     placeholder: "Selecciona un origen",
@@ -550,7 +575,7 @@ export const variableReglaCalculoFields = [
     ],
   },
   {
-    name: "tipoVariable",
+    name: "tipoVariable2",
     label: "Tipo de variable: ",
     type: "select",
     placeholder: "Selecciona una opción",
@@ -615,9 +640,9 @@ export const variableReglaCalculoFields = [
       { value: "V", label: "Contenido de la variable enunciada, siempre y cuando en TIPO DE FACTOR se halla digitado (S, G, D)." },
     ],
   },
-  { name: "contenidoVariable", label: "Contenido dela variable: ", type: "number" },
+  { name: "contenidoVariable2", label: "Contenido dela variable: ", type: "number" },
   {
-    name: "claseOperacion",
+    name: "claseOperacion2",
     label: "Clase de operación: ",
     type: "select",
     placeholder: "Selecciona una opción",
