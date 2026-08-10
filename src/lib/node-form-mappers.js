@@ -1,5 +1,4 @@
 const PROCESO_FORM_DEFAULTS = {
-  orden: 1,
   nombre: "",
   proceso: "",
   descripcion: "",
@@ -272,7 +271,6 @@ export function createVariableFormFromNode(node) {
 
   return {
     ...getEmptyVariableForm(),
-    orden: readVariableParam(parametros, "orden"),
     variable,
     descripcionVar: readVariableParam(parametros, "descripcionVar"),
     ReglaEvaluadora: readVariableParam(parametros, "reglaEvaluadora"),

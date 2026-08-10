@@ -496,7 +496,6 @@ export const variableEvalNumericaFields = [
   { name: "fuenteDatos", label: "Fuente de datos: ", type: "text" },
   { name: "grupoDocumentos", label: "Grupo de documentos: ", type: "text" },
   { name: "nombreReporte", label: "Nombre del reporte: ", type: "text" },                                      
-
 ];
 
 export const variableEvalAlfanumericaFields = [
@@ -559,7 +558,7 @@ export const variableReglaCalculoFields = [
     type: "select",
     placeholder: "Selecciona un origen",
     options: [
-      { value: "V", label: "V = Toma el   contenido de una variable" },
+      { value: "V", label: "V = Toma el contenido de una variable" },
       { value: "E", label: "E = Toma la magnitud efectiva de una tasa" },
       { value: "T", label: "T = Toma la magnitud nominal de una tasa" },
       { value: "S", label: "S = Toma la suma de los contenidos o puntajes de las solicitudes los codeudores" },
