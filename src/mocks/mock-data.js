@@ -330,8 +330,7 @@ export const variableEditFields = [
 ];
 
 export const procesonFields = [
-  { name: "orden", label: "Orden:", type: "number", placeholder: "Orden del proceso en el flujo" },
-  { name: "nombre", label: "Proceso:", type: "text", placeholder: "Nombre del proceso" },
+  { name: "proceso", label: "Proceso:", type: "text", placeholder: "Nombre del proceso" },
   {
     name: "descripcion",
     label: "Descripcion",
@@ -378,6 +377,49 @@ export const procesonFields = [
   { name: "DiaMaxTransferir", label: "Dia Máx. a transferir", type: "text" },
   { name: "LineaPasarSolicitud", label: "Linea a pasar solicitud", type: "text" },
   { name: "ProcesoPasar", label: "Proceso a pasar", type: "text" },
+  { name: "iconoGrafico", label: "Icono en grafico: ", type: "text" },
+  { name: "HoraInicial", label: "Hora inicial: ", type: "text" },
+  { name: "HoraInicialUno", label: "Hora inicial uno: ", type: "text" },
+  { name: "AntiguedadDias", label: "Antiguedad en dias: ", type: "text" },
+  { name: "UsoValorSolicitado", label: "Uso valor solicitado: ", type: "text" },
+  { name: "usoValorAprobado", label: "Uso  valor aprobado", type: "text" },
+  { name: "OrganizaFechaHora", label: "Oraganiza por fecha y hora: ", type: "text" },
+  { name: "PesoAntiguedadDias", label: "Peso de antiguedad en dias: r", type: "text" },
+  { name: "PesoValorSolicitado", label: "Peso valor solicitado: ", type: "text" },
+  { name: "PesoValorAprobado", label: "Peso valor aprobado: ", type: "text" },
+  { name: "pesoVariablesPendientes", label: "Peso N de Variables Pendientes: ", type: "text" },
+  { name: "VarDesplegar01", label: "Var. adesplegar 01: ", type: "text" },
+  {
+    name: "tipoVariable01",
+    label: "Tipo de variable 01: ",
+    type: "select",
+    placeholder: "Selecciona un estado",
+    options: [
+      { value: "D", label: "D = predefinida " },
+      { value: "C", label: "C = contenido variable" },
+      { value: "P", label: "P = puntaje" },
+    ],
+  },
+  {
+    name: "mascaraCampo01",
+    label: "Mascara campo 01: ",
+    type: "select",
+    placeholder: "Selecciona un estado",
+    options: [
+      { value: "B", label: "B = horas HH/MM/SS." },
+      { value: "D", label: "D = fecha =día nombre _ mes año" },
+      { value: "E", label: "E = descripción reglas de evaluación " },
+      { value: "F", label: "F = fecha AAAA/MM/DD" },
+      { value: "H", label: "H = selección descripción de campos" },
+      { value: "K", label: "K = descripción código de la ciudad" },
+      { value: "L", label: "L = valores en letras más descripción de la moneda" },
+      { value: "M", label: "M = valores comas y puntos" },
+      { value: "N", label: "N = sin mascara" },
+      { value: "O", label: "O = valores en letras" },
+      { value: "W", label: "W = sin mascara o campo completo" },
+
+    ],
+  },
 ];
 
 export const variableEvalNumericaFields = [
