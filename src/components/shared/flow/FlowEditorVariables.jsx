@@ -83,6 +83,9 @@ const nodeTypes = {
    ---------------------------- */
 
 export default function FlowEditorVariables({ selectedNode, savedNodesVar, savedEdgesVar }) {
+    const flowWrapperRef = useRef(null);
+    const reactFlowRef = useRef(null);
+    const spawnOffsetRef = useRef(0);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(savedNodesVar || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdgesVar || []);
@@ -279,48 +282,88 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
        Creación de nodos (sidebar y contextual) 
        ---------------------------- */
 
+    const getSpawnPosition = useCallback((width = 180, height = 100) => {
+        const wrapper = flowWrapperRef.current;
+        const instance = reactFlowRef.current;
+        const offsetIndex = spawnOffsetRef.current;
+        const column = offsetIndex % 3;
+        const row = Math.floor(offsetIndex / 3) % 3;
+        const offset = {
+            x: column * 40,
+            y: row * 40,
+        };
+
+        spawnOffsetRef.current += 1;
+
+        if (!wrapper || !instance) {
+            return {
+                x: 160 + offset.x,
+                y: 120 + offset.y,
+            };
+        }
+
+        const bounds = wrapper.getBoundingClientRect();
+        const centerScreen = {
+            x: bounds.left + bounds.width / 2,
+            y: bounds.top + bounds.height / 2,
+        };
+        const centerFlow = instance.screenToFlowPosition(centerScreen);
+
+        return {
+            x: centerFlow.x - width / 2 + offset.x,
+            y: centerFlow.y - height / 2 + offset.y,
+        };
+    }, []);
+
     const addProceso = useCallback(() => {
         const id = genId("GP");
+        const position = getSpawnPosition(320, 220);
         setNodes((nds) => [
             ...nds,
             {
                 id,
                 type: "Proceso",
-                position: { x: 160 + Math.random() * 520, y: 80 + Math.random() * 60 },
+                position,
                 data: { label: `Grupo de variables`, children: [], nombre: '', parametros: { orden: '', proceso: '', descripcion: '' }, width: 320, height: 220 },
             },
         ]);
-    }, [genId, setNodes]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addVariable = useCallback(() => {
         const id = genId("V");
-        setNodes((nds) => [...nds, { id, type: "Variable", position: { x: 220, y: 380 }, data: { label: `Variable`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Variable", position, data: { label: `Variable`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addStart = useCallback(() => {
         const id = genId("S");
-        setNodes((nds) => [...nds, { id, type: "Start", position: { x: 240, y: 360 }, data: { label: `Inicio` } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Start", position, data: { label: `Inicio` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addFin = useCallback(() => {
         const id = genId("F");
-        setNodes((nds) => [...nds, { id, type: "Fin", position: { x: 240, y: 360 }, data: { label: `Fin` } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Fin", position, data: { label: `Fin` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addOr = useCallback(() => {
         const id = genId("O");
-        setNodes((nds) => [...nds, { id, type: "Or", position: { x: 240, y: 360 }, data: { label: `OR` } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Or", position, data: { label: `OR` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addXor = useCallback(() => {
         const id = genId("X");
-        setNodes((nds) => [...nds, { id, type: "Xor", position: { x: 240, y: 360 }, data: { label: `XOR` } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Xor", position, data: { label: `XOR` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addAnd = useCallback(() => {
         const id = genId("A");
-        setNodes((nds) => [...nds, { id, type: "And", position: { x: 240, y: 360 }, data: { label: `AND` } }]);
-    }, [genId, setNodes]);
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "And", position, data: { label: `AND` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
 
     const addVariableInside = useCallback(
         (procesoId) => {
@@ -560,7 +603,7 @@ const deleteNode = useCallback((nodeId) => {
        ---------------------------- */
 
     return (
-        <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+        <div ref={flowWrapperRef} style={{ width: "100%", height: "100vh", position: "relative" }}>
 
             <div className="absolute flex items-center gap-6 -top-10 z-[9999] right-2">
                       {/* <ThemeToggle/> */}
@@ -620,6 +663,9 @@ const deleteNode = useCallback((nodeId) => {
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
+                onInit={(instance) => {
+                    reactFlowRef.current = instance;
+                }}
                 nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}

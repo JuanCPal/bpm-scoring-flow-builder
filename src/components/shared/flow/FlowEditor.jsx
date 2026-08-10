@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "next-themes";
 import ReactFlow, {
     addEdge,
     Background,
@@ -87,6 +88,7 @@ const nodeTypes = {
    ---------------------------- */
 
 export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) {
+    const { resolvedTheme } = useTheme();
     const flowWrapperRef = useRef(null);
     const reactFlowRef = useRef(null);
     const spawnOffsetRef = useRef(0);
@@ -143,6 +145,28 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
         EstadoAprobacion: '',
         IndicadorNuevaSolicitud: ''
     })
+
+    const isDark = resolvedTheme === "dark";
+    const flowTheme = isDark
+        ? {
+            minimapBackground: "#152032",
+            minimapMask: "rgba(13, 21, 35, 0.78)",
+            minimapNode: "#8eaef0",
+            minimapNodeStroke: "#dbe5fb",
+            controlsBackground: "#152032",
+            controlsBorder: "#2d3e54",
+            controlsIcon: "#dbe5fb",
+        }
+        : {
+            minimapBackground: "#ffffff",
+            minimapMask: "rgba(232, 240, 255, 0.78)",
+            minimapNode: "#406ff0",
+            minimapNodeStroke: "#2747a3",
+            controlsBackground: "#ffffff",
+            controlsBorder: "#c7d4eb",
+            controlsIcon: "#2747a3",
+        };
+
     useEffect(() => {
         if (savedId) setChangeEdit(savedId)
     }, [savedId, setChangeEdit])
@@ -761,8 +785,23 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                 deleteKeyCode={null}
                 fitView>
 
-                <MiniMap className="dark:hidden" />
-                <Controls className="dark:hidden" color="var(--accent)" />
+                <MiniMap
+                    style={{
+                        backgroundColor: flowTheme.minimapBackground,
+                        border: `1px solid ${flowTheme.controlsBorder}`,
+                    }}
+                    maskColor={flowTheme.minimapMask}
+                    nodeColor={flowTheme.minimapNode}
+                    nodeStrokeColor={flowTheme.minimapNodeStroke}
+                />
+                <Controls
+                    style={{
+                        backgroundColor: flowTheme.controlsBackground,
+                        border: `1px solid ${flowTheme.controlsBorder}`,
+                        color: flowTheme.controlsIcon,
+                    }}
+                    color={flowTheme.controlsIcon}
+                />
                 <Background gap={35} variant="grid" color="var(--grid-color)" size={7} />
 
                 {/* Panel JSON con Details*/}

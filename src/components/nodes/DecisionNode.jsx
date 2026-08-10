@@ -1,15 +1,11 @@
-import { FaCircle, FaPlus, FaPlusCircle, FaTimes, FaTimesCircle } from "react-icons/fa";
-import { AiOutlineClose, AiOutlineDotChart } from "react-icons/ai";
+"use client";
+
+import { FaCircle } from "react-icons/fa";
+import { useTheme } from "next-themes";
 import { Handle, Position } from "reactflow";
 import "reactflow/dist/style.css";
 
 const HANDLE_SIZE = 8;
-const COMMON_STYLE = {
-  background: "#fff",
-  border: "1px solid #11a800",
-  width: HANDLE_SIZE,
-  height: HANDLE_SIZE,
-};
 
 const handlePositions = [
   { id: "t", type: "target", pos: Position.Top, style: { top: "-14px", left: "50%", transform: "translateX(-50%)" } },
@@ -24,21 +20,45 @@ const handlePositions = [
 ];
 
 export function DecisionNode({ data, selected }) {  
-  return (
-    <div
-      className="relative w-15 h-15"
-      style={{ borderColor: selected ? "#11a800" : "#94A3B8" }}
-    >
-      {/* Rotated rhombus */}
-      <div className="absolute inset-0 bg-green-100/20 backdrop-blur-md border border-green-600 rounded-md" style={{ transform: "rotate(45deg)" }} />
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const palette = isDark
+    ? {
+        background: "rgba(34, 197, 94, 0.16)",
+        border: selected ? "#86efac" : "#4ade80",
+        shadow: "0 0 0 12px rgba(74, 222, 128, 0.2)",
+        icon: "rgba(134, 239, 172, 0.65)",
+        text: "#dcfce7",
+        handleBackground: "#4ade80",
+        handleBorder: "#86efac",
+      }
+    : {
+        background: "rgba(220, 252, 231, 0.65)",
+        border: selected ? "#15803d" : "#16a34a",
+        shadow: "0 0 0 12px rgba(34, 197, 94, 0.18)",
+        icon: "rgba(17, 168, 0, 0.5)",
+        text: "#15803d",
+        handleBackground: "#ffffff",
+        handleBorder: "#11a800",
+      };
 
-      {/* Centered text */}
+  return (
+    <div className="relative w-15 h-15">
+      <div
+        className="absolute inset-0 rounded-md backdrop-blur-md"
+        style={{
+          transform: "rotate(45deg)",
+          background: palette.background,
+          border: `1px solid ${palette.border}`,
+          boxShadow: selected ? palette.shadow : "none",
+        }}
+      />
+
       <div className="absolute inset-0 flex items-center justify-center">
-        <FaCircle className="text-[20px] text-[#11a80080]"/>
-        <span className="text-[#11a800] ml-1.5"> XOR</span>
+        <FaCircle className="text-[20px]" style={{ color: palette.icon }} />
+        <span className="ml-1.5" style={{ color: palette.text }}>XOR</span>
       </div>
 
-      {/* Handles (target + source) */}
       {handlePositions.map(({ id, type, pos, style }) => (
         <Handle
           key={id}
@@ -46,9 +66,18 @@ export function DecisionNode({ data, selected }) {
           type={type}
           position={pos}
           className="!absolute"
-          style={{ ...COMMON_STYLE, ...style }}
+          style={{ ...getHandleStyle(palette), ...style }}
         />
       ))}
     </div>
   );
+}
+
+function getHandleStyle(palette) {
+  return {
+    background: palette.handleBackground,
+    border: `1px solid ${palette.handleBorder}`,
+    width: HANDLE_SIZE,
+    height: HANDLE_SIZE,
+  };
 }
