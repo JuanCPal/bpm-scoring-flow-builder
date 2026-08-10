@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import 'tippy.js/dist/tippy.css';
 
+/* Tailwind v4: dark: variants respond to the .dark class (set by next-themes) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Blue palette - light mode */
   --blue-50: #f4f8ff;

@@ -13,7 +13,11 @@ export default function ThemeToggle({ className = "" }) {
   }, []);
 
   const isDark = resolvedTheme === "dark";
-  const label = isDark ? "Cambiar a claro" : "Cambiar a oscuro";
+  const label = !mounted
+    ? "Cambiar tema"
+    : isDark
+      ? "Cambiar a claro"
+      : "Cambiar a oscuro";
 
   return (
     <button
