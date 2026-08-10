@@ -38,6 +38,14 @@ import StatusBar from "@/components/layout/StatusBar";
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
 import { saveProject, saveNodeFlow, loadNodeFlow as loadNodeFlowFromClient } from "@/lib/api-client";
+import {
+    createProcesoNodeDataPatch,
+    createProcesoNodeParamsDefaults,
+    createVariableNodeDataPatch,
+    createVariableNodeParamsDefaults,
+    getEmptyProcesoForm,
+    getEmptyVariableForm,
+} from "@/lib/node-form-mappers";
 
 /* ----------------------------
    Helpers robustos (evitan crash)
@@ -118,33 +126,8 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const [openBaseModal, setOpenBaseModal] = useState(false);
 
     const nameCounter = useRef(1);
-    const [formVar, setFormVar] = useState({
-        orden: '',
-        variable: '',
-        descripcionVar: '',
-        ReglaEvaluadora: '',
-        ReglaCalculo: '',
-        varRel: '',
-        tipo: '',
-        naturaleza: '',
-        tamano: '',
-        causal: '',
-        limInf: '',
-        limSup: '',
-        puntaje: '',
-    })
-    const [formPro, setFormPro] = useState({
-        orden: 1,
-        nombre: '',
-        descripcion: '',
-        SiguientePaso: '',
-        ProcesoNegado: '',
-        CTLTiempos: '',
-        CodigoGrupoProceso: '',
-        ProductoNegado: '',
-        EstadoAprobacion: '',
-        IndicadorNuevaSolicitud: ''
-    })
+    const [formVar, setFormVar] = useState(getEmptyVariableForm)
+    const [formPro, setFormPro] = useState(getEmptyProcesoForm)
 
     const isDark = resolvedTheme === "dark";
     const flowTheme = isDark
@@ -358,7 +341,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     label: `Proceso ${id}`,
                     children: [],
                     nombre: '',
-                    parametros: { orden: '', proceso: '', descripcion: '', SiguienteProeso: '', ProcesoNegado: '', CTLTiempos: '', CodigoGrupoProceso: '', ProductoNegado: '', EstadoAprobacion: '', IndicadorNuevaSolicitud: '' },
+                    parametros: createProcesoNodeParamsDefaults(),
                     width: 320,
                     height: 220,
                 },
@@ -369,7 +352,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const addProceson = useCallback(() => {
         const id = `p-${uuidv4()}`;
         const position = getSpawnPosition(180, 100);
-        setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', descripcionVar: '', varRel: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } } }]);
+        setNodes((nds) => [...nds, { id, type: "Proceson", position, data: { label: `Proceso`, nombre: '', parametros: createProcesoNodeParamsDefaults() } }]);
     }, [getSpawnPosition, setNodes]);
 
     const addStart = useCallback(() => {
@@ -419,7 +402,7 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
                     parentNode: procesoId,
                     extent: "parent",
                     position: { x: 24, y: 40 + Math.random() * 80 },
-                    data: { label: `Proceso`, nombre: '', parametros: { orden: '', variable: '', reglaEvaluadora: '', reglaDeCalculo: '', varRel: '', descripcionVar: '', tipo: '', naturaleza: '', tam: '', caus: '', NRE: '', limInferior: '', limSuperior: '', descripcion: '', puntaje: '', p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' } },
+                    data: { label: `Proceso`, nombre: '', parametros: createVariableNodeParamsDefaults() },
                 },
             ]);
             setContextMenu(null);
@@ -440,13 +423,45 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     const handleRename = useCallback(() => {
         if (!contextMenu) return;
         const target = nodes.find((n) => n.id === contextMenu.nodeId);
-        setRenameModal({ nodeId: target.id, value: target?.data?.nombre || " " });
+        const value =
+            target?.data?.nombre ||
+            target?.data?.parametros?.proceso ||
+            target?.data?.parametros?.variable ||
+            target?.data?.label ||
+            "";
+        setRenameModal({ nodeId: target.id, value });
         setContextMenu(null);
     }, [contextMenu, nodes]);
 
     const confirmRename = useCallback(() => {
         if (!renameModal) return;
-        setNodes((nds) => nds.map((n) => (n.id === renameModal.nodeId ? { ...n, data: { ...n.data, name: renameModal.value,  label: renameModal.value } } : n)));
+        const nextName = (renameModal.value || "").trim();
+
+        setNodes((nds) =>
+            nds.map((n) => {
+                if (n.id !== renameModal.nodeId) return n;
+
+                const isProcesoType = n.type === "Proceso" || n.type === "Proceson";
+                const isVariableType = n.type === "Variable";
+
+                const nextParams = {
+                    ...(n.data?.parametros || {}),
+                    ...(isProcesoType ? { proceso: nextName } : {}),
+                    ...(isVariableType ? { variable: nextName } : {}),
+                };
+
+                return {
+                    ...n,
+                    data: {
+                        ...n.data,
+                        name: nextName,
+                        nombre: nextName,
+                        label: nextName,
+                        parametros: nextParams,
+                    },
+                };
+            })
+        );
         setRenameModal(null);
     }, [renameModal, setNodes]);
 
@@ -600,47 +615,39 @@ export default function FlowWithContainers({ savedNodes, savedEdges, savedId }) 
     }
 
     const handleEditProceso = () => {
+        const patch = createProcesoNodeDataPatch(formPro);
         setNodes((prev) =>
             prev.map((node) =>
                 node.id === selectedNode.id
                     ? {
                         ...node, data: {
-                            ...node.data, nombre: formPro.nombre,
-                            parametros: {
-                                orden: formPro.orden,
-                                proceso: formPro.nombre,
-                                descripcion: formPro.descripcion,
-                                SiguientePaso: formPro.SiguientePaso,
-                                ProcesoNegado: formPro.ProcesoNegado,
-                                CTLTiempos: formPro.CTLTiempos,
-                                CodigoGrupoProceso: formPro.CodigoGrupoProceso,
-                                ProductoNegado: formPro.ProductoNegado,
-                                EstadoAprobacion: formPro.EstadoAprobacion,
-                                IndicadorNuevaSolicitud: formPro.IndicadorNuevaSolicitud
-                            }
+                            ...node.data,
+                            ...patch,
                         }
                     }
                     : node
             )
         );
-        setFormPro('')
+        setFormPro(getEmptyProcesoForm())
         setIsOpenEdit(false)
     };
 
     const handleEditVariable = () => {
+        const patch = createVariableNodeDataPatch(formVar);
         setNodes((prev) =>
             prev.map((node) =>
                 node.id === selectedNode.id
                     ? {
                         ...node, data: {
-                            ...node.data, nombre: formVar.variable, parametros: { orden: formVar.orden, variable: formVar.variable, reglaEvaluadora: formVar.ReglaEvaluadora, reglaDeCalculo: formVar.ReglaCalculo, varRel: formVar.varRel, descripcionVar: formVar.descripcionVar, tipo: formVar.tipo, naturaleza: formVar.naturaleza, tam: formVar.tamano, caus: formVar.causal, NRE: '', limInferior: formVar.limInf, limSuperior: formVar.limSup, descripcion: '', puntaje: formVar.puntaje, p_bif: '', reporte: '', RC: '', desPagDinamic: '', observaciones: '' }
+                            ...node.data,
+                            ...patch,
                         }
                     }
                     : node
             )
         );
 
-        setFormVar('')
+        setFormVar(getEmptyVariableForm())
         setIsOpenEdit(false)
     };
 

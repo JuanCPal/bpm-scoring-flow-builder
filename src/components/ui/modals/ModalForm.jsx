@@ -8,6 +8,7 @@ import {
   variableEvalNumericaFields,
   variableReglaCalculoFields,
 } from "@/mocks/mock-data";
+import { createFormStateFromNode } from "@/lib/node-form-mappers";
 
 export default function ModalForm({
   selectedNode,
@@ -107,19 +108,10 @@ export default function ModalForm({
 
   useEffect(() => {
     if (!selectedNode) return;
-    const tipo = String(selectedNode.type || "").toLowerCase();
-    if (tipo === "Proceso") {
-      setFormPro({
-        nombre: selectedNode.data?.parametros?.proceso || "",
-        descripcion: selectedNode.data?.parametros?.descripcion || "",
-      });
-    } else if (tipo === "Variable") {
-      setFormVar({
-        variable: selectedNode.data?.parametros?.variable || "",
-        descripcionVar: selectedNode.data?.parametros?.descripcionVar || "",
-      });
-    }
-  }, [selectedNode]);
+    const next = createFormStateFromNode(selectedNode);
+    setFormPro(next.formPro);
+    setFormVar(next.formVar);
+  }, [selectedNode, setFormPro, setFormVar]);
 
   const nodeType = String(selectedNode?.type || "").toLowerCase();
 

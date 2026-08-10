@@ -64,7 +64,7 @@ export function ProcesoSimpleNode({ data, selected }) {
           maxWidth: "90%",
         }}
       >
-        {data?.parametros?.variable || data?.label}
+        {data?.parametros?.proceso || data?.parametros?.variable || data?.nombre || data?.label}
       </div>
 
       <Handle id="ct1" type="target" position={Position.Top} style={getHandleStyle(palette)} />
