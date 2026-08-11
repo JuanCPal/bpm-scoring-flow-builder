@@ -35,7 +35,7 @@ export default function DashboardPage() {
           style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
         >
           <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-center w-full gap-3">
+            <div className="flex items-center w-full gap-3">
               <Image
                 src="/logo/Logo_SIIF_blanco.svg"
                 alt="Logo dark"
@@ -131,11 +131,10 @@ export default function DashboardPage() {
               />
             </div>
           </div>
-
         </section>
 
         {/* Cards */}
-        <div className="w-4x1 max-w-[900px] mx-auto grid grid-cols-1 gap-3 mb-15">
+        <div className="w-4x1 max-w-[1100px] mx-auto grid grid-cols-2 gap-5">
           {proyectosFiltrados.map(project => (
             <ProjectCard
               key={project.id}
