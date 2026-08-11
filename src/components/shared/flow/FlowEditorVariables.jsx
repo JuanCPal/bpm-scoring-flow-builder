@@ -1,0 +1,810 @@
+"use client";
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import ReactFlow, {
+    addEdge,
+    Background,
+    Controls,
+    MiniMap,
+    useNodesState,
+    useEdgesState,
+    MarkerType
+
+} from "reactflow";
+import "reactflow/dist/style.css";
+import { FaCog, FaPuzzlePiece, FaArrowRight, FaEdit, FaRandom, FaPlay, FaStop, FaTimes, FaCircle, FaPlusCircle, FaSearch, FaArrowLeft } from "react-icons/fa";
+import { ProcessNode } from "@/components/nodes/ProcessNode";
+import { VariableNode } from "@/components/nodes/VariableNode";
+import { DecisionNode } from "@/components/nodes/DecisionNode";
+import { StartNode } from "@/components/nodes/StartNode";
+import { FinNode } from "@/components/nodes/FinNode";
+import { orNode, xorNode, andNode } from "@/components/nodes/GatewaysNodes";
+import CompJson from "@/components/layout/CompJson";
+import ContextMenuOptions from "@/components/ui/modals/RenameNodo";
+import RenameModal from "@/components/ui/modals/RenameNodo";
+import EditorPage from "@/app/editor/[id]/page";
+import { MdDiamond, MdRedo, MdUndo } from "react-icons/md";
+import ModalForm from "@/components/ui/modals/ModalForm";
+import SidebarNodeMenu from "@/components/layout/Sidebar";
+import ModalDetalles, { ModalProceso, ModalVariable } from "@/components/ui/modals/ModalDetalles";
+import { ContextMenu } from "@/components/layout/MenuContextual";
+import { BaseModal } from "@/components/ui/modals/BaseModal";
+import { title } from "process";
+import SidebarVariables from "@/components/layout/SidebarVariables";
+import { AiFillHome } from "react-icons/ai";
+import { saveNodeFlow, loadNodeFlow as loadNodeFlowFromClient } from "@/lib/api-client";
+import {
+    createProcesoNodeDataPatch,
+    createProcesoNodeParamsDefaults,
+    createVariableNodeDataPatch,
+    createVariableNodeParamsDefaults,
+    getEmptyProcesoForm,
+    getEmptyVariableForm,
+} from "@/lib/node-form-mappers";
+
+/* ----------------------------
+   Helpers robustos (evitan crash)
+   ---------------------------- */
+
+// Devuelve la posición absoluta segura del nodo (usa positionAbsolute si existe)
+const getAbsPosition = (n) => {
+    if (!n) return { x: 0, y: 0 };
+    if (n.positionAbsolute && typeof n.positionAbsolute.x === "number") {
+        return { x: n.positionAbsolute.x, y: n.positionAbsolute.y };
+    }
+    if (n.position && typeof n.position.x === "number") {
+        return { x: n.position.x, y: n.position.y };
+    }
+    // fallback seguro
+    return { x: 0, y: 0 };
+};
+
+// Devuelve anchura/alto seguros (convierte strings a number si hace falta)
+const getSize = (n) => {
+    if (!n) return { w: 160, h: 60 };
+    const wRaw = n.width ?? n.data?.width ?? (n.type === "Proceso" ? 320 : 220);
+    const hRaw = n.height ?? n.data?.height ?? (n.type === "Proceso" ? 60 : 220);
+    const w = typeof wRaw === "number" ? wRaw : parseFloat(wRaw) || 160;
+    const h = typeof hRaw === "number" ? hRaw : parseFloat(hRaw) || 60;
+    return { w, h };
+};
+
+const rectsIntersect = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+const growRect = (r, by = 18) => ({ x: r.x - by, y: r.y - by, w: r.w + by * 2, h: r.h + by * 2 });
+
+/* ----------------------------
+   Nodo types
+   ---------------------------- */
+const nodeTypes = {
+    Proceso: ProcessNode,
+    Variable: VariableNode,
+    Decision: DecisionNode,
+    Start: StartNode,
+    Fin: FinNode,
+    Or: orNode,
+    Xor: xorNode,
+    And: andNode,
+};
+
+/* ----------------------------
+   Componente principal
+   ---------------------------- */
+
+export default function FlowEditorVariables({ selectedNode, savedNodesVar, savedEdgesVar }) {
+    const flowWrapperRef = useRef(null);
+    const reactFlowRef = useRef(null);
+    const spawnOffsetRef = useRef(0);
+
+    const [nodes, setNodes, onNodesChange] = useNodesState(savedNodesVar || []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(savedEdgesVar || []);
+    console.log("canvasVar:", savedNodesVar)
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [contextMenu, setContextMenu] = useState(null);
+    const [renameModal, setRenameModal] = useState('');
+    const [selectedNodeVar, setSelectedNodeVar] = useState(null);
+    const [isOpenEdit, setIsOpenEdit] = useState(false);
+    const [editar, setEditar] = useState(false);
+    const [arbol, setChangeEdit] = useState('DiagramaSinNombre');
+    const [selectedProceso, setSelectedProceso] = useState(false);
+    const [selectedVariable, setSelectedVariable] = useState(false)
+    const [searchTerm, setSearchTerm] = useState("");
+    const [openVariables, setOpenVariables] = useState(false);
+    // Flujo interno del nodo (canvas secundario)
+    const [internalFlow, setInternalFlow] = useState({ nodes: [], edges: [] });
+    // Para identificar en qué nodo estoy
+    const [currentNodeId, setCurrentNodeId] = useState(null);
+
+    // Para manejar el flujo interno del modal
+    const [internalNodes, setInternalNodes] = useState([]);
+    const [internalEdges, setInternalEdges] = useState([]);
+    const [openBaseModal, setOpenBaseModal] = useState(false);
+
+    const nameCounter = useRef(1);
+    const [formVar, setFormVar] = useState(getEmptyVariableForm)
+    const [formPro, setFormPro] = useState(getEmptyProcesoForm)
+    const [OpenMasOpciones, setOpenMasOpciones] = useState(false)
+
+    useEffect(() => {
+    if (savedNodesVar) setNodes(savedNodesVar);
+  }, [savedNodesVar, setNodes]);
+
+  useEffect(() => {
+    if (savedEdgesVar) setEdges(savedEdgesVar);
+  }, [savedEdgesVar, setEdges]);
+
+    //mostrar details
+    // clic en un nodo
+    const onNodeClick = useCallback((_, node) => {
+        console.log('onNodeClick ->', node);
+        setSelectedNodeVar(node);
+    }, []);
+
+    // también cubre selección con marquee / shift
+    const onSelectionChange = useCallback(({ nodes }) => {
+        console.log('onSelectionChange ->', nodes);
+        setSelectedNodeVar(nodes[0] || null);
+    }, []);
+
+    // id helper
+    const idRef = useRef(1);
+    const genId = useCallback((prefix = "N") => `${prefix}${idRef.current++}`, []);
+
+    // Containers current snapshot
+    const containers = useMemo(() => nodes.filter((n) => n.type === "Proceso"), [nodes]);
+
+    const resetDropHighlights = useCallback(() => {
+        setNodes((nds) =>
+            nds.map((n) => (n.type === "Proceso" && n.data?.isDroppable ? { ...n, data: { ...n.data, isDroppable: false } } : n))
+        );
+    }, [setNodes]);
+
+    // Buscar primer contenedor dropeable por intersección (usando bounding boxes)
+    const findDroppableContainer = useCallback(
+        (dragNode) => {
+            if (!dragNode) return null;
+            if (dragNode.type !== "Variable") return null; // solo variables como hijos
+
+            const dragPos = getAbsPosition(dragNode);
+            const dragSize = getSize(dragNode);
+            const dragRect = { x: dragPos.x, y: dragPos.y, w: dragSize.w, h: dragSize.h };
+
+            for (const c of containers) {
+                const cPos = getAbsPosition(c);
+                const cSize = getSize(c);
+                const cRect = { x: cPos.x, y: cPos.y, w: cSize.w, h: cSize.h };
+                const expanded = growRect(cRect, 18);
+                if (rectsIntersect(dragRect, expanded)) return c;
+            }
+            return null;
+        },
+        [containers]
+    );
+
+    /* ----------------------------
+       Handlers de drag (usar node que React Flow pasa)
+       ---------------------------- */
+
+    const onNodeDragStart = useCallback((event, node) => {
+        // node es el objeto más actual en tiempo de arrastre
+        // no hacemos nada especial aquí salvo poder marcar id si se quiere
+    }, []);
+
+    const onNodeDrag = useCallback(
+        (event, node) => {
+            // Usa el `node` que viene del callback (evita leer nodes.find(...).position)
+            if (!node) return;
+            // Solo actualizamos highlights si estamos moviendo una variable (hijo)
+            if (node.type !== "Variable") return;
+
+            const droppable = findDroppableContainer(node);
+
+            setNodes((nds) =>
+                nds.map((n) =>
+                    n.type === "Proceso" ? { ...n, data: { ...n.data, isDroppable: !!(droppable && n.id === droppable.id) } } : n
+                )
+            );
+        },
+        [findDroppableContainer, setNodes]
+    );
+
+    const onNodeDragStop = useCallback(
+        (event, node) => {
+            if (!node) return;
+
+            // Obtenemos la info del estado previo (para limpiar children si corresponde) 
+            const currentParentId = node.parentNode; // si venía dentro de un contenedor 
+            const targetContainer = findDroppableContainer(node);
+
+            if (node.type === "Variable") {
+                const dragAbs = getAbsPosition(node);
+
+                if (targetContainer) {
+                    // Meter dentro del contenedor: convertimos a posición relativa
+                    const contAbs = getAbsPosition(targetContainer);
+                    const rel = { x: dragAbs.x - contAbs.x, y: dragAbs.y - contAbs.y };
+
+                    setNodes((nds) =>
+                        nds.map((n) => {
+                            // Si es el hijo movido, le asignamos parentNode y extent
+                            if (n.id === node.id) {
+                                return { ...n, parentNode: targetContainer.id, extent: "parent", position: rel };
+                            }
+                            // Si es el contenedor objetivo, añadimos hijo al array children (sin duplicados)
+                            if (n.id === targetContainer.id) {
+                                const children = Array.from(new Set([...(n.data?.children ?? []), node.id]));
+                                return { ...n, data: { ...n.data, children, isDroppable: false } };
+                            }
+                            // limpiamos isDroppable de otros contenedores
+                            if (n.type === "Proceso") {
+                                return { ...n, data: { ...n.data, isDroppable: false } };
+                            }
+                            return n;
+                        })
+                    );
+                } else if (currentParentId) {
+                    // Si tenía padre y ahora salió fuera, sacarlo del padre y usar coordenadas absolutas
+                    const newAbs = dragAbs;
+                    setNodes((nds) =>
+                        nds.map((n) => {
+                            if (n.id === node.id) {
+                                return { ...n, parentNode: undefined, extent: undefined, position: { x: newAbs.x, y: newAbs.y } };
+                            }
+                            if (n.id === currentParentId) {
+                                const children = (n.data?.children ?? []).filter((cid) => cid !== node.id);
+                                return { ...n, data: { ...n.data, children } };
+                            }
+                            if (n.type === "Proceso") {
+                                return { ...n, data: { ...n.data, isDroppable: false } };
+                            }
+                            return n;
+                        })
+                    );
+                }
+            }
+
+            // limpiar highlights por si acaso
+            resetDropHighlights();
+        },
+        [findDroppableContainer, resetDropHighlights]
+    );
+
+    /* ----------------------------
+       Creación de nodos (sidebar y contextual) 
+       ---------------------------- */
+
+    const getSpawnPosition = useCallback((width = 180, height = 100) => {
+        const wrapper = flowWrapperRef.current;
+        const instance = reactFlowRef.current;
+        const offsetIndex = spawnOffsetRef.current;
+        const column = offsetIndex % 3;
+        const row = Math.floor(offsetIndex / 3) % 3;
+        const offset = {
+            x: column * 40,
+            y: row * 40,
+        };
+
+        spawnOffsetRef.current += 1;
+
+        if (!wrapper || !instance) {
+            return {
+                x: 160 + offset.x,
+                y: 120 + offset.y,
+            };
+        }
+
+        const bounds = wrapper.getBoundingClientRect();
+        const centerScreen = {
+            x: bounds.left + bounds.width / 2,
+            y: bounds.top + bounds.height / 2,
+        };
+        const centerFlow = instance.screenToFlowPosition(centerScreen);
+
+        return {
+            x: centerFlow.x - width / 2 + offset.x,
+            y: centerFlow.y - height / 2 + offset.y,
+        };
+    }, []);
+
+    const addProceso = useCallback(() => {
+        const id = genId("GP");
+        const position = getSpawnPosition(320, 220);
+        setNodes((nds) => [
+            ...nds,
+            {
+                id,
+                type: "Proceso",
+                position,
+                data: { label: `Grupo de variables`, children: [], nombre: '', parametros: createProcesoNodeParamsDefaults(), width: 320, height: 220 },
+            },
+        ]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addVariable = useCallback(() => {
+        const id = genId("V");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Variable", position, data: { label: `Variable`, nombre: '', parametros: createVariableNodeParamsDefaults() } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addStart = useCallback(() => {
+        const id = genId("S");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Start", position, data: { label: `Inicio` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addFin = useCallback(() => {
+        const id = genId("F");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Fin", position, data: { label: `Fin` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addOr = useCallback(() => {
+        const id = genId("O");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Or", position, data: { label: `OR` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addXor = useCallback(() => {
+        const id = genId("X");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "Xor", position, data: { label: `XOR` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addAnd = useCallback(() => {
+        const id = genId("A");
+        const position = getSpawnPosition(180, 100);
+        setNodes((nds) => [...nds, { id, type: "And", position, data: { label: `AND` } }]);
+    }, [genId, getSpawnPosition, setNodes]);
+
+    const addVariableInside = useCallback(
+        (procesoId) => {
+            const id = genId("V");
+            const parent = nodes.find((n) => n.id === procesoId);
+            if (!parent) return;
+            setNodes((nds) => [
+                ...nds,
+                {
+                    id,
+                    type: "Variable",
+                    parentNode: procesoId,
+                    extent: "parent",
+                    position: { x: 24, y: 40 + Math.random() * 80 }, // relativo
+                    data: { label: `Variable`, nombre: '', parametros: createVariableNodeParamsDefaults() },
+                },
+            ]);
+            setContextMenu(null);
+        },
+        [genId, nodes, setNodes]
+    );
+
+    /* ----------------------------
+       Context menu + rename
+       ---------------------------- */
+    const onNodeContextMenu = useCallback((e, node) => {
+        e.preventDefault();
+        setContextMenu({ x: e.clientX, y: e.clientY, nodeId: node.id, nodeType: node.type });
+    }, []);
+
+    const onPaneClick = useCallback(() => setContextMenu(null), []);
+
+    const handleRename = useCallback(() => {
+        if (!contextMenu) return;
+        const target = nodes.find((n) => n.id === contextMenu.nodeId);
+        const value =
+            target?.data?.nombre ||
+            target?.data?.parametros?.proceso ||
+            target?.data?.parametros?.variable ||
+            target?.data?.label ||
+            "";
+        setRenameModal({ nodeId: target.id, value });
+        setContextMenu(null);
+    }, [contextMenu, nodes]);
+
+    const confirmRename = useCallback(() => {
+        if (!renameModal) return;
+        const nextName = (renameModal.value || "").trim();
+
+        setNodes((nds) =>
+            nds.map((n) => {
+                if (n.id !== renameModal.nodeId) return n;
+
+                const isProcesoType = n.type === "Proceso" || n.type === "Proceson";
+                const isVariableType = n.type === "Variable";
+
+                const nextParams = {
+                    ...(n.data?.parametros || {}),
+                    ...(isProcesoType ? { proceso: nextName } : {}),
+                    ...(isVariableType ? { variable: nextName } : {}),
+                };
+
+                return {
+                    ...n,
+                    data: {
+                        ...n.data,
+                        nombre: nextName,
+                        label: nextName,
+                        parametros: nextParams,
+                    },
+                };
+            })
+        );
+        setRenameModal(null);
+    }, [renameModal, setNodes]);
+
+    /* ----------------------------
+       Conectar edges
+       ---------------------------- */
+    const onConnect = useCallback(
+        (connection) => {
+            const sourceNode = nodes.find((n) => n.id === connection.source);
+            const isXor = sourceNode?.type === "Xor";
+            const isOr = sourceNode?.type === "Or";
+            const isAnd = sourceNode?.type === "And";
+
+            //Reglas de los source 
+            const xorLabels = {
+                "s-t": "Si",
+                "s-r": "Si",
+                "s-b": "No",
+                "s-l": "No",
+            };
+
+            const orLabels = {
+                "s-t": "Opcion 1",
+                "s-r": "Opción 2",
+                "s-b": "Opción 2",
+                "s-l": "Opción 4",
+            };
+
+            const andLabels = {
+                "s-t": "Si",
+                "s-r": "Si",
+                "s-b": "No",
+                "s-l": "No",
+            };
+
+            const edgeOptions = {
+                type: "default",
+                animated: true,
+                style: { stroke: "#78859e", strokeWidth: 2, strokeDasharray: "5 5" },
+                markerEnd: { type: MarkerType.ArrowClosed, color: "#5e5e5e" },
+            };
+
+            const sourceHandle = connection.sourceHandle;
+
+            let labelFromHandle;
+
+            if (isXor) {
+                labelFromHandle = xorLabels[sourceHandle];
+            } else if (isOr) {
+                labelFromHandle = orLabels[sourceHandle];
+            } else {
+                labelFromHandle = undefined;
+            }
+
+            if (labelFromHandle) {
+                edgeOptions.label = labelFromHandle;
+                edgeOptions.labelBgStyle = { fill: "#fff", fillOpacity: 0.8 };
+                edgeOptions.labelStyle = { fill: "#000", fontWeight: 500, fontSize: 18 };
+            }
+
+            setEdges((eds) => addEdge({ ...connection, ...edgeOptions }, eds));
+        },
+        [nodes]
+    );
+
+    const getName = () => (nameCounter.current++).toString();
+
+
+    console.log("nodo:"+selectedNode)
+
+    const saveToLocalStorageV = async () => {
+        const name = getName();
+        const nodeKey = selectedNode || name;
+        const data = {
+            id: `Proceso_${nodeKey}`,
+            nodes,
+            edges,
+            savedAt: new Date().toISOString(),
+        };
+
+        try {
+            await saveNodeFlow(nodeKey, nodes, edges);
+            alert(`Flujo ${data.id} guardado`);
+        } catch (error) {
+            console.error('Error guardando flujo de variable:', error);
+            alert('No se pudo guardar el flujo');
+        }
+    };
+
+    const loadNodeFlow = async (nodeId) => {
+        const saved = await loadNodeFlowFromClient(contextMenu?.nodeId || nodeId);
+        return saved || { nodes: [], edges: [] };
+    };
+
+    const handleSaveNodeFlow = async () => {
+        await saveNodeFlow(currentNodeId, internalNodes, internalEdges);
+        setOpenVariables(false);
+    };
+
+    const DownloadFile = () => {
+        const data = {
+            id: `Proceso_${arbol}`,
+            nodes,
+            edges,
+            savedAt: new Date().toISOString(),
+        };
+        // Descargar como archivo JSON
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${data.id}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        console.log("descargado")
+
+    }
+
+    const handleEditProceso = () => {
+        const patch = createProcesoNodeDataPatch(formPro);
+        setNodes((prev) =>
+            prev.map((node) =>
+                node.id === selectedNodeVar.id
+                    ? {
+                        ...node, data: {
+                            ...node.data,
+                            ...patch,
+                        }
+                    }
+                    : node
+            )
+        );
+        setFormPro(getEmptyProcesoForm())
+        setIsOpenEdit(false)
+    };
+
+    const handleEditVariable = () => {
+        const patch = createVariableNodeDataPatch(formVar);
+        setNodes((prev) =>
+            prev.map((node) =>
+                node.id === selectedNodeVar.id
+                    ? {
+                        ...node, data: {
+                            ...node.data,
+                            ...patch,
+                        }
+                    }
+                    : node
+            )
+        );
+        setFormVar(getEmptyVariableForm())
+        setIsOpenEdit(false)
+    };
+
+    const handleGroupRename = () => {
+        (e) => e.stopPropagation();
+        handleRename();
+    }
+
+    const handleImportFlow = (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            try {
+                const data = JSON.parse(event.target.result);
+                setNodes(data.nodes || []);
+                setEdges(data.edges || []);
+
+            } catch (err) {
+                alert('Error al cargar archivo');
+            }
+        };
+
+        reader.readAsText(file);
+    }
+
+const deleteNode = useCallback((nodeId) => {
+  setNodes((nds) => nds.filter((n) => n.id !== nodeId));
+  setEdges((eds) =>
+    eds.filter((e) => e.source !== nodeId && e.target !== nodeId)
+  );
+}, [setNodes, setEdges]);
+
+
+
+    /* ----------------------------
+       Render
+       ---------------------------- */
+
+    return (
+        <div ref={flowWrapperRef} style={{ width: "100%", height: "100vh", position: "relative" }}>
+
+            <div className="absolute flex items-center gap-6 -top-10 z-[9999] right-2">
+                      {/* <ThemeToggle/> */}
+            
+                      {/* Controles "ligeros" */}
+                      <div className="flex relative items-center gap-1 text-sm text-gray-600 dark:text-zinc-300 left-0">
+                        <button onClick={() => router.push('/')} className="hover:text-blue-800  ml-2 border-none rounded-lg px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-slate-600 dark:hover:text-slate-100 cursor-pointer transition flex items-center gap-1">
+                          <AiFillHome size={16} className=""  />
+                          Inicio
+                        </button>
+                        <button onClick={() => console.log('Undo')} className="hover:text-blue-800 dark:hover:bg-slate-600 transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200 dark:hover:text-slate-100">
+                          <MdUndo size={16} />
+            
+                        </button>
+                        <button onClick={() => console.log('Redo')} className="hover:text-blue-800 dark:hover:text-slate-100  transition flex items-center gap-1 cursor-pointer border-none rounded-lg px-1.5 py-1 hover:bg-gray-200 dark:hover:bg-slate-600">
+                          <MdRedo size={16} />
+            
+                        </button>
+                      </div>
+            
+                      {/* Acciones fuertes */}
+                      <div className="flex items-center gap-3 text-[14px] mr-2">
+                        <button onClick={saveToLocalStorageV} className="px-3 py-1 h-[30px] cursor-pointer bg-blue-500 dark:bg-blue-400 hover:bg-blue-800 dark:hover:bg-slate-400 text-white dark:text-slate-800 rounded-md transition-all">Guardar</button>
+            
+                        <button onClick={() => { setOpenMasOpciones(!OpenMasOpciones) }} className="px-3 py-1 h-[30px] cursor-pointer bg-transparent hover:bg-blue-200 dark:hover:bg-slate-300 text-blue-800 dark:text-blue-200 border-1 border-blue-800 dark:border-blue-200 hover:text-black hover:border-black rounded-md transition-all">Mas opciones</button>
+            
+                        {OpenMasOpciones && (
+                          <div className="block bg-white dark:bg-slate-800 w-[115px] border-1 dark:border-zinc-300 border-gray-400 text-gray-500 dark:text-slate-200 rounded-b-md absolute top-[42px] right-6 pt-1">
+                            <div className="pl-6 py-0.5 w-full hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-slate-200 cursor-pointer border-b-1 border-gray-200 dark:border-slate-400">
+                              <label htmlFor="import-file" >
+                                Importar
+                                <input id="import-file" type="file" accept="application/json" onChange={handleImportFlow}className="hidden" />
+                              </label>
+                            </div>
+            
+                            <button onClick={DownloadFile} className="py-1 -pl-5 cursor-pointer w-full hover:text-blue-800 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-700 rounded">Descargar</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+            
+                {/* Sidebar */}
+                <SidebarVariables
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                    addProceso={addProceso}
+                    addVariable={addVariable}
+                    addStart={addStart}
+                    addFin={addFin}
+                    addXor={addXor}
+                    addOr={addOr}
+                    addAnd={addAnd}
+                />
+                
+
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onInit={(instance) => {
+                    reactFlowRef.current = instance;
+                }}
+                nodeTypes={nodeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onNodeDragStart={onNodeDragStart}
+                onNodeDrag={onNodeDrag}
+                onNodeDragStop={onNodeDragStop}
+                onNodeContextMenu={onNodeContextMenu}
+                onPaneClick={onPaneClick}
+                onNodeClick={onNodeClick}
+                onSelectionChange={onSelectionChange}
+                minZoom={0.01}
+                
+                fitView>
+
+                <Background variant="line" size={2} gap={70}/>
+
+            </ReactFlow>
+            
+
+
+
+            <div className="absolute -top-13 -right-6">
+                {/* Panel JSON con Details*/}
+                <CompJson nodes={nodes} edges={edges} arbol={arbol} selectedNode={selectedNodeVar} />
+                
+            </div>
+
+            {/* Contextual menu */}
+            {contextMenu && (
+                <ContextMenu
+                    contextMenu={contextMenu}
+                    nodes={nodes}
+                    setSelectedNode={setSelectedNodeVar}
+                    setFormPro={setFormPro}
+                    setFormVar={setFormVar}
+                    setIsOpenEdit={setIsOpenEdit}
+                    setSelectedProceso={setSelectedProceso}
+                    setOpenVariables={setOpenVariables}
+                    setInternalFlow={setInternalFlow}
+                    setContextMenu={setContextMenu}
+                    handleGroupRename={handleGroupRename}
+                    addVariableInside={addVariableInside}
+                    loadNodeFlow={loadNodeFlow}
+                    openBaseModal={openBaseModal}
+                    setOpenBaseModal={setOpenBaseModal}
+                    deleteNode={deleteNode}
+                />
+            )}
+            {/*Fin menu contextual */}
+
+            {/* VER DETALLES ↓ */}
+            {selectedProceso && (
+                <ModalProceso
+                    selectedNode={selectedNodeVar}
+                    setSelectedProceso={setSelectedProceso}
+                    setSelectedVariable={setSelectedVariable}
+                    handleEditVariable={handleEditVariable}
+                    handleEditProceso={handleEditProceso}
+                    arbol={arbol}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    nodes={nodes}
+                />
+            )}
+
+            {selectedVariable && (
+                <ModalVariable
+                    selectedNode={selectedNodeVar}
+                    VariableNode={VariableNode}
+                    setSelectedVariable={setSelectedVariable}
+                    setSelectedProceso={setSelectedProceso}
+                    arbol={arbol}
+                />
+            )}
+            {/* FIN VER DETALLES ↑ */}
+
+            {/* MODAL CANVAS ↓ */}
+            {openVariables && (
+                <CanvasVariables onClose={() => setOpenVariables(false)}
+                    selectedNode={selectedNodeVar}
+                    nodes={nodes}
+                    edges={edges}
+                    setInternalFlow={setInternalFlow}
+                    setOpenVariables={setOpenVariables}
+                />
+            )}
+            {/* FIN MODAL CANVAS ↑ */}
+
+            {/* MODAL basio ↓ */}
+            {openBaseModal && (
+                <BaseModal
+                    selectedNode={selectedNodeVar}
+                    setOpenBaseModal={setOpenBaseModal}
+                    arbol={arbol}
+                />
+            )}
+            {/* FIN MODAL basio ↑ */}
+
+
+
+            <RenameModal
+                modal={renameModal}
+                onClose={() => setRenameModal(null)}
+                onChange={(value) => setRenameModal({ ...renameModal, value })}
+                onConfirm={confirmRename}
+            />
+
+            <ModalForm
+                selectedNode={selectedNodeVar}
+                isOpenEdit={isOpenEdit}
+                setIsOpenEdit={setIsOpenEdit}
+                handleEditProceso={handleEditProceso}
+                handleEditVariable={handleEditVariable}
+                formVar={formVar}
+                formPro={formPro}
+                setFormPro={setFormPro}
+                setFormVar={setFormVar}
+            />
+        </div>
+    );
+}

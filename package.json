@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@radix-ui/react-tooltip": "^1.2.16",
     "@tippyjs/react": "^4.2.6",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",

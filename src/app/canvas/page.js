@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-const FlowWithContainers = dynamic(() => import("@/components/FlowEditor"), {
+const FlowWithContainers = dynamic(() => import("@/components/shared/flow/FlowEditor"), {
   ssr: false, 
 });
 
