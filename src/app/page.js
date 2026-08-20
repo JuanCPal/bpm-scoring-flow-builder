@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import ProjectCard from '@/components/features/ProjectCard';
 import { FaSearch, FaFilter, FaRegClock, FaChevronDown } from "react-icons/fa";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useData } from "@/hooks/useData";
 import { getProjects } from "@/lib/api-client";
 import Image from "next/image";
@@ -14,9 +15,31 @@ export default function DashboardPage() {
   const [filtro, setFiltro] = useState('todos');
   const [orden, setOrden] = useState('recientes');
   const [menuAbierto, setMenuAbierto] = useState(null);
+  const [isCreatingFlow, setIsCreatingFlow] = useState(false);
+  const [showSlowLoadingMessage, setShowSlowLoadingMessage] = useState(false);
+  const router = useRouter();
   const { data: projects = [] } = useData(getProjects, [], []);
 
+  useEffect(() => {
+    if (!isCreatingFlow) {
+      setShowSlowLoadingMessage(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowSlowLoadingMessage(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isCreatingFlow]);
+
   const manejarCambio = (e) => setBusqueda(e.target.value);
+
+  const handleCreateFlow = () => {
+    if (isCreatingFlow) return;
+    setIsCreatingFlow(true);
+    router.push('/canvas');
+  };
 
   const proyectosFiltrados = projects
     .filter((project) => {
@@ -94,13 +117,31 @@ export default function DashboardPage() {
 
             <div className="flex items-center gap-3 my-4">
 
-              <Link href="/canvas">
+              <div className="flex flex-col items-start gap-2">
                 <button
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md transition-all bg-[var(--accent)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] cursor-pointer"
+                  type="button"
+                  onClick={handleCreateFlow}
+                  disabled={isCreatingFlow}
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-md transition-all bg-[var(--accent)] text-[var(--accent-foreground)] hover:bg-[var(--accent-hover)] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  <span>+</span> Crear nuevo flujo
+                  {isCreatingFlow ? (
+                    <>
+                      <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                      Creando flujo...
+                    </>
+                  ) : (
+                    <>
+                      <span>+</span> Crear nuevo flujo
+                    </>
+                  )}
                 </button>
-              </Link>
+
+                {isCreatingFlow && showSlowLoadingMessage && (
+                  <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                    Esto está tardando más de lo normal. Esperando la creación del flujo...
+                  </p>
+                )}
+              </div>
             </div>
             <div className='flex'>
               <div className="relative flex-1 max-w-sm">
