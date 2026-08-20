@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import ProjectCard from '@/components/features/ProjectCard';
-import { FaSearch, FaFilter, FaRegClock } from "react-icons/fa";
+import { FaSearch, FaFilter, FaRegClock, FaChevronDown } from "react-icons/fa";
 import { useState } from 'react';
 import { useData } from "@/hooks/useData";
 import { getProjects } from "@/lib/api-client";
@@ -11,6 +11,9 @@ import ThemeToggle from "@/components/ui/theme/theme-toggle";
 
 export default function DashboardPage() {
   const [busqueda, setBusqueda] = useState('');
+  const [filtro, setFiltro] = useState('todos');
+  const [orden, setOrden] = useState('recientes');
+  const [menuAbierto, setMenuAbierto] = useState(null);
   const { data: projects = [] } = useData(getProjects, [], []);
 
   const manejarCambio = (e) => setBusqueda(e.target.value);
@@ -18,12 +21,39 @@ export default function DashboardPage() {
   const proyectosFiltrados = projects
     .filter((project) => {
       const texto = busqueda.toLowerCase();
-      return (
+      const coincideBusqueda = (
         project.name?.toLowerCase().includes(texto) ||
         project.id?.toLowerCase().includes(texto)
       );
+      const coincideFiltro = filtro === 'todos'
+        || (filtro === 'conNodos' && project.nodes?.length > 0)
+        || (filtro === 'sinNodos' && !project.nodes?.length);
+
+      return coincideBusqueda && coincideFiltro;
     })
-    .sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+    .sort((a, b) => {
+      if (orden === 'nombreAsc') return (a.name || a.id).localeCompare(b.name || b.id);
+      if (orden === 'nombreDesc') return (b.name || b.id).localeCompare(a.name || a.id);
+      if (orden === 'antiguos') return new Date(a.savedAt) - new Date(b.savedAt);
+      return new Date(b.savedAt) - new Date(a.savedAt);
+    });
+
+  const nombreOrden = {
+    recientes: 'Recientes',
+    antiguos: 'Antiguos',
+    nombreAsc: 'Nombre A-Z',
+    nombreDesc: 'Nombre Z-A',
+  }[orden];
+
+  const nombreFiltro = {
+    todos: 'Todos',
+    conNodos: 'Con nodos',
+    sinNodos: 'Sin nodos',
+  }[filtro];
+
+  const cambiarMenu = (menu) => {
+    setMenuAbierto((actual) => actual === menu ? null : menu);
+  };
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--background)', color: 'var(--foreground)' }}>
@@ -93,12 +123,75 @@ export default function DashboardPage() {
 
               </div>
               <div className="flex items-center gap-2 ml-2.5" style={{ color: 'var(--muted)' }}>
-                <div className="flex items-center gap-1.5 cursor-pointer hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] border-none rounded-lg px-2.5 py-2">
-                  <FaFilter className="text-md" />
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => cambiarMenu('filtro')}
+                    className="flex items-center gap-1.5 cursor-pointer hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] border-none rounded-lg px-2.5 py-2"
+                    aria-label="Filtrar proyectos"
+                    aria-expanded={menuAbierto === 'filtro'}
+                  >
+                    <FaFilter className="text-md" />
+                    {filtro !== 'todos' && <span className="text-sm">{nombreFiltro}</span>}
+                  </button>
+                  {menuAbierto === 'filtro' && (
+                    <div className="absolute right-0 top-11 z-20 w-36 rounded-lg border p-1 shadow-lg" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+                      {[
+                        ['todos', 'Todos'],
+                        ['conNodos', 'Con nodos'],
+                        ['sinNodos', 'Sin nodos'],
+                      ].map(([valor, etiqueta]) => (
+                        <button
+                          key={valor}
+                          type="button"
+                          onClick={() => {
+                            setFiltro(valor);
+                            setMenuAbierto(null);
+                          }}
+                          className="block w-full rounded-md px-3 py-2 text-left text-sm hover:bg-[var(--surface-muted)]"
+                          style={{ color: 'var(--foreground)' }}
+                        >
+                          {etiqueta}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center gap-1.5 cursor-pointer hover:bg-[var(--surface-muted)] hover:text-[var(--accent)] border-none rounded-lg px-2.5 py-2">
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => cambiarMenu('orden')}
+                    className="flex items-center gap-1.5 cursor-pointer hover:bg-[var(--surface-muted)] hover:text-[var(--accent)] border-none rounded-lg px-2.5 py-2"
+                    aria-label="Ordenar proyectos"
+                    aria-expanded={menuAbierto === 'orden'}
+                  >
                   <FaRegClock className="text-md" />
-                  <span className='text-sm'>Recientes</span>
+                    <span className="text-sm">{nombreOrden}</span>
+                    <FaChevronDown className="text-[10px]" />
+                  </button>
+                  {menuAbierto === 'orden' && (
+                    <div className="absolute right-0 top-11 z-20 w-36 rounded-lg border p-1 shadow-lg" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+                      {[
+                        ['recientes', 'Recientes'],
+                        ['antiguos', 'Antiguos'],
+                        ['nombreAsc', 'Nombre A-Z'],
+                        ['nombreDesc', 'Nombre Z-A'],
+                      ].map(([valor, etiqueta]) => (
+                        <button
+                          key={valor}
+                          type="button"
+                          onClick={() => {
+                            setOrden(valor);
+                            setMenuAbierto(null);
+                          }}
+                          className="block w-full rounded-md px-3 py-2 text-left text-sm hover:bg-[var(--surface-muted)]"
+                          style={{ color: 'var(--foreground)' }}
+                        >
+                          {etiqueta}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
