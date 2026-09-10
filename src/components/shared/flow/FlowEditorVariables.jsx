@@ -449,7 +449,7 @@ export default function FlowEditorVariables({ selectedNode, savedNodesVar, saved
             };
 
             const orLabels = {
-                "s-t": "Opcion 1",
+                "s-t": "Opción 1",
                 "s-r": "Opción 2",
                 "s-b": "Opción 2",
                 "s-l": "Opción 4",

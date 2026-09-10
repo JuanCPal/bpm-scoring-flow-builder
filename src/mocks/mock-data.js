@@ -639,7 +639,7 @@ export const variableReglaCalculoFields = [
       { value: "V", label: "Contenido de la variable enunciada, siempre y cuando en TIPO DE FACTOR se halla digitado (S, G, D)." },
     ],
   },
-  { name: "contenidoVariable2", label: "Contenido dela variable: ", type: "number" },
+  { name: "contenidoVariable2", label: "Contenido de la variable: ", type: "number" },
   {
     name: "claseOperacion2",
     label: "Clase de operación: ",

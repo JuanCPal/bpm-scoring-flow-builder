@@ -39,6 +39,7 @@
   --border: var(--neutral-200);
   --muted: var(--neutral-600);
   --accent: var(--blue-600);
+  --accent-hover: var(--blue-700);
   --accent-foreground: #ffffff;
   --grid-color: #b8cef2;
 }
@@ -78,6 +79,7 @@
   --border: var(--neutral-700);
   --muted: var(--neutral-300);
   --accent: var(--blue-300);
+  --accent-hover: var(--blue-400);
   --accent-foreground: var(--neutral-950);
   --grid-color: #00172e;
 }
@@ -122,6 +124,7 @@
     --border: var(--neutral-700);
     --muted: var(--neutral-300);
     --accent: var(--blue-300);
+    --accent-hover: var(--blue-400);
     --accent-foreground: var(--neutral-950);
     --grid-color: #00172e;
   }

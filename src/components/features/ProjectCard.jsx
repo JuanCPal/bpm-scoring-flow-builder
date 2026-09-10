@@ -1,12 +1,15 @@
 import { FaCircle, FaEllipsisH, FaProjectDiagram } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import { projectCardEditFields } from "@/mocks/mock-data";
 
 export default function ProjectCard({ title, project }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
+  const [showSlowLoadingMessage, setShowSlowLoadingMessage] = useState(false);
   const [formData, setFormData] = useState({ producto: "", descripcion: "" });
+  const router = useRouter();
 
   useEffect(() => {
     if (!isModal) return;
@@ -16,6 +19,19 @@ export default function ProjectCard({ title, project }) {
       descripcion: project?.description || "",
     });
   }, [isModal, project, title]);
+
+  useEffect(() => {
+    if (!isOpening) {
+      setShowSlowLoadingMessage(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowSlowLoadingMessage(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isOpening]);
 
   const formattedDate = new Date(project.savedAt).toLocaleString('es-ES', {
   weekday: 'short',     // ej: "jue."
@@ -56,6 +72,13 @@ export default function ProjectCard({ title, project }) {
     setIsModal(false);
   };
 
+  const handleOpenFlow = () => {
+    if (isOpening) return;
+    setIsOpening(true);
+    setIsOpen(false);
+    router.push(`/editor/${project?.id ?? ""}`);
+  };
+
   return (
     <div
       className="mt-5 w-auto h-auto hover:shadow-gray-300 transition-all hover:shadow-2xs rounded-xl border border-gray-300 dark:border-zinc-600 pt-1 px-1 hover:pb-3 pb-1 bg-blue-200 dark:bg-slate-800 relative"
@@ -76,13 +99,25 @@ export default function ProjectCard({ title, project }) {
           </div>
 
           <div>
-            <Link href={`/editor/${project?.id ?? ""}`}>
-            <h3 className="text-base font-semibold hover:underline">{title || "Linea de iniciacion cliente Banco Union"}
-            </h3>
-            </Link>
+            <button
+              type="button"
+              onClick={handleOpenFlow}
+              disabled={isOpening}
+              className="flex items-center gap-2 text-left text-base font-semibold hover:underline disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isOpening && (
+                <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+              )}
+              {isOpening ? 'Abriendo flujo...' : (title || 'Linea de iniciacion cliente Banco Union')}
+            </button>
             <p className="text-[12px] text-gray-600 dark:text-zinc-300 mt-0.5">
               Última actualización: <span className="text-gray-700 dark:text-zinc-200">{formattedDate || "20 de Octubre de 2025 a las 4:45 p.m"}</span>
             </p>
+            {isOpening && showSlowLoadingMessage && (
+              <p className="mt-2 text-[11px] text-gray-500 dark:text-zinc-400">
+                Esto está tardando más de lo normal. Verificando el flujo...
+              </p>
+            )}
           </div>
         </div>
 
@@ -104,9 +139,14 @@ export default function ProjectCard({ title, project }) {
               className="absolute right-6 top-12 mt-2 w-44 bg-white dark:bg-slate-800 border border-gray-200 dark:border-zinc-500 rounded-lg shadow-md z-50"
               onClick={(e) => e.stopPropagation()}
             >
-              <Link href={`/editor/${project?.id ?? ""}`}>
-                <div className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer rounded-t-md">Abrir</div>
-              </Link>
+              <button
+                type="button"
+                onClick={handleOpenFlow}
+                disabled={isOpening}
+                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer rounded-t-md disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isOpening ? 'Abriendo...' : 'Abrir'}
+              </button>
 
               <div
                 onClick={() => {
